@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gil Nava Zaragoza | Switch Applications Engineer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Dark & Calming Neutrals -->
+    <!-- Application Structure Plan: The application is designed as a single-page portfolio with a sticky top navigation for easy access to key sections: Summary, Experience, Skills, and Education. The core is the 'Experience' section, which features an an interactive vertical timeline. Clicking a role on the timeline dynamically updates a content panel, breaking down a dense career history into manageable, user-selected segments. This non-linear, interactive approach is more engaging than a static document and allows recruiters to quickly access the most relevant information. A skills dashboard with a bar chart provides a quick visual summary of technical strengths. This structure was chosen to enhance user experience, highlight key achievements, and present the information in a modern, digestible format. -->
+    <!-- Visualization & Content Choices: 
+        - Professional Summary: Goal: Inform -> Method: Clean text block -> Interaction: None -> Justification: Provides a clear, immediate introduction to the candidate's profile.
+        - Work Experience: Goal: Explore Change/History -> Method: Interactive Timeline (HTML/CSS) + Dynamic Content Panel -> Interaction: On-click updates of job details -> Justification: Transforms a linear list into an engaging, explorable career journey, preventing information overload. -> Library: Vanilla JS.
+        - Skills Overview: Goal: Compare/Organize -> Method: Horizontal Bar Chart -> Interaction: Tooltips on hover -> Justification: Visually quantifies and categorizes technical abilities, offering a more impactful and quicker understanding than a simple list. -> Library: Chart.js.
+        - Certifications: Goal: Inform -> Method: Styled "badges" or cards -> Interaction: None -> Justification: Visually separates and highlights key qualifications. -> Library: HTML/Tailwind CSS.
+        - Education: Goal: Inform -> Method: Simple cards -> Interaction: None -> Justification: Clear and concise presentation for academic background. -> Library: HTML/Tailwind CSS. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0F172A; /* slate-950 */
+            color: #E2E8F0; /* slate-200 */
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.375rem;
+            top: 0.25rem;
+            width: 1.25rem;
+            height: 1.25rem;
+            border-radius: 9999px;
+            border: 4px solid #334155; /* slate-700 */
+            background-color: #64748B; /* slate-500 */
+            transition: all 0.3s ease;
+        }
+        .timeline-item.active::before {
+            background-color: #3B82F6; /* blue-500 */
+            border-color: #93C5FD; /* blue-300 */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <header id="header" class="bg-slate-950/80 backdrop-blur-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold text-slate-200">Gil Nava Zaragoza</h1>
+            <ul class="hidden md:flex space-x-6">
+                <li><a href="#summary" class="font-medium text-slate-400 hover:text-white transition-colors">Summary</a></li>
+                <li><a href="#experience" class="font-medium text-slate-400 hover:text-white transition-colors">Experience</a></li>
+                <li><a href="#skills" class="font-medium text-slate-400 hover:text-white transition-colors">Skills</a></li>
+                <li><a href="#education" class="font-medium text-slate-400 hover:text-white transition-colors">Education</a></li>
+            </ul>
+            <button id="open-contact-modal" class="hidden md:inline-block bg-sky-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-sky-700 transition-colors">Contact</button>
+             <div class="md:hidden">
+                <button id="menu-btn" class="text-slate-200 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="#summary" class="block py-2 px-4 text-sm text-slate-200 hover:bg-slate-800">Summary</a>
+            <a href="#experience" class="block py-2 px-4 text-sm text-slate-200 hover:bg-slate-800">Experience</a>
+            <a href="#skills" class="block py-2 px-4 text-sm text-slate-200 hover:bg-slate-800">Skills</a>
+            <a href="#education" class="block py-2 px-4 text-sm text-slate-200 hover:bg-slate-800">Education</a>
+            <button id="open-contact-modal-mobile" class="w-full text-left block py-2 px-4 text-sm text-slate-200 hover:bg-slate-800">Contact</button>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-12 md:py-20">
+
+        <section id="summary" class="mb-16 md:mb-24">
+            <h2 class="text-3xl md:text-4xl font-bold text-slate-200 mb-4 text-center">Professional Summary</h2>
+            <p class="max-w-3xl mx-auto text-center text-slate-400 text-lg leading-relaxed">
+                Automotive engineer with seven years of in-plant experience in vehicle launches. Expert in diagnosing and resolving complex technical issues to meet global standards. Proficient in CAD/CAE and software validation tools, with a proven track record of driving efficiency and quality improvements.
+            </p>
+        </section>
+
+        <section id="experience" class="mb-16 md:mb-24">
+            <h2 class="text-3xl md:text-4xl font-bold text-slate-200 mb-12 text-center">Career Journey</h2>
+            <div class="flex flex-col md:flex-row gap-12">
+                <div class="w-full md:w-1/3">
+                    <div id="timeline" class="relative border-l-4 border-slate-800 ml-9">
+                    </div>
+                </div>
+                <div class="w-full md:w-2/3">
+                    <div id="experience-details" class="bg-slate-900 p-8 rounded-xl shadow-md transition-all duration-500 min-h-[300px]">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="mb-16 md:mb-24">
+            <h2 class="text-3xl md:text-4xl font-bold text-slate-200 mb-4 text-center">Skills & Expertise</h2>
+            <p class="text-center text-slate-400 max-w-2xl mx-auto mb-12">This chart provides a high-level overview of my technical capabilities, categorized for clarity. Hover over any bar to see the specific tools and methodologies I'm proficient in.</p>
+            <div class="bg-slate-900 p-6 rounded-xl shadow-md">
+                <div class="chart-container">
+                    <canvas id="skillsChart"></canvas>
+                </div>
+            </div>
+            <div class="mt-12">
+                <h3 class="text-2xl font-bold text-slate-200 mb-6 text-center">Key Certifications</h3>
+                <div id="certifications" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                </div>
+            </div>
+        </section>
+
+        <section id="education" class="mb-16 md:mb-24">
+            <h2 class="text-3xl md:text-4xl font-bold text-slate-200 mb-8 text-center">Education</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div class="bg-slate-900 p-6 rounded-xl shadow-md text-center">
+                    <h3 class="text-xl font-semibold text-slate-200">Master's Degree, Engineering Business Management</h3>
+                    <p class="text-slate-400 mt-1">Universidad Anáhuac México Norte</p>
+                    <p class="text-slate-400 font-medium mt-2">2023 - 2025</p>
+                </div>
+                <div class="bg-slate-900 p-6 rounded-xl shadow-md text-center">
+                    <h3 class="text-xl font-semibold text-slate-200">Automotive Systems Engineer</h3>
+                    <p class="text-slate-400 mt-1">Instituto Politécnico Nacional</p>
+                    <p class="text-slate-400 font-medium mt-2">2013 - 2017</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal for Contact Information -->
+    <div id="contact-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden z-50 flex justify-center items-center p-4">
+        <div class="bg-slate-900 p-8 rounded-xl shadow-lg relative max-w-sm w-full border border-slate-800">
+            <button id="close-modal" class="absolute top-4 right-4 text-slate-400 hover:text-slate-200 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <h3 class="text-2xl font-bold text-slate-200 mb-6 text-center">Contact Information</h3>
+            <div class="flex flex-col items-center gap-6">
+                <a href="mailto:gilnavazaragoza@gmail.com" class="font-semibold text-slate-200 hover:text-white transition-colors flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884zM18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                    </svg>
+                    gilnavazaragoza@gmail.com
+                </a>
+                <a href="tel:+527449090832" class="font-semibold text-slate-200 hover:text-white transition-colors flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.741 4.451a1 1 0 01-.54 1.06l-1.548.774a11.096 11.096 0 005.432 5.432l.774-1.548a1 1 0 011.06-.54l4.451.741a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+                    </svg>
+                    +527449090832
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <footer id="footer" class="bg-slate-900 mt-16 md:mt-24">
+        <div class="container mx-auto px-6 py-8 text-center text-slate-400">
+            <div class="flex flex-col items-center gap-2">
+                <p class="text-lg font-semibold">Let's connect</p>
+                <p class="max-w-prose">I'm always open to discussing new opportunities and challenges in the automotive industry.</p>
+                <a href="https://www.linkedin.com/in/GilNavaZaragoza" target="_blank" class="flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.049 5.17-3.966 5.17 0v8.399h4.968v-9.461c0-5.83-5.789-5.742-6.424-2.189l-.274-.296v-3.555z"/>
+                    </svg>
+                    <span>/in/GilNavaZaragoza</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        const experienceData = [
+            {
+                id: 'ford-switches',
+                company: 'Ford',
+                role: 'Switches Applications Engineer',
+                period: 'November 2023 - Present',
+                details: [
+                    'Led five vehicle line launches, improving on-time quality delivery by 25%.',
+                    'Reduced production costs by over $2.5 million annually through complexity reduction initiatives.',
+                    'Presented strategic analyses to senior management to mitigate production issues.',
+                    'Led new model vehicle launches in Ohio and Kentucky.'
+                ]
+            },
+            {
+                id: 'ford-steering',
+                company: 'Ford',
+                role: 'Steering Applications Engineer',
+                period: 'November 2022 - November 2023',
+                details: [
+                    'Collaborated with teams in North America and Europe to validate Electric Power Assisted Steering (EPAS) systems.',
+                    'Monitored warranties and designed solutions to prevent recurring issues.',
+                    'Identified cost-saving opportunities and coordinated design changes with key suppliers.'
+                ]
+            },
+            {
+                id: 'ford-powertrain',
+                company: 'Ford',
+                role: 'Powertrain Controls Engineer',
+                period: 'June 2021 - November 2022',
+                details: [
+                    'Integrated software calibrations for both internal combustion and electric vehicle propulsion systems, ensuring compliance with global emissions standards.',
+                    'Reduced calibration time by 25% by designing and implementing Python-based GUIs.'
+                ]
+            },
+            {
+                id: 'ford-infotainment',
+                company: 'Ford',
+                role: 'Infotainment and Connectivity Engineer',
+                period: 'May 2018 - October 2020',
+                details: [
+                    'Verified the connectivity of multiple ECUs based on Ford\'s global specifications.',
+                    'Identified and tracked software bugs for the Ford Pass app and infotainment systems.'
+                ]
+            },
+            {
+                id: 'stellantis-eps',
+                company: 'Stellantis',
+                role: 'EPS Design and Release Engineer',
+                period: 'October 2020 - June 2021',
+                details: [
+                    'Led software readiness for Electronic Power Steering (EPS), coordinating with suppliers to ensure high-quality software updates.',
+                    'Assisted with EPS module calibration and prototype vehicle launches.'
+                ]
+            }
+        ];
+
+        const certificationsData = [
+            { name: '6-Sigma Green Belt', icon: '&#10004;' },
+            { name: 'HEV Electrified Powertrain Calibration', icon: '&#9881;' },
+            { name: 'International Software Testing Qualifications Board', icon: '&#128220;' },
+            { name: 'Agile / Scrum Master', icon: '&#128260;'}
+        ];
+        
+        const skillsData = {
+            labels: ['CAD/CAE & Simulation', 'Software & Validation', 'Programming & Tools', 'Methodologies'],
+            datasets: [{
+                label: 'Skills',
+                data: [5, 4, 4, 3], 
+                backgroundColor: '#3B82F6',
+                borderColor: '#60A5FA',
+                borderWidth: 1,
+                borderRadius: 4,
+                barThickness: 30,
+            }]
+        };
+
+        const skillsDetails = [
+            ['3DX','Abaqus','Adams','Ansys','Catia V5','NX', 'Solidworks'],
+            ['CANalyzer', 'Candela Studio','Chrysler Diagnostic App Tool','Ford Diagnostic Engineering Tool','Ford HMI','Matlab', 'Simulink','Teamcenter','WERS'],
+            ['Ford Telematics Cloud Protocol','GitHub','IntelliJ','Matlab','Semi Automatic Testing Tool','Simulink','Python'],
+            ['6-Sigma Green Belt', '8D', '5D', 'Ishikawa', 'Agile', 'Scrum Master']
+        ];
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const timelineContainer = document.getElementById('timeline');
+            const detailsContainer = document.getElementById('experience-details');
+            const certificationsContainer = document.getElementById('certifications');
+            const mobileMenuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const openContactModalBtn = document.getElementById('open-contact-modal');
+            const openContactModalMobileBtn = document.getElementById('open-contact-modal-mobile');
+            const contactModal = document.getElementById('contact-modal');
+            const closeModalBtn = document.getElementById('close-modal');
+            
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            openContactModalBtn.addEventListener('click', () => {
+                contactModal.classList.remove('hidden');
+            });
+
+            openContactModalMobileBtn.addEventListener('click', () => {
+                contactModal.classList.remove('hidden');
+                mobileMenu.classList.add('hidden'); // Close mobile menu when modal opens
+            });
+
+            closeModalBtn.addEventListener('click', () => {
+                contactModal.classList.add('hidden');
+            });
+
+            contactModal.addEventListener('click', (e) => {
+                if (e.target.id === 'contact-modal') {
+                    contactModal.classList.add('hidden');
+                }
+            });
+
+            experienceData.forEach((job, index) => {
+                const item = document.createElement('div');
+                item.className = `timeline-item relative pl-8 pb-12 cursor-pointer ${index === 0 ? 'active' : ''}`;
+                item.dataset.id = job.id;
+                item.innerHTML = `
+                    <h3 class="text-lg font-semibold text-slate-200">${job.role}</h3>
+                    <p class="text-md text-slate-400">${job.company}</p>
+                    <p class="text-sm text-slate-500">${job.period}</p>
+                `;
+                timelineContainer.appendChild(item);
+            });
+
+            certificationsData.forEach(cert => {
+                const item = document.createElement('div');
+                item.className = 'bg-slate-900 p-4 rounded-lg shadow-sm flex items-center gap-4';
+                item.innerHTML = `
+                    <div class="text-2xl text-slate-400">${cert.icon}</div>
+                    <p class="font-semibold text-slate-300">${cert.name}</p>
+                `;
+                certificationsContainer.appendChild(item);
+            });
+
+            function updateDetails(id) {
+                const job = experienceData.find(j => j.id === id);
+                if (job) {
+                    detailsContainer.innerHTML = `
+                        <h3 class="text-2xl font-bold text-slate-200 mb-2">${job.role}</h3>
+                        <p class="text-lg font-medium text-slate-400 mb-1">${job.company}</p>
+                        <p class="text-md text-slate-500 mb-6">${job.period}</p>
+                        <ul class="space-y-3 list-disc list-inside text-slate-300">
+                            ${job.details.map(d => `<li>${d}</li>`).join('')}
+                        </ul>
+                    `;
+                }
+            }
+
+            timelineContainer.addEventListener('click', (e) => {
+                const targetItem = e.target.closest('.timeline-item');
+                if (targetItem) {
+                    timelineContainer.querySelectorAll('.timeline-item').forEach(item => item.classList.remove('active'));
+                    targetItem.classList.add('active');
+                    updateDetails(targetItem.dataset.id);
+                }
+            });
+
+            updateDetails(experienceData[0].id);
+
+            const ctx = document.getElementById('skillsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: skillsData,
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    const details = skillsDetails[context.dataIndex];
+                                    return details ? details.join(', ') : '';
+                                }
+                            },
+                            backgroundColor: '#1E293B',
+                            titleFont: { size: 14 },
+                            bodyFont: { size: 12 },
+                            padding: 10,
+                            displayColors: false,
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false,
+                                drawBorder: false,
+                            },
+                            ticks: {
+                                display: false,
+                            }
+                        },
+                        y: {
+                            grid: {
+                                display: false,
+                                drawBorder: false,
+                            },
+                             ticks: {
+                                font: {
+                                    size: 14,
+                                    weight: '500',
+                                },
+                                color: '#94A3B8' /* slate-400 */
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
