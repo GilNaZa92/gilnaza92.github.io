@@ -23,6 +23,9 @@
             background-color: #0F172A; /* slate-950 */
             color: #E2E8F0; /* slate-200 */
         }
+        html {
+            scroll-padding-top: 80px;
+        }
         .timeline-item::before {
             content: '';
             position: absolute;
@@ -60,7 +63,7 @@
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <h1 class="text-xl md:text-2xl font-bold text-slate-200">Gil Nava Zaragoza</h1>
             <ul class="hidden md:flex space-x-6">
-                <li><a href="#summary" class="font-medium text-slate-400 hover:text-white transition-colors">Summary</a></li>
+                <li><a href="#professional-summary" class="font-medium text-slate-400 hover:text-white transition-colors">Summary</a></li>
                 <li><a href="#experience" class="font-medium text-slate-400 hover:text-white transition-colors">Experience</a></li>
                 <li><a href="#skills" class="font-medium text-slate-400 hover:text-white transition-colors">Skills</a></li>
                 <li><a href="#education" class="font-medium text-slate-400 hover:text-white transition-colors">Education</a></li>
@@ -73,7 +76,7 @@
             </div>
         </nav>
         <div id="mobile-menu" class="hidden md:hidden">
-            <a href="#summary" class="block py-2 px-4 text-sm text-slate-200 hover:bg-slate-800">Summary</a>
+            <a href="#professional-summary" class="block py-2 px-4 text-sm text-slate-200 hover:bg-slate-800">Summary</a>
             <a href="#experience" class="block py-2 px-4 text-sm text-slate-200 hover:bg-slate-800">Experience</a>
             <a href="#skills" class="block py-2 px-4 text-sm text-slate-200 hover:bg-slate-800">Skills</a>
             <a href="#education" class="block py-2 px-4 text-sm text-slate-200 hover:bg-slate-800">Education</a>
@@ -84,7 +87,7 @@
     <main class="container mx-auto px-6 py-12 md:py-20">
 
         <section id="summary" class="mb-16 md:mb-24">
-            <h2 class="text-3xl md:text-4xl font-bold text-slate-200 mb-4 text-center">Professional Summary</h2>
+            <h2 id="profesional-summary" class="text-3xl md:text-4xl font-bold text-slate-200 mb-4 text-center">Professional Summary</h2>
             <p class="max-w-3xl mx-auto text-center text-slate-400 text-lg leading-relaxed">
                 Automotive systems engineer with 7+ years of experience in vehicle launches and system integration, specializing in software validation, controls, and automation. Proficient in programming and scripting with Python, MATLAB/Simulink, and C for developing diagnostic tools, automating test procedures, and analyzing large data sets. Skilled in CAD/CAE modeling, simulation, and validation, with hands-on expertise in troubleshooting complex embedded systems and control software. Strong background in powertrain calibration, infotainment connectivity, and switch/steering applications. Passionate about leveraging programming and software tools to optimize processes, reduce costs, and deliver reliable solutions in the automotive and technology industries.
             </p>
@@ -402,4 +405,5 @@
     </script>
 </body>
 </html>
+
 
