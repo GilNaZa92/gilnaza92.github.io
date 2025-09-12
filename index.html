@@ -17,9 +17,11 @@
             background-color: #0F172A;
             color: #E2E8F0;
         }
+
         html {
             scroll-padding-top: 80px;
         }
+
         .timeline-item::before {
             content: '';
             position: absolute;
@@ -32,10 +34,12 @@
             background-color: #64748B;
             transition: all 0.3s ease;
         }
+
         .timeline-item.active::before {
             background-color: #3B82F6;
             border-color: #93C5FD;
         }
+
         .chart-container {
             position: relative;
             width: 100%;
@@ -45,6 +49,7 @@
             height: 350px;
             max-height: 400px;
         }
+
         @media (min-width: 768px) {
             .chart-container {
                 height: 400px;
@@ -55,6 +60,7 @@
             background-color: #F8FAFC !important;
             color: #0F172A !important;
         }
+
         .light #header,
         .light .bg-slate-950,
         .light .bg-slate-900,
@@ -63,17 +69,53 @@
             background-color: #FFFFFF !important;
             color: #0F172A !important;
         }
-        .light .text-slate-200 { color: #0F172A !important; }
-        .light .text-slate-400 { color: #475569 !important; }
-        .light .text-slate-300 { color: #334155 !important; }
-        .light .text-slate-500 { color: #334155 !important; }
-        .light .border-slate-800 { border-color: #E2E8F0 !important; }
-        .light .bg-sky-600 { background-color: #0369A1 !important; }
-        .light .bg-sky-700 { background-color: #075985 !important; }
-        .light .timeline-item::before { border-color: #CBD5E1 !important; background-color: #94A3B8 !important; }
-        .light #contact-modal { background-color: #F8FAFC !important; }
-        .light #contact-modal .bg-slate-900 { background-color: #FFFFFF !important; color: #0F172A !important; }
-        .light #footer { background-color: #F8FAFC !important; color: #475569 !important; }
+
+        .light .text-slate-200 {
+            color: #0F172A !important;
+        }
+
+        .light .text-slate-400 {
+            color: #475569 !important;
+        }
+
+        .light .text-slate-300 {
+            color: #334155 !important;
+        }
+
+        .light .text-slate-500 {
+            color: #334155 !important;
+        }
+
+        .light .border-slate-800 {
+            border-color: #E2E8F0 !important;
+        }
+
+        .light .bg-sky-600 {
+            background-color: #0369A1 !important;
+        }
+
+        .light .bg-sky-700 {
+            background-color: #075985 !important;
+        }
+
+        .light .timeline-item::before {
+            border-color: #CBD5E1 !important;
+            background-color: #94A3B8 !important;
+        }
+
+        .light #contact-modal {
+            background-color: #F8FAFC !important;
+        }
+
+            .light #contact-modal .bg-slate-900 {
+                background-color: #FFFFFF !important;
+                color: #0F172A !important;
+            }
+
+        .light #footer {
+            background-color: #F8FAFC !important;
+            color: #475569 !important;
+        }
         /* Preloader dark/light backgrounds */
         #loading {
             position: fixed;
@@ -85,11 +127,16 @@
             z-index: 10000;
             color: #E2E8F0;
         }
+
         .light #loading {
             background-color: #F8FAFC !important;
             color: #0F172A !important;
         }
-        #loading-center { text-align: center; }
+
+        #loading-center {
+            text-align: center;
+        }
+
         #loading .load-box {
             display: inline-block;
             width: 72px;
@@ -100,9 +147,11 @@
             position: relative;
             overflow: hidden;
         }
+
         .light #loading .load-box {
             background: linear-gradient(135deg,#e2e8f0,#f8fafc);
         }
+
         #loading .load-box::after {
             content: '';
             position: absolute;
@@ -114,13 +163,32 @@
             transform: rotate(45deg);
             animation: shimmer 1.6s linear infinite;
         }
+
         @keyframes shimmer {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
+            0% {
+                transform: translateX(-100%) rotate(45deg);
+            }
+
+            100% {
+                transform: translateX(100%) rotate(45deg);
+            }
         }
-        #loading h2 { font-size: 1.25rem; letter-spacing: 0.02em; margin: .25rem 0 0; }
-        #loading h6 { font-size: .9rem; color: #94A3B8; margin: 0; }
-        .light #loading h6 { color: #475569 !important; }
+
+        #loading h2 {
+            font-size: 1.25rem;
+            letter-spacing: 0.02em;
+            margin: .25rem 0 0;
+        }
+
+        #loading h6 {
+            font-size: .9rem;
+            color: #94A3B8;
+            margin: 0;
+        }
+
+        .light #loading h6 {
+            color: #475569 !important;
+        }
         /* Theme toggle button styling */
         #theme-toggle {
             background: transparent;
@@ -132,15 +200,41 @@
             gap: 0.5rem;
             color: inherit;
         }
-        #theme-toggle svg { width: 20px; height: 20px; }
+
+            #theme-toggle svg {
+                width: 20px;
+                height: 20px;
+            }
+
+        .tenis-block {
+            position: relative;
+            transition: transform 0.3s cubic-bezier(.4,0,.2,1), box-shadow 0.3s cubic-bezier(.4,0,.2,1);
+        }
+        .tenis-block:hover {
+            transform: scale(1.10);
+            box-shadow: 0 8px 32px 0 rgba(59,130,246,0.25);
+            z-index: 1;
+        }
+        .tenis-photo {
+            display: none;
+            width: 220px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 24px 0 rgba(59,130,246,0.18);
+        }
+        .tenis-block:hover .tenis-photo {
+            display: block;
+        }
     </style>
 </head>
 <body class="antialiased">
     <!-- Preloader animation -->
-    <div id="loading" class="animate__animated animate__fadeIn">
+    <div id="loading" class="animated bounceInDown">
         <div id="loading-center">
             <div id="loading-center-absolute">
-                <div class="box-holder animate__animated animate__bounceInDown">
+                <div class="box-holder animated bounceInDown">
                     <span class="load-box"><span class="box-inner"></span></span>
                 </div>
                 <div class="text-holder text-center">
@@ -161,12 +255,12 @@
             </ul>
             <div class="flex items-center gap-3">
                 <button id="theme-toggle" aria-label="Toggle theme" title="Toggle light / dark mode" class="inline-flex">
-                    <svg id="theme-icon" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+                    <svg id="theme-icon" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" /></svg>
                     <span class="sr-only">Toggle theme</span>
                 </button>
                 <button id="open-contact-modal" class="hidden md:inline-block bg-sky-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-sky-700 transition-colors">Contact</button>
             </div>
-             <div class="md:hidden">
+            <div class="md:hidden">
                 <button id="menu-btn" class="text-slate-200 focus:outline-none">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                 </button>
@@ -181,11 +275,14 @@
         </div>
     </header>
     <main class="container mx-auto px-6 py-12 md:py-20">
-        <section id="summary" class="mb-16 md:mb-24">
-            <h2 id="professional-summary" class="text-3xl md:text-4xl font-bold text-slate-200 mb-4 text-center">Professional Summary</h2>
-            <div class="flex flex-col md:flex-row items-start gap-8 max-w-3xl mx-auto">
-                <div class="flex-1 flex items-stretch">
-                    <p class="text-slate-400 text-lg leading-relaxed text-justify m-0 flex items-stretch">
+        <section id="summary" class="mb-16 md:mb-24 bg-slate-900 rounded-xl shadow-md py-12">
+            <div class="flex flex-col md:flex-row items-center justify-center gap-12 max-w-5xl mx-auto">
+                <div class="flex-shrink-0 flex justify-center items-center">
+                    <img src="GNZ-CSAP.jpg" alt="Profile" class="transition-transform duration-300 ease-in-out hover:scale-110 hover:shadow-2xl" style="width:300px;height:300px;object-fit:cover;border-radius:50%;box-shadow:0 0 0 8px #1e293b;object-position:top;" />
+                </div>
+                <div class="flex-1 flex flex-col justify-center items-center">
+                    <h2 id="professional-summary" class="text-4xl font-bold text-slate-200 mb-6 text-center">Professional Summary</h2>
+                    <p class="text-slate-300 text-lg leading-relaxed max-w-2xl text-justify">
                         Automotive systems engineer with 7+ years of experience in vehicle launches and system integration, specializing in software validation, controls, and automation. Proficient in programming and scripting with Python, MATLAB/Simulink, and C for developing diagnostic tools, automating test procedures, and analyzing large data sets. Skilled in CAD/CAE modeling, simulation, and validation, with hands-on expertise in troubleshooting complex embedded systems and control software. Strong background in powertrain calibration, infotainment connectivity, and switch/steering applications. Passionate about leveraging programming and software tools to optimize processes, reduce costs, and deliver reliable solutions in the automotive and technology industries.
                     </p>
                 </div>
@@ -285,6 +382,46 @@
                 </div>
             </div>
         </section>
+        <!-- Interests section below Education -->
+        <section id="interests" class="mb-16 md:mb-24">
+            <h2 class="text-4xl font-bold text-slate-200 mb-6 text-center">Interests</h2>
+            <p class="text-center text-slate-200 text-lg max-w-3xl mx-auto mb-8">First of all I love music; techno and classic music are my favorites. Enjoy watching movies and playing videogames with my buddies. I spend much of my free time learning new things and exploring creative projects.</p>
+            <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-[#0984c6] p-8 rounded-xl flex flex-col items-center justify-center min-h-[140px]">
+                    <!-- Music Icon -->
+                    <img src="Images for CV/music.svg" alt="Music" style="width:48px;height:48px;filter:invert(1);" />
+                    <p class="font-bold text-white mt-4 text-lg">Music</p>
+                </div>
+                <div class="bg-[#0984c6] p-8 rounded-xl flex flex-col items-center justify-center min-h-[140px]">
+                    <!-- Xbox Icon -->
+                    <img src="Images for CV/xbox.svg" alt="Gaming" style="width:48px;height:48px;filter:invert(1);" />
+                    <p class="font-bold text-white mt-4 text-lg">Gaming</p>
+                </div>
+                <div class="bg-[#0984c6] p-8 rounded-xl flex flex-col items-center justify-center min-h-[140px]">
+                    <!-- Camaron Icon for Photography -->
+                    <img src="Images for CV/camaron.svg" alt="Photography" style="width:48px;height:48px;filter:invert(1);" />
+                    <p class="font-bold text-white mt-4 text-lg">Photography</p>
+                </div>
+            </div>
+            <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 mt-6" style="overflow: visible;">
+                <div class="bg-[#0984c6] p-8 rounded-xl flex flex-col items-center justify-center min-h-[140px] tenis-block">
+                    <img src="GNZ-Tenis.jfif" alt="Tennis Photo" class="tenis-photo" />
+                    <!-- Tenis Icon -->
+                    <img src="Images for CV/tenis.svg" alt="Tennis" style="width:48px;height:48px;filter:invert(1);" />
+                    <p class="font-bold text-white mt-4 text-lg">Tennis</p>
+                </div>
+                <div class="bg-[#0984c6] p-8 rounded-xl flex flex-col items-center justify-center min-h-[140px]">
+                    <!-- Plane Icon -->
+                    <img src="Images for CV/plane.svg" alt="Traveling" style="width:48px;height:48px;filter:invert(1);" />
+                    <p class="font-bold text-white mt-4 text-lg">Traveling</p>
+                </div>
+                <div class="bg-[#0984c6] p-8 rounded-xl flex flex-col items-center justify-center min-h-[140px]">
+                    <!-- Film Icon -->
+                    <img src="Images for CV/film.svg" alt="Movies" style="width:48px;height:48px;filter:invert(1);" />
+                    <p class="font-bold text-white mt-4 text-lg">Movies</p>
+                </div>
+            </div>
+        </section>
     </main>
     <!-- Modal for Contact Information -->
     <div id="contact-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden z-50 flex justify-center items-center p-4">
@@ -317,8 +454,8 @@
                 <a href="https://www.linkedin.com/in/GilNavaZaragoza" target="_blank" class="flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
                     <!-- Improved LinkedIn SVG logo -->
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 32 32" fill="currentColor">
-                        <rect x="2" y="2" width="28" height="28" rx="6" fill="#0A66C2"/>
-                        <path d="M10.5 13.5h3v8h-3v-8zm1.5-4a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm4 4h2.8v1.1h.04c.39-.74 1.34-1.51 2.76-1.51 2.95 0 3.5 1.94 3.5 4.47v4.93h-3v-4.38c0-1.04-.02-2.38-1.45-2.38-1.45 0-1.67 1.13-1.67 2.3v4.46h-3v-8z" fill="#fff"/>
+                        <rect x="2" y="2" width="28" height="28" rx="6" fill="#0A66C2" />
+                        <path d="M10.5 13.5h3v8h-3v-8zm1.5-4a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm4 4h2.8v1.1h.04c.39-.74 1.34-1.51 2.76-1.51 2.95 0 3.5 1.94 3.5 4.47v4.93h-3v-4.38c0-1.04-.02-2.38-1.45-2.38-1.45 0-1.67 1.13-1.67 2.3v4.46h-3v-8z" fill="#fff" />
                     </svg>
                     <span class="font-semibold text-slate-200 ml-2">GilNavaZaragoza</span>
                 </a>
@@ -330,8 +467,8 @@
         window.addEventListener('load', () => {
             const loading = document.getElementById('loading');
             if (!loading) return;
-            loading.classList.remove('animate__fadeIn');
-            loading.classList.add('animate__fadeOut');
+            loading.classList.remove('bounceInDown');
+            loading.classList.add('fadeOut');
             setTimeout(() => {
                 loading.remove();
             }, 600);
@@ -395,13 +532,13 @@
             { name: '6-Sigma Green Belt', icon: '&#10004;' },
             { name: 'HEV Electrified Powertrain Calibration', icon: '&#9881;' },
             { name: 'International Software Testing Qualifications Board', icon: '&#128220;' },
-            { name: 'Agile / Scrum Master', icon: '&#128260;'}
+            { name: 'Agile / Scrum Master', icon: '&#128260;' }
         ];
         const skillsData = {
             labels: ['CAD/CAE & Simulation', 'Software & Validation', 'Programming & Tools', 'Methodologies'],
             datasets: [{
                 label: 'Skills',
-                data: [5, 4, 4, 3], 
+                data: [5, 4, 4, 3],
                 backgroundColor: '#3B82F6',
                 borderColor: '#60A5FA',
                 borderWidth: 1,
@@ -410,12 +547,12 @@
             }]
         };
         const skillsDetails = [
-            ['3DX','Abaqus','Adams','Ansys','Catia V5','NX', 'Solidworks'],
-            ['CANalyzer', 'Candela Studio','Chrysler Diagnostic App Tool','Ford Diagnostic Engineering Tool','Ford HMI','Matlab', 'Simulink','Teamcenter','WERS'],
-            ['Ford Telematics Cloud Protocol','GitHub','IntelliJ','Matlab','Semi Automatic Testing Tool','Simulink','Python'],
+            ['3DX', 'Abaqus', 'Adams', 'Ansys', 'Catia V5', 'NX', 'Solidworks'],
+            ['CANalyzer', 'Candela Studio', 'Chrysler Diagnostic App Tool', 'Ford Diagnostic Engineering Tool', 'Ford HMI', 'Matlab', 'Simulink', 'Teamcenter', 'WERS'],
+            ['Ford Telematics Cloud Protocol', 'GitHub', 'IntelliJ', 'Matlab', 'Semi Automatic Testing Tool', 'Simulink', 'Python'],
             ['6-Sigma Green Belt', '8D', '5D', 'Ishikawa', 'Agile', 'Scrum Master']
         ];
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Theme toggle logic
             function applyTheme(theme) {
                 const root = document.documentElement;
@@ -425,7 +562,7 @@
                     themeIcon.innerHTML = '<path d="M6.76 4.84l-1.8-1.79L3.17 5.84l1.79 1.79 1.8-2.79zM1 13h3v-2H1v2zm10-9h2V1h-2v3zm7.03 1.05l-1.79-1.79-1.8 1.79 1.79 1.8 1.8-1.8zM17 13h3v-2h-3v2zM12 22c.55 0 1-.45 1-1v-3h-2v3c0 .55.45 1 1 1zM4.24 19.16l1.8 1.79 1.79-1.79-1.79-1.8-1.8 1.8zM12 6a6 6 0 100 12 6 6 0 000-12z"/>';
                 } else {
                     root.classList.remove('light');
-                    themeIcon.innerHTML = '<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>';
+                    themeIcon.innerHTML = '<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />';
                 }
                 localStorage.setItem('theme', theme);
             }
@@ -435,7 +572,7 @@
             const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
             const initialTheme = savedTheme ? savedTheme : (prefersDark ? 'dark' : 'light');
             applyTheme(initialTheme);
-            themeToggle.addEventListener('click', function() {
+            themeToggle.addEventListener('click', function () {
                 const active = document.documentElement.classList.contains('light') ? 'light' : 'dark';
                 applyTheme(active === 'light' ? 'dark' : 'light');
             });
@@ -450,26 +587,26 @@
                 item.className = `timeline-item relative pl-8 pb-12 cursor-pointer${index === 0 ? ' active' : ''}`;
                 item.dataset.id = job.id;
                 item.innerHTML = `
-                    <h3 class="text-lg font-semibold text-slate-200">${job.role}</h3>
-                    <p class="text-md text-slate-400">${job.company}</p>
-                    <p class="text-sm text-slate-500">${job.period}</p>
-                `;
+                        <h3 class="text-lg font-semibold text-slate-200">${job.role}</h3>
+                        <p class="text-md text-slate-400">${job.company}</p>
+                        <p class="text-sm text-slate-500">${job.period}</p>
+                    `;
                 timelineContainer.appendChild(item);
             });
             function updateDetails(id) {
                 const job = experienceData.find(j => j.id === id);
                 if (job) {
                     detailsContainer.innerHTML = `
-                        <h3 class="text-2xl font-bold text-slate-200 mb-2">${job.role}</h3>
-                        <p class="text-lg font-medium text-slate-400 mb-1">${job.company}</p>
-                        <p class="text-md text-slate-500 mb-6">${job.period}</p>
-                        <ul class="space-y-3 list-disc list-inside text-slate-300">
-                            ${job.details.map(d => `<li>${d}</li>`).join('')}
-                        </ul>
-                    `;
+                            <h3 class="text-2xl font-bold text-slate-200 mb-2">${job.role}</h3>
+                            <p class="text-lg font-medium text-slate-400 mb-1">${job.company}</p>
+                            <p class="text-md text-slate-500 mb-6">${job.period}</p>
+                            <ul class="space-y-3 list-disc list-inside text-slate-300">
+                                ${job.details.map(d => `<li>${d}</li>`).join('')}
+                            </ul>
+                        `;
                 }
             }
-            timelineContainer.addEventListener('click', function(e) {
+            timelineContainer.addEventListener('click', function (e) {
                 const targetItem = e.target.closest('.timeline-item');
                 if (targetItem) {
                     timelineContainer.querySelectorAll('.timeline-item').forEach(item => item.classList.remove('active'));
@@ -487,9 +624,9 @@
                     const item = document.createElement('div');
                     item.className = 'bg-slate-900 p-4 rounded-lg shadow-sm flex items-center gap-4';
                     item.innerHTML = `
-                        <div class="text-2xl text-slate-400">${cert.icon}</div>
-                        <p class="font-semibold text-slate-300">${cert.name}</p>
-                    `;
+                            <div class="text-2xl text-slate-400">${cert.icon}</div>
+                            <p class="font-semibold text-slate-300">${cert.name}</p>
+                        `;
                     certificationsContainer.appendChild(item);
                 });
             }
@@ -533,7 +670,7 @@
                         },
                         tooltip: {
                             callbacks: {
-                                label: function(context) {
+                                label: function (context) {
                                     let label = context.dataset.label || '';
                                     if (label) {
                                         label += ': ';
@@ -564,7 +701,7 @@
                                 display: false,
                                 drawBorder: false,
                             },
-                             ticks: {
+                            ticks: {
                                 font: {
                                     size: 14,
                                     weight: '500',
@@ -579,4 +716,5 @@
     </script>
 </body>
 </html>
+
 
