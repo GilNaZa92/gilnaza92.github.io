@@ -206,26 +206,87 @@
                 height: 20px;
             }
 
-        .tenis-block {
-            position: relative;
-            transition: transform 0.3s cubic-bezier(.4,0,.2,1), box-shadow 0.3s cubic-bezier(.4,0,.2,1);
-        }
-        .tenis-block:hover {
-            transform: scale(1.10);
-            box-shadow: 0 8px 32px 0 rgba(59,130,246,0.25);
-            z-index: 1;
-        }
-        .tenis-photo {
-            display: none;
-            width: 220px;
-            height: 140px;
+        /* Interest cards and profile hover animations */
+        .profile-pic {
+            width: 300px;
+            height: 300px;
             object-fit: cover;
-            border-radius: 1rem;
-            margin-bottom: 1rem;
-            box-shadow: 0 4px 24px 0 rgba(59,130,246,0.18);
-        }
-        .tenis-block:hover .tenis-photo {
+            border-radius: 50%;
+            box-shadow: 0 0 0 8px #1e293b;
+            object-position: top;
             display: block;
+            transition: transform 220ms ease, box-shadow 220ms ease;
+            will-change: transform;
+        }
+
+        @keyframes profile-pulse {
+            0% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.06) rotate(-3deg); }
+            60% { transform: scale(0.98) rotate(3deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+
+        /* Center the interests parent container */
+        .interests-parent {
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            width: 100%;
+        }
+        .interest-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            width: 100%;
+        }
+        .interest-card {
+            background: linear-gradient(180deg,#0570a8,#0984c6);
+            padding: 2.5rem;
+            border-radius: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-width: 180px;
+            min-height: 180px;
+            cursor: pointer;
+            box-shadow: 0 10px 32px rgba(2,6,23,0.45);
+            isolation: isolate;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin: 0 0.5rem;
+        }
+        .interest-card img { width: 64px; height: 64px; filter: invert(1); }
+        .interest-card p { margin-top: 1.25rem; color: #fff; font-weight:700; font-size:1.35rem; }
+        .interest-card.selected, .interest-card:hover {
+            animation: interest-bounce 0.6s;
+            box-shadow: 0 0 0 6px #3B82F6, 0 10px 32px rgba(2,6,23,0.45);
+            transform: scale(1.08);
+        }
+        @keyframes interest-bounce {
+            0% { transform: scale(1); }
+            30% { transform: scale(1.12); }
+            60% { transform: scale(0.96); }
+            100% { transform: scale(1.08); }
+        }
+        @media (max-width: 1024px) {
+            .interest-card { min-width: 160px; min-height: 160px; padding: 2rem; }
+            .interest-card img { width: 56px; height: 56px; }
+            .interest-row { gap: 1.5rem; }
+        }
+        @media (max-width: 768px) {
+            .interest-row { flex-direction: column; gap: 1rem; }
+        }
+        @media (max-width: 480px) {
+            .interest-card { min-width: 100%; min-height: 120px; padding: 1.25rem; }
+            .interest-card img { width: 40px; height: 40px; }
+        }
+        .heart-icon {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 0.5rem;
+            width: 1.5em;
+            height: 1.5em;
         }
     </style>
 </head>
@@ -252,6 +313,7 @@
                 <li><a href="#experience" class="font-medium text-slate-400 hover:text-white transition-colors">Experience</a></li>
                 <li><a href="#skills" class="font-medium text-slate-400 hover:text-white transition-colors">Skills</a></li>
                 <li><a href="#education" class="font-medium text-slate-400 hover:text-white transition-colors">Education</a></li>
+                <li><a href="#interests" class="font-medium text-slate-400 hover:text-white transition-colors">Interests</a></li>
             </ul>
             <div class="flex items-center gap-3">
                 <button id="theme-toggle" aria-label="Toggle theme" title="Toggle light / dark mode" class="inline-flex">
@@ -271,6 +333,7 @@
             <a href="#experience" class="block py-2 px-4 text-sm text-slate-200 hover:bg-slate-800">Experience</a>
             <a href="#skills" class="block py-2 px-4 text-sm text-slate-200 hover:bg-slate-800">Skills</a>
             <a href="#education" class="block py-2 px-4 text-sm text-slate-200 hover:bg-slate-800">Education</a>
+            <a href="#interests" class="block py-2 px-4 text-sm text-slate-200 hover:bg-slate-800 flex items-center"><svg class="heart-icon" viewBox="0 0 24 24" fill="red" xmlns="http://www.w3.org/2000/svg"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>Interests</a>
             <button id="open-contact-modal-mobile" class="w-full text-left block py-2 px-4 text-sm text-slate-200 hover:bg-slate-800">Contact</button>
         </div>
     </header>
@@ -278,10 +341,15 @@
         <section id="summary" class="mb-16 md:mb-24 bg-slate-900 rounded-xl shadow-md py-12">
             <div class="flex flex-col md:flex-row items-center justify-center gap-12 max-w-5xl mx-auto">
                 <div class="flex-shrink-0 flex justify-center items-center">
-                    <img src="GNZ-CSAP.jpg" alt="Profile" class="transition-transform duration-300 ease-in-out hover:scale-110 hover:shadow-2xl" style="width:300px;height:300px;object-fit:cover;border-radius:50%;box-shadow:0 0 0 8px #1e293b;object-position:top;" />
+                    <img src="GNZ-CSAP.jpg" alt="Profile" class="profile-pic" />
                 </div>
                 <div class="flex-1 flex flex-col justify-center items-center">
-                    <h2 id="professional-summary" class="text-4xl font-bold text-slate-200 mb-6 text-center">Professional Summary</h2>
+                    <h2 id="professional-summary" class="text-4xl font-bold text-slate-200 mb-6 text-center">
+                        <span class="inline-block align-middle" style="margin-right:0.5rem;vertical-align:middle;">
+                            <img src="summary.png" alt="Summary Logo" style="height:48px;width:auto;display:inline-block;vertical-align:middle;" />
+                        </span>
+                        Professional Summary
+                    </h2>
                     <p class="text-slate-300 text-lg leading-relaxed max-w-2xl text-justify">
                         Automotive systems engineer with 7+ years of experience in vehicle launches and system integration, specializing in software validation, controls, and automation. Proficient in programming and scripting with Python, MATLAB/Simulink, and C for developing diagnostic tools, automating test procedures, and analyzing large data sets. Skilled in CAD/CAE modeling, simulation, and validation, with hands-on expertise in troubleshooting complex embedded systems and control software. Strong background in powertrain calibration, infotainment connectivity, and switch/steering applications. Passionate about leveraging programming and software tools to optimize processes, reduce costs, and deliver reliable solutions in the automotive and technology industries.
                     </p>
@@ -289,7 +357,12 @@
             </div>
         </section>
         <section id="experience" class="mb-16 md:mb-24">
-            <h2 class="text-3xl md:text-4xl font-bold text-slate-200 mb-12 text-center">Career Journey</h2>
+            <h2 class="text-3xl md:text-4xl font-bold text-slate-200 mb-12 text-center">
+                <span class="inline-block align-middle" style="margin-right:0.5rem;vertical-align:middle;">
+                    <img src="career.png" alt="Career Journey Logo" style="height:48px;width:auto;display:inline-block;vertical-align:middle;" />
+                </span>
+                Career Journey
+            </h2>
             <div class="flex flex-col md:flex-row gap-12">
                 <div class="w-full md:w-1/3">
                     <div id="timeline" class="relative border-l-4 border-slate-800 ml-9">
@@ -302,7 +375,12 @@
             </div>
         </section>
         <section id="skills" class="mb-16 md:mb-24">
-            <h2 class="text-3xl md:text-4xl font-bold text-slate-200 mb-4 text-center">Skills & Expertise</h2>
+            <h2 class="text-3xl md:text-4xl font-bold text-slate-200 mb-4 text-center">
+                <span class="inline-block align-middle" style="margin-right:0.5rem;vertical-align:middle;">
+                    <img src="Skills.jpg" alt="Skills Logo" style="height:48px;width:auto;display:inline-block;vertical-align:middle;" />
+                </span>
+                Skills & Expertise
+            </h2>
             <div class="flex flex-col md:flex-row gap-4 bg-slate-900 p-4 rounded-xl shadow-md max-w-full mx-auto">
                 <!-- CAD & CAE Simulation Skills -->
                 <div class="flex-1 min-w-[180px] max-w-xs p-2">
@@ -325,7 +403,7 @@
                         <div><div class="flex justify-between text-slate-400 text-xs mb-1"><span>Teamwork</span><span>90%</span></div><div class="w-full bg-slate-800 rounded-full h-2"><div class="bg-green-500 h-2 rounded-full" style="width:90%"></div></div></div>
                         <div><div class="flex justify-between text-slate-400 text-xs mb-1"><span>Creativity</span><span>90%</span></div><div class="w-full bg-slate-800 rounded-full h-2"><div class="bg-green-500 h-2 rounded-full" style="width:90%"></div></div></div>
                         <div><div class="flex justify-between text-slate-400 text-xs mb-1"><span>Leadership</span><span>90%</span></div><div class="w-full bg-slate-800 rounded-full h-2"><div class="bg-green-500 h-2 rounded-full" style="width:90%"></div></div></div>
-                        <div><div class="flex justify-between text-slate-400 text-xs mb-1"><span>Dedication</span><span>100%</span></div><div class="w-full bg-slate-800 rounded-full h-2"><div class="bg-green-500 h-2 rounded-full" style="width:100%"></div></div></div>
+						<div><div class="flex justify-between text-slate-400 text-xs mb-1"><span>Dedication</span><span>100%</span></div><div class="w-full bg-slate-800 rounded-full h-2"><div class="bg-green-500 h-2 rounded-full" style="width:100%"></div></div></div>
                     </div>
                 </div>
                 <!-- Software and Validation Skills -->
@@ -368,57 +446,58 @@
             </div>
         </section>
         <section id="education" class="mb-16 md:mb-24">
-            <h2 class="text-3xl md:text-4xl font-bold text-slate-200 mb-8 text-center">Education</h2>
+            <h2 class="text-3xl md:text-4xl font-bold text-slate-200 mb-8 text-center">
+                <span class="inline-block align-middle" style="margin-right:0.5rem;vertical-align:middle;">
+                    <img src="prom-hat.png" alt="Prom Hat Logo" style="height:48px;width:auto;display:inline-block;vertical-align:middle;" />
+                </span>
+                Education
+            </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                 <div class="bg-slate-900 p-6 rounded-xl shadow-md text-center flex flex-col items-center">
                     <h3 class="text-xl font-semibold text-slate-200 mb-2">Master's Degree, Engineering Business Management</h3>
-                    <p class="text-slate-400 mt-1">Universidad Anáhuac México Norte</p>
+                    <p class="text-slate-400 mt-1">
+                        <img src="Anahuac logo.png" alt="Anahuac Logo" style="width:32px;height:32px;display:inline-block;vertical-align:middle;margin-right:0.5rem;" />
+                        Universidad Anáhuac México Norte
+                    </p>
                     <p class="text-slate-400 font-medium mt-2">2023 - 2025</p>
                 </div>
                 <div class="bg-slate-900 p-6 rounded-xl shadow-md text-center flex flex-col items-center">
                     <h3 class="text-xl font-semibold text-slate-200 mb-2">Automotive Systems Engineer</h3>
-                    <p class="text-slate-400 mt-1">Instituto Politécnico Nacional</p>
+                    <p class="text-slate-400 mt-1">
+                        <img src="ipn.png" alt="IPN Logo" style="width:48px;height:32px;display:inline-block;vertical-align:middle;margin-right:0.5rem;object-fit:contain;" />
+                        Instituto Politécnico Nacional
+                    </p>
                     <p class="text-slate-400 font-medium mt-2">2013 - 2017</p>
                 </div>
             </div>
         </section>
-        <!-- Interests section below Education -->
         <section id="interests" class="mb-16 md:mb-24">
-            <h2 class="text-4xl font-bold text-slate-200 mb-6 text-center">Interests</h2>
+            <h2 class="text-4xl font-bold text-slate-200 mb-6 text-center"><span class="inline-block align-middle"><svg class="heart-icon" viewBox="0 0 24 24" fill="red" xmlns="http://www.w3.org/2000/svg"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>Interests</h2>
             <p class="text-center text-slate-200 text-lg max-w-3xl mx-auto mb-8">First of all I love music; techno and classic music are my favorites. Enjoy watching movies and playing videogames with my buddies. I spend much of my free time learning new things and exploring creative projects.</p>
-            <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-[#0984c6] p-8 rounded-xl flex flex-col items-center justify-center min-h-[140px]">
-                    <!-- Music Icon -->
-                    <img src="Images for CV/music.svg" alt="Music" style="width:48px;height:48px;filter:invert(1);" />
-                    <p class="font-bold text-white mt-4 text-lg">Music</p>
+            <div class="interest-row">
+                <div class="interest-card anim-1">
+                    <img src="Images for CV/music.svg" alt="Music" />
+                    <p>Music</p>
                 </div>
-                <div class="bg-[#0984c6] p-8 rounded-xl flex flex-col items-center justify-center min-h-[140px]">
-                    <!-- Xbox Icon -->
-                    <img src="Images for CV/xbox.svg" alt="Gaming" style="width:48px;height:48px;filter:invert(1);" />
-                    <p class="font-bold text-white mt-4 text-lg">Gaming</p>
+                <div class="interest-card anim-2">
+                    <img src="Images for CV/xbox.svg" alt="Gaming" />
+                    <p>Gaming</p>
                 </div>
-                <div class="bg-[#0984c6] p-8 rounded-xl flex flex-col items-center justify-center min-h-[140px]">
-                    <!-- Camaron Icon for Photography -->
-                    <img src="Images for CV/camaron.svg" alt="Photography" style="width:48px;height:48px;filter:invert(1);" />
-                    <p class="font-bold text-white mt-4 text-lg">Photography</p>
+                <div class="interest-card anim-3">
+                    <img src="Images for CV/camaron.svg" alt="Photography" />
+                    <p>Photography</p>
                 </div>
-            </div>
-            <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 mt-6" style="overflow: visible;">
-                <div class="bg-[#0984c6] p-8 rounded-xl flex flex-col items-center justify-center min-h-[140px] tenis-block">
-                    <img src="GNZ-Tenis.jfif" alt="Tennis Photo" class="tenis-photo" />
-                    <!-- Tenis Icon -->
-                    <img src="Images for CV/tenis.svg" alt="Tennis" style="width:48px;height:48px;filter:invert(1);" />
-                    <p class="font-bold text-white mt-4 text-lg">Tennis</p>
+                <div class="interest-card anim-4">
+                    <img src="Images for CV/tenis.svg" alt="Tennis" />
+                    <p>Tennis</p>
                 </div>
-                <div class="bg-[#0984c6] p-8 rounded-xl flex flex-col items-center justify-center min-h-[140px]">
-                    <!-- Plane Icon -->
-                    <img src="Images for CV/plane.svg" alt="Traveling" style="width:48px;height:48px;filter:invert(1);" />
-                    <p class="font-bold text-white mt-4 text-lg">Traveling</p>
+                <div class="interest-card anim-5">
+                    <img src="Images for CV/plane.svg" alt="Traveling" />
+                    <p>Traveling</p>
                 </div>
-                <div class="bg-[#0984c6] p-8 rounded-xl flex flex-col items-center justify-center min-h-[140px]">
-                    <!-- Film Icon -->
-                    <img src="Images for CV/film.svg" alt="Movies" style="width:48px;height:48px;filter:invert(1);" />
-                    <p class="font-bold text-white mt-4 text-lg">Movies</p>
+                <div class="interest-card anim-6">
+                    <img src="Images for CV/film.svg" alt="Movies" />
+                    <p>Movies</p>
                 </div>
             </div>
         </section>
@@ -656,61 +735,90 @@
             });
 
             // Chart.js code
-            const ctx = document.getElementById('skillsChart').getContext('2d');
-            const skillsChart = new Chart(ctx, {
-                type: 'bar',
-                data: skillsData,
-                options: {
-                    indexAxis: 'y',
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function (context) {
-                                    let label = context.dataset.label || '';
-                                    if (label) {
-                                        label += ': ';
+            const ctx = document.getElementById('skillsChart') ? document.getElementById('skillsChart').getContext('2d') : null;
+            if (ctx) {
+                const skillsChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: skillsData,
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function (context) {
+                                        let label = context.dataset.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        const details = skillsDetails[context.dataIndex];
+                                        return details ? details.join(', ') : '';
                                     }
-                                    const details = skillsDetails[context.dataIndex];
-                                    return details ? details.join(', ') : '';
-                                }
-                            },
-                            backgroundColor: '#1E293B',
-                            titleFont: { size: 14 },
-                            bodyFont: { size: 12 },
-                            padding: 10,
-                            displayColors: false,
-                        }
-                    },
-                    scales: {
-                        x: {
-                            grid: {
-                                display: false,
-                                drawBorder: false,
-                            },
-                            ticks: {
-                                display: false,
+                                },
+                                backgroundColor: '#1E293B',
+                                titleFont: { size: 14 },
+                                bodyFont: { size: 12 },
+                                padding: 10,
+                                displayColors: false,
                             }
                         },
-                        y: {
-                            grid: {
-                                display: false,
-                                drawBorder: false,
-                            },
-                            ticks: {
-                                font: {
-                                    size: 14,
-                                    weight: '500',
+                        scales: {
+                            x: {
+                                grid: {
+                                    display: false,
+                                    drawBorder: false,
                                 },
-                                color: '#94A3B8'
+                                ticks: {
+                                    display: false,
+                                }
+                            },
+                            y: {
+                                grid: {
+                                    display: false,
+                                    drawBorder: false,
+                                },
+                                ticks: {
+                                    font: {
+                                        size: 14,
+                                        weight: '500',
+                                    },
+                                    color: '#94A3B8'
+                                }
                             }
                         }
                     }
-                }
+                });
+            }
+        });
+        // Profile picture animation for 3 seconds on hover
+        document.addEventListener('DOMContentLoaded', function () {
+            const profilePic = document.querySelector('.profile-pic');
+            let pulseTimeout;
+            if (profilePic) {
+                profilePic.addEventListener('mouseenter', function () {
+                    profilePic.style.animation = 'profile-pulse 520ms ease infinite';
+                    clearTimeout(pulseTimeout);
+                    pulseTimeout = setTimeout(() => {
+                        profilePic.style.animation = '';
+                    }, 3000);
+                });
+                profilePic.addEventListener('mouseleave', function () {
+                    profilePic.style.animation = '';
+                    clearTimeout(pulseTimeout);
+                });
+            }
+            // Interest card selection animation
+            document.querySelectorAll('.interest-card').forEach(card => {
+                card.addEventListener('mouseenter', function () {
+                    card.classList.add('selected');
+                });
+                card.addEventListener('mouseleave', function () {
+                    card.classList.remove('selected');
+                });
             });
         });
     </script>
