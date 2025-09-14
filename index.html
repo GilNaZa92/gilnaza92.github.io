@@ -225,6 +225,22 @@
             60% { transform: scale(0.98) rotate(3deg); }
             100% { transform: scale(1) rotate(0deg); }
         }
+        /* New simple move animation for profile pic hover */
+        @keyframes profile-move-once {
+            0% { transform: translateY(0); }
+            20% { transform: translateY(-6px); }
+            40% { transform: translateY(4px); }
+            60% { transform: translateY(-3px); }
+            80% { transform: translateY(2px); }
+            100% { transform: translateY(0); }
+        }
+        /* Zoom animation (scale up then back) */
+        @keyframes profile-zoom-once {
+            0% { transform: scale(1); }
+            35% { transform: scale(1.08); }
+            60% { transform: scale(1.12); }
+            100% { transform: scale(1); }
+        }
 
         /* Center the interests parent container */
         .interests-parent {
@@ -288,23 +304,126 @@
             width: 1.5em;
             height: 1.5em;
         }
+        .heart-icon--small { width: 1.1em; height: 1.1em; }
+        /* Skill bar hover effects */
+        .skill-bar { position: relative; overflow: hidden; border-radius: 9999px; }
+        .skill-bar .skill-fill { position: relative; z-index:1; transition: width .9s cubic-bezier(.4,0,.2,1), filter .4s, transform .4s; }
+        .skill-bar::after { content:''; position:absolute; inset:0; background:linear-gradient(120deg,rgba(255,255,255,0.15),rgba(255,255,255,0)); opacity:0; transition:opacity .5s; pointer-events:none; }
+        .skill-bar:hover::after { opacity:1; animation: sheen 1s ease; }
+        .skill-bar:hover .skill-fill { filter: brightness(1.25) saturate(1.2); transform: translateY(-1px); }
+        @keyframes sheen { 0% { transform: translateX(-60%); } 100% { transform: translateX(120%); } }
+        /* Zoom effect for each skill row */
+        .skill-item { transition: transform .35s cubic-bezier(.4,0,.2,1), filter .35s; will-change: transform; }
+        .skill-item:hover { transform: scale(1.04); filter: brightness(1.08); }
+        /* Education cards & diploma modal */
+        .education-card { transition: transform .35s ease, box-shadow .4s ease; cursor: pointer; position:relative; }
+        .education-card:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 16px 40px -10px rgba(0,0,0,.55); }
+        #diploma-modal { animation: fadeIn .35s ease; }
+        @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+        #diploma-modal .modal-panel { animation: pop .35s cubic-bezier(.4,0,.2,1); }
+        @keyframes pop { 0% { transform: scale(.92); opacity:0; } 100% { transform: scale(1); opacity:1; } }
+        #diploma-modal iframe { background:#0f172a; }
+        /* Music panel */
+        .music-panel {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translate(-50%, 12px);
+            background: #0f1e33;
+            border: 1px solid #1e293b;
+            padding: 1rem 1.25rem;
+            border-radius: 1rem;
+            width: 260px;
+            box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+            z-index: 20;
+            animation: fadeSlide 0.35s ease;
+        }
+        .music-panel.hidden { display: none; }
+        .music-panel .panel-title { font-size: 0.95rem; letter-spacing: .05em; text-transform: uppercase; color:#93c5fd; margin-bottom: .75rem; font-weight:600; }
+        .artist-list { list-style: none; margin:0; padding:0; display:flex; flex-direction:column; gap:.4rem; }
+        .artist-list li { padding:.45rem .6rem; border-radius:.5rem; cursor:pointer; font-size:.9rem; background:rgba(255,255,255,0.03); color:#e2e8f0; transition: background .25s, transform .25s; position:relative; }
+        .artist-list li:hover { background: #1e3a8a; transform: translateX(4px); }
+        @keyframes fadeSlide { from { opacity:0; transform: translate(-50%,0); } to { opacity:1; transform: translate(-50%,12px);} }
+        @media (max-width:640px){ .music-panel { left:0; transform: translate(0,12px); width: 220px; } }
+    /* Variable table quick panel */
+    #table-panel { animation: fadeIn 0.25s ease; }
+    #table-panel video { cursor:pointer; }
+    #table-panel:hover { border-color: #0ea5e9; }
+    #table-panel h4 { letter-spacing:.05em; }
+    /* Playing zoom effect */
+    .video-zoom-playing { transform: scale(1.05); transition: transform .6s ease; }
+    .video-zoom-playing:hover { transform: scale(1.09); }
+    /* Car wind tunnel sequence */
+    #car-panel { animation: fadeIn 0.25s ease; }
+    #car-panel img { object-fit: cover; }
+    #car-panel img.loaded { opacity:1 !important; }
+    .car-fade { opacity:0; }
+    .car-fade.loaded { opacity:1; }
+        /* Car panel thumbnail expansion */
+        #car-panel .car-thumb-container { position:relative; }
+        #car-panel .car-thumb-container img { 
+            width:160px; /* small preview */
+            height:auto;
+            max-height:110px;
+            object-fit:cover;
+            transition: all .45s ease;
+            cursor:pointer;
+            border-radius:0.5rem;
+            box-shadow:0 0 0 1px rgba(255,255,255,0.05);
+        }
+        #car-panel .car-thumb-container:hover img {
+            width:100%;
+            max-height:none;
+            box-shadow:0 4px 18px -4px rgba(0,0,0,0.6);
+        }
+        /* Center thumbnails and allow figure to expand */
+        #car-panel .flex.flex-col { align-items:center; }
+        #car-panel .car-thumb-container { margin:0 auto; width:auto; transition: width .45s ease; }
+        #car-panel .car-thumb-container:hover { width:100%; }
+        #car-panel .car-thumb-container figcaption { 
+            font-size:10px; 
+            letter-spacing:.05em; 
+            text-transform:uppercase; 
+            background:rgba(15,23,42,0.7);
+            padding:4px 6px; 
+            border-radius:4px; 
+            position:absolute; 
+            top:6px; left:6px;
+        }
+        #car-panel { max-height:80vh; overflow:auto; }
+        /* Portfolio card custom darker blue for visibility in light mode */
+        .portfolio-card-custom {
+            background: linear-gradient(145deg,#0f2744,#133556 55%,#0d1e33);
+            border: 1px solid rgba(59,130,246,0.35);
+            position: relative;
+        }
+        .portfolio-card-custom:hover { border-color:#38bdf8; }
+        .light .portfolio-card-custom {
+            background: linear-gradient(145deg,#1e3a5c,#21476e 55%,#1a3352);
+            border-color: rgba(30,64,175,0.55);
+        }
+        .light .portfolio-card-custom:hover { border-color:#0ea5e9; }
+        .portfolio-card-custom::before {
+            content:"";
+            position:absolute; inset:0; border-radius:0.75rem; pointer-events:none;
+            background:radial-gradient(circle at 28% 22%,rgba(255,255,255,0.08),transparent 60%);
+            opacity:0; transition:opacity .4s ease;
+        }
+        .portfolio-card-custom:hover::before { opacity:1; }
+        /* Fade-in class for smoother initial appearance */
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 0.6s forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
     </style>
 </head>
-<body class="antialiased">
-    <!-- Preloader animation -->
-    <div id="loading" class="animated bounceInDown">
-        <div id="loading-center">
-            <div id="loading-center-absolute">
-                <div class="box-holder animated bounceInDown">
-                    <span class="load-box"><span class="box-inner"></span></span>
-                </div>
-                <div class="text-holder text-center">
-                    <h2>Gil Nava Zaragoza</h2>
-                    <h6>Switch Applications Engineer</h6>
-                </div>
-            </div>
-        </div>
-    </div>
+<body class="antialiased fade-in">
     <header id="header" class="bg-slate-950/80 backdrop-blur-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <h1 class="text-xl md:text-2xl font-bold text-slate-200">Gil Nava Zaragoza</h1>
@@ -314,6 +433,7 @@
                 <li><a href="#skills" class="font-medium text-slate-400 hover:text-white transition-colors">Skills</a></li>
                 <li><a href="#education" class="font-medium text-slate-400 hover:text-white transition-colors">Education</a></li>
                 <li><a href="#interests" class="font-medium text-slate-400 hover:text-white transition-colors">Interests</a></li>
+                <li><a href="#freelancer-portfolio" class="font-medium text-slate-400 hover:text-white transition-colors">FreeLancer Portafolio</a></li>
             </ul>
             <div class="flex items-center gap-3">
                 <button id="theme-toggle" aria-label="Toggle theme" title="Toggle light / dark mode" class="inline-flex">
@@ -334,6 +454,7 @@
             <a href="#skills" class="block py-2 px-4 text-sm text-slate-200 hover:bg-slate-800">Skills</a>
             <a href="#education" class="block py-2 px-4 text-sm text-slate-200 hover:bg-slate-800">Education</a>
             <a href="#interests" class="block py-2 px-4 text-sm text-slate-200 hover:bg-slate-800 flex items-center"><svg class="heart-icon" viewBox="0 0 24 24" fill="red" xmlns="http://www.w3.org/2000/svg"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>Interests</a>
+            <a href="#freelancer-portfolio" class="block py-2 px-4 text-sm text-slate-200 hover:bg-slate-800">FreeLancer Portafolio</a>
             <button id="open-contact-modal-mobile" class="w-full text-left block py-2 px-4 text-sm text-slate-200 hover:bg-slate-800">Contact</button>
         </div>
     </header>
@@ -448,59 +569,177 @@
         <section id="education" class="mb-16 md:mb-24">
             <h2 class="text-3xl md:text-4xl font-bold text-slate-200 mb-8 text-center">
                 <span class="inline-block align-middle" style="margin-right:0.5rem;vertical-align:middle;">
-                    <img src="prom-hat.png" alt="Prom Hat Logo" style="height:48px;width:auto;display:inline-block;vertical-align:middle;" />
+                    <img src="hat.jpg.png" alt="Graduation Hat Logo" style="height:48px;width:auto;display:inline-block;vertical-align:middle;" />
                 </span>
                 Education
             </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                <div class="bg-slate-900 p-6 rounded-xl shadow-md text-center flex flex-col items-center">
-                    <h3 class="text-xl font-semibold text-slate-200 mb-2">Master's Degree, Engineering Business Management</h3>
-                    <p class="text-slate-400 mt-1">
-                        <img src="Anahuac logo.png" alt="Anahuac Logo" style="width:32px;height:32px;display:inline-block;vertical-align:middle;margin-right:0.5rem;" />
-                        Universidad Anáhuac México Norte
-                    </p>
-                    <p class="text-slate-400 font-medium mt-2">2023 - 2025</p>
+                <div id="masters-card" class="education-card bg-slate-900 p-6 rounded-xl shadow-md text-center flex flex-col items-center" tabindex="0">
+                     <h3 class="text-xl font-semibold text-slate-200 mb-2">Master's Degree, Engineering Business Management</h3>
+                     <p class="text-slate-400 mt-1">
+                         <img src="Anahuac logo.png" alt="Anahuac Logo" style="width:32px;height:32px;display:inline-block;vertical-align:middle;margin-right:0.5rem;" />
+                         Universidad Anáhuac México Norte
+                     </p>
+                     <p class="text-slate-400 font-medium mt-2">2023 - 2025</p>
+                 </div>
+                <div id="auto-systems-card" class="education-card bg-slate-900 p-6 rounded-xl shadow-md text-center flex flex-col items-center" tabindex="0" title="View Diploma">
+                     <h3 class="text-xl font-semibold text-slate-200 mb-2">Automotive Systems Engineer</h3>
+                     <p class="text-slate-400 mt-1">
+                         <img src="ipn.png" alt="IPN Logo" style="width:48px;height:32px;display:inline-block;vertical-align:middle;margin-right:0.5rem;object-fit:contain;" />
+                         Instituto Politécnico Nacional
+                     </p>
+                     <p class="text-slate-400 font-medium mt-2">2013 - 2017</p>
+                     <p class="mt-3 text-sm text-sky-400 font-medium animate-pulse select-none pointer-events-none">Click here to show degree</p>
+                 </div>
+             </div>
+         </section>
+        <!-- Diploma Modal -->
+        <div id="diploma-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden z-50 flex justify-center items-center p-4" aria-modal="true" role="dialog" aria-labelledby="diploma-title">
+            <div class="modal-panel bg-slate-900 p-6 rounded-xl shadow-lg relative max-w-3xl w-full border border-slate-800">
+                <button id="close-diploma" class="absolute top-4 right-4 text-slate-400 hover:text-slate-200 transition-colors" aria-label="Close diploma viewer">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+                <h3 id="diploma-title" class="text-2xl font-bold text-slate-200 mb-4 text-center">Automotive Systems Engineer Diploma</h3>
+                <div class="w-full h-[70vh]">
+                    <iframe id="diploma-frame" class="w-full h-full rounded-lg" title="Diploma PDF" loading="lazy" frameborder="0"></iframe>
                 </div>
-                <div class="bg-slate-900 p-6 rounded-xl shadow-md text-center flex flex-col items-center">
-                    <h3 class="text-xl font-semibold text-slate-200 mb-2">Automotive Systems Engineer</h3>
-                    <p class="text-slate-400 mt-1">
-                        <img src="ipn.png" alt="IPN Logo" style="width:48px;height:32px;display:inline-block;vertical-align:middle;margin-right:0.5rem;object-fit:contain;" />
-                        Instituto Politécnico Nacional
-                    </p>
-                    <p class="text-slate-400 font-medium mt-2">2013 - 2017</p>
-                </div>
+                <p class="text-xs text-slate-500 mt-2 text-center">If the PDF does not display, <a id="diploma-direct" href="GNZ_ Automotive Engineering_Title_Diploma.pdf" target="_blank" class="text-sky-400 underline">open it in a new tab</a>.</p>
             </div>
-        </section>
+        </div>
         <section id="interests" class="mb-16 md:mb-24">
-            <h2 class="text-4xl font-bold text-slate-200 mb-6 text-center"><span class="inline-block align-middle"><svg class="heart-icon" viewBox="0 0 24 24" fill="red" xmlns="http://www.w3.org/2000/svg"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>Interests</h2>
+            <h2 class="text-4xl font-bold text-slate-200 mb-6 text-center"><span class="inline-block align-middle"><svg class="heart-icon heart-icon--small" viewBox="0 0 24 24" fill="red" xmlns="http://www.w3.org/2000/svg" aria-label="Heart icon"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>Interests</h2>
             <p class="text-center text-slate-200 text-lg max-w-3xl mx-auto mb-8">First of all I love music; techno and classic music are my favorites. Enjoy watching movies and playing videogames with my buddies. I spend much of my free time learning new things and exploring creative projects.</p>
             <div class="interest-row">
-                <div class="interest-card anim-1">
-                    <img src="Images for CV/music.svg" alt="Music" />
-                    <p>Music</p>
+                <div class="interest-action-block">
+                    <div class="interest-card anim-1" id="music-card">
+                        <img src="Images for CV/music.svg" alt="Music" />
+                        <p>Music</p>
+                        <div id="music-panel" class="music-panel hidden">
+                            <h4 class="panel-title">Favorite Artists</h4>
+                            <ul class="artist-list">
+                                <li data-artist="beatles">The Beatles</li>
+                                <li data-artist="beegees">Bee Gees</li>
+                                <li data-artist="drake">Drake</li>
+                                <li data-artist="marco">Marco Antonio Solís</li>
+                                <li data-artist="weeknd">The Weeknd</li>
+                                <li data-artist="postmalone">Post Malone</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-                <div class="interest-card anim-2">
-                    <img src="Images for CV/xbox.svg" alt="Gaming" />
-                    <p>Gaming</p>
+                <div class="interest-action-block">
+                    <div class="interest-card anim-2">
+                        <img src="Images for CV/xbox.svg" alt="Gaming" />
+                        <p>Gaming</p>
+                    </div>
                 </div>
-                <div class="interest-card anim-3">
-                    <img src="Images for CV/camaron.svg" alt="Photography" />
-                    <p>Photography</p>
+                <div class="interest-action-block">
+                    <div class="interest-card anim-3">
+                        <img src="Images for CV/camaron.svg" alt="Photography" />
+                        <p>Photography</p>
+                    </div>
                 </div>
-                <div class="interest-card anim-4">
-                    <img src="Images for CV/tenis.svg" alt="Tennis" />
-                    <p>Tennis</p>
+                <div class="interest-action-block">
+                    <div class="interest-card anim-4">
+                        <img src="Images for CV/tenis.svg" alt="Tennis" />
+                        <p>Tennis</p>
+                    </div>
                 </div>
-                <div class="interest-card anim-5">
-                    <img src="Images for CV/plane.svg" alt="Traveling" />
-                    <p>Traveling</p>
+                <div class="interest-action-block">
+                    <div class="interest-card anim-5">
+                        <img src="Images for CV/plane.svg" alt="Traveling" />
+                        <p>Traveling</p>
+                    </div>
                 </div>
-                <div class="interest-card anim-6">
-                    <img src="Images for CV/film.svg" alt="Movies" />
-                    <p>Movies</p>
+                <div class="interest-action-block">
+                    <div class="interest-card anim-6">
+                        <img src="Images for CV/film.svg" alt="Movies" />
+                        <p>Movies</p>
+                    </div>
                 </div>
             </div>
         </section>
+        <section id="freelancer-portfolio" class="mb-16 md:mb-24">
+            <h2 class="text-3xl md:text-4xl font-bold text-slate-200 mb-8 text-center">FreeLancer Portafolio</h2>
+            <div class="max-w-5xl mx-auto grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                <div class="group relative portfolio-card-custom rounded-xl p-5 transition-colors cursor-pointer portfolio-card" data-portfolio="motorcycle">
+                    <h3 class="text-lg font-semibold text-slate-100 mb-2">Concept design of a motorcycle</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Conceptual CAD assembly modeling and visualization of a custom bike. Click to preview renders.</p>
+                    <span class="inline-block mt-3 text-xs tracking-wide text-sky-400/80">CATIA • CAD • Visualization</span>
+                    <div class="absolute inset-0 rounded-xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-br from-sky-500/10 to-transparent"></div>
+                </div>
+                <div id="variable-table-card" class="group relative portfolio-card-custom rounded-xl p-5 transition-colors cursor-pointer">
+                    <h3 class="text-lg font-semibold text-slate-100 mb-2">Variable height table</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Adjustable elevation table concept. Hover to preview assets, click to play video. Includes mechanical drawing PDF.</p>
+                    <span class="inline-block mt-3 text-xs tracking-wide text-sky-400/80">Mechanism • CAD • Prototype</span>
+                    <div class="absolute inset-0 rounded-xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-br from-sky-500/10 to-transparent"></div>
+                    <!-- Hover panel -->
+                    <div id="table-panel" class="hidden absolute left-1/2 top-full mt-3 w-[380px] -translate-x-1/2 bg-slate-900/95 border border-slate-700 rounded-xl shadow-lg p-4 z-30">
+                        <h4 class="text-xs font-semibold uppercase tracking-wide text-sky-400 mb-2">Quick View</h4>
+                        <div class="space-y-3">
+                            <div class="aspect-video w-full bg-slate-800/60 rounded-lg flex items-center justify-center overflow-hidden">
+                                <video id="table-video" class="w-full h-full object-cover" preload="none" controlslist="nodownload" tabindex="-1" muted>
+                                    <source data-src="Mesa.mp4" type="video/mp4" />
+                                    Your browser does not support HTML5 video.
+                                </video>
+                            </div>
+                            <div class="w-full h-40 bg-slate-800/40 rounded-lg overflow-hidden relative">
+                                <iframe id="table-pdf-frame" class="w-full h-full" title="Variable height table drawings" loading="lazy"></iframe>
+                                <div class="absolute inset-0 flex items-center justify-center text-xs text-slate-400" id="table-pdf-loading">Loading PDF...</div>
+                            </div>
+                            <a id="table-pdf-link" href="Planos mesa elevadora.pdf" target="_blank" class="block text-center text-xs text-sky-400 underline">Open drawings in new tab</a>
+                            <p class="text-[10px] text-slate-500 text-center">Hover shows preview. Click card or video to play.</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="car-windtunnel-card" class="group relative portfolio-card-custom rounded-xl p-5 transition-colors cursor-pointer">
+                    <h3 class="text-lg font-semibold text-slate-100 mb-2">Concept car wind tunnel testing - Fluent - Ansys</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Aerodynamic surface modeling and CFD (ANSYS Fluent) flow visualization. Hover to preview sequence.</p>
+                    <span class="inline-block mt-3 text-xs tracking-wide text-sky-400/80">Surface Modeling • CFD • ANSYS</span>
+                    <div class="absolute inset-0 rounded-xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-br from-sky-500/10 to-transparent"></div>
+                    <!-- Hover sequence panel -->
+                    <div id="car-panel" class="hidden absolute left-1/2 top-full mt-3 w-[720px] max-w-[90vw] -translate-x-1/2 bg-slate-900/95 border border-slate-700 rounded-xl shadow-lg p-5 z-30">
+                        <h4 class="text-xs font-semibold uppercase tracking-wide text-sky-400 mb-4">CFD Assets (Original Size Preview)</h4>
+                        <div class="flex flex-col gap-5">
+                            <figure class="car-thumb-container">
+                                <img data-car-img="0" src="" alt="Car surface model" class="opacity-0 transition-all duration-500 ease-out" />
+                                <figcaption>Surface</figcaption>
+                            </figure>
+                            <figure class="car-thumb-container">
+                                <img data-car-img="1" src="" alt="Car with wheels integrated" class="opacity-0 transition-all duration-500 ease-out" />
+                                <figcaption>Wheels</figcaption>
+                            </figure>
+                            <figure class="car-thumb-container">
+                                <img data-car-img="2" src="" alt="CFD result" class="opacity-0 transition-all duration-500 ease-out" />
+                                <figcaption>CFD</figcaption>
+                            </figure>
+                        </div>
+                        <p class="mt-4 text-[11px] text-slate-400 text-center">Hover an image to expand to original size; others remain as thumbnails.</p>
+                    </div>
+                </div>
+            </div>
+            
+        </section>
+        <!-- Portfolio Image Modal -->
+        <div id="portfolio-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-sm hidden z-50 flex justify-center items-center p-4" role="dialog" aria-modal="true" aria-labelledby="portfolio-modal-title">
+            <div class="relative bg-slate-900 border border-slate-800 rounded-xl shadow-xl max-w-5xl w-full p-6 flex flex-col gap-4">
+                <button id="close-portfolio" class="absolute top-4 right-4 text-slate-400 hover:text-slate-200" aria-label="Close image viewer">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+                <h3 id="portfolio-modal-title" class="text-2xl font-bold text-slate-200 text-center">Concept design of a motorcycle</h3>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <figure class="bg-slate-800/40 rounded-lg overflow-hidden border border-slate-700">
+                        <img src="Moto1.jpg" alt="Motorcycle CAD front view" class="w-full h-full object-cover" loading="lazy" />
+                        <figcaption class="text-xs text-slate-400 p-2 text-center">Front view render</figcaption>
+                    </figure>
+                    <figure class="bg-slate-800/40 rounded-lg overflow-hidden border border-slate-700">
+                        <img src="Moto2.jpg" alt="Motorcycle CAD perspective view" class="w-full h-full object-cover" loading="lazy" />
+                        <figcaption class="text-xs text-slate-400 p-2 text-center">Perspective view render</figcaption>
+                    </figure>
+                </div>
+                <p class="text-xs text-slate-500 text-center">Images: Concept assembly modeling (CATIA V5).</p>
+            </div>
+        </div>
     </main>
     <!-- Modal for Contact Information -->
     <div id="contact-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden z-50 flex justify-center items-center p-4">
@@ -542,16 +781,6 @@
         </div>
     </footer>
     <script>
-        // Preloader: remove after all resources loaded
-        window.addEventListener('load', () => {
-            const loading = document.getElementById('loading');
-            if (!loading) return;
-            loading.classList.remove('bounceInDown');
-            loading.classList.add('fadeOut');
-            setTimeout(() => {
-                loading.remove();
-            }, 600);
-        });
         const experienceData = [
             {
                 id: 'ford-switches',
@@ -559,10 +788,12 @@
                 role: 'Switches Applications Engineer',
                 period: 'November 2023 - Present',
                 details: [
-                    'Led five vehicle line launches, improving on-time quality delivery by 25%.',
-                    'Reduced production costs by over $2.5 million annually through complexity reduction initiatives.',
-                    'Presented strategic analyses to senior management to mitigate production issues.',
-                    'Led new model vehicle launches in Ohio and Kentucky.'
+                    'Manage five vehicle line projects, resolving issues related to switch application systems across current and new models, improving on-time quality delivery by 25%.',
+                    'Develop and implement cost and complexity reduction initiatives for switches, increasing assembly line efficiency and saving over $2.5M per year during production phases.',
+                    'Generate and present ICA/PCA alternative matrix analyses to senior management, strategically mitigating body interior switch-related build stoppages.',
+                    'Lead the 25MY new model launch at the Ohio and Kentucky Truck Assembly Plants (8 months in Louisville, KY; 4 months in Cleveland, OH).',
+                    'Direct cross-functional body interior assessments (Appearance Approval, Blue Tag, and Studio reviews), ensuring cockpit and interior harmony and compliance.',
+                    'Audit bill of materials (BOM) and manage change control to maintain product accuracy and compliance.'
                 ]
             },
             {
@@ -571,9 +802,13 @@
                 role: 'Steering Applications Engineer',
                 period: 'November 2022 - November 2023',
                 details: [
-                    'Collaborated with teams in North America and Europe to validate Electric Power Assisted Steering (EPAS) systems.',
-                    'Monitored warranties and designed solutions to prevent recurring issues.',
-                    'Identified cost-saving opportunities and coordinated design changes with key suppliers.'
+                    'Collaborate with counterparts in Ford North America and Ford of Europe to validate, launch, and maintain Electric Power Assisted Steering (EPAS) systems, including steering column, intermediate shaft, floor seal, gear & linkage assembly, and heat shield.',
+                    'Monitor warranty performance of steering components, driving design improvements to resolve issues and prevent recurrence.',
+                    'Identify cost-saving opportunities within components and implement more efficient solutions in partnership with suppliers (Bosch, ZF, Thyssenkrupp).',
+                    'Coordinate bill of materials (BOM) and change control for delegated parts, ensuring accuracy and compliance.',
+                    'Analyze the impact of proposed design and production changes on system performance and compliance with engineering standards.',
+                    'Contribute to the successful implementation of EPAS running change screws in current vehicle production at the Hermosillo Stamping & Assembly Plant (4 months supporting new model launches).',
+                    'Develop innovation disclosures to enhance current product designs.'
                 ]
             },
             {
@@ -582,8 +817,10 @@
                 role: 'Powertrain Controls Engineer',
                 period: 'June 2021 - November 2022',
                 details: [
-                    'Integrated software calibrations for both internal combustion and electric vehicle propulsion systems, ensuring compliance with global emissions standards.',
-                    'Reduced calibration time by 25% by designing and implementing Python-based GUIs.'
+                    'Integrate sub-system calibrations for high-performance ICE and EV propulsion software, ensuring compliance with global emissions standards for Ford and Lincoln vehicles.',
+                    'Support and develop powertrain calibrations for ECU-controlled actuators and sensors (PCM, TCM, DLCM) using Candela Studio and CANape Vector tools.',
+                    'Optimize the calibration process by designing and implementing Python-based GUIs, reducing calibration time by 25%.',
+                    'Manage and maintain project tools to support collaborative data analysis initiatives.'
                 ]
             },
             {
@@ -592,8 +829,11 @@
                 role: 'Infotainment and Connectivity Engineer',
                 period: 'May 2018 - October 2020',
                 details: [
-                    'Verified the connectivity of multiple ECUs based on Ford\'s global specifications.',
-                    'Identified and tracked software bugs for the Ford Pass app and infotainment systems.'
+                    'Verify connectivity of multiple ECUs (TCU, IPC, SYNC, APIM, BCM) in alignment with Ford and Lincoln electronic architectures and global specifications.',
+                    'Identify software defects for the FordPass app through root cause analysis and defect classification.',
+                    'Validate, report, and track infotainment software bugs with suppliers using communication protocols (CAN, CAN FD, Ethernet, LIN, HS, MS).',
+                    'Assess software engineering changes resulting from issues found in prior authentication rounds.',
+                    'Support and mentor junior engineers through training and technical guidance.'
                 ]
             },
             {
@@ -602,8 +842,11 @@
                 role: 'EPS Design and Release Engineer',
                 period: 'October 2020 - June 2021',
                 details: [
-                    'Led software readiness for Electronic Power Steering (EPS), coordinating with suppliers to ensure high-quality software updates.',
-                    'Assisted with EPS module calibration and prototype vehicle launches.'
+                    'Lead Electronic Power Steering (EPS) software readiness, coordinating with suppliers and product engineers to ensure quality in software releases, flashing processes, material traceability, updates, and calibrations.',
+                    'Develop, analyze, and validate DVP&R (Design Verification Plan & Report) in collaboration with steering suppliers (ZF, Nexteer).',
+                    'Support End-of-Line and Vehicle Dynamics teams with EPS module calibration.',
+                    'Provide chassis engineering support during prototype pilot launches at the Saltillo Van Assembly Plant, implementing ICA/PCA solutions for steering and chassis issues on RAM ProMaster ICE/EV (2023) and RAM 1500/2500 (2023).',
+                    'Audit and update Bill of Materials (BOM) to reflect engineering changes (DCR / TVM / SQ), ensuring correct part levels and usage.'
                 ]
             }
         ];
@@ -800,15 +1043,17 @@
             let pulseTimeout;
             if (profilePic) {
                 profilePic.addEventListener('mouseenter', function () {
-                    profilePic.style.animation = 'profile-pulse 520ms ease infinite';
-                    clearTimeout(pulseTimeout);
-                    pulseTimeout = setTimeout(() => {
-                        profilePic.style.animation = '';
-                    }, 3000);
+                    // Apply one-time 2s zoom animation
+                    profilePic.style.animation = 'profile-zoom-once 2s ease';
                 });
                 profilePic.addEventListener('mouseleave', function () {
+                    // If user leaves early, reset to normal
                     profilePic.style.animation = '';
-                    clearTimeout(pulseTimeout);
+                });
+                profilePic.addEventListener('animationend', function(e){
+                    if(e.animationName === 'profile-zoom-once') {
+                        profilePic.style.animation = '';
+                    }
                 });
             }
             // Interest card selection animation
@@ -820,7 +1065,283 @@
                     card.classList.remove('selected');
                 });
             });
-        });
+
+            // Music panel + audio preview logic
+            const musicCard = document.getElementById('music-card');
+            const musicPanel = document.getElementById('music-panel');
+            let panelHover = false;
+            if (musicCard && musicPanel) {
+                const showPanel = () => { musicPanel.classList.remove('hidden'); };
+                const hidePanel = () => { if(!panelHover) musicPanel.classList.add('hidden'); };
+                musicCard.addEventListener('mouseenter', showPanel);
+                musicCard.addEventListener('mouseleave', () => setTimeout(hidePanel,150));
+                musicPanel.addEventListener('mouseenter', ()=> { panelHover = true; });
+                musicPanel.addEventListener('mouseleave', ()=> { panelHover = false; musicPanel.classList.add('hidden'); stopAllAudio(); });
+            }
+
+            // Create audio map (placeholders). Replace src with your own short fair-use or licensed clips.
+            const artistAudioSources = {
+                beatles: 'audio/beatles.mp3',
+                beegees: 'audio/beegees.mp3',
+                drake: 'audio/drake.mp3',
+                marco: 'audio/marco.mp3',
+                weeknd: 'audio/weeknd.mp3',
+                postmalone: 'audio/postmalone.mp3'
+            };
+            const audioElements = {};
+            Object.entries(artistAudioSources).forEach(([key, src]) => {
+                const a = document.createElement('audio');
+                a.src = src; // Provide small (<=10s) clip.
+                a.preload = 'none';
+                audioElements[key] = a;
+                document.body.appendChild(a);
+            });
+            function stopAllAudio(){
+                Object.values(audioElements).forEach(a=>{ a.pause(); a.currentTime = 0; });
+            }
+            const artistList = document.querySelectorAll('#music-panel .artist-list li');
+            artistList.forEach(item => {
+                 const key = item.getAttribute('data-artist');
+                 item.addEventListener('mouseenter', () => {
+                     stopAllAudio();
+                     const audio = audioElements[key];
+                     if (audio) { audio.play().catch(()=>{}); }
+                 });
+                 item.addEventListener('mouseleave', () => {
+                     const audio = audioElements[key];
+                     if (audio) { audio.pause(); audio.currentTime = 0; }
+                 });
+                 item.addEventListener('click', () => {
+                     // Toggle play/pause on click for accessibility
+                     const audio = audioElements[key];
+                     if(audio){
+                         if(audio.paused){ stopAllAudio(); audio.play().catch(()=>{}); }
+                         else { audio.pause(); audio.currentTime = 0; }
+                     }
+                 });
+             });
+
+             // Enhance skill bars: tag structure for hover effects
+             document.querySelectorAll('#skills .w-full.bg-slate-800.rounded-full.h-2').forEach(wrapper => {
+                 wrapper.classList.add('skill-bar');
+                 const fill = wrapper.querySelector('div');
+                 if (fill) fill.classList.add('skill-fill');
+                 // Per-bar zoom: use the direct parent that contains the label and this bar (wrapper's parent)
+                 const row = wrapper.parentElement; // immediate parent holds label/time pair
+                 if (row && !row.classList.contains('skill-item')) {
+                     row.classList.add('skill-item');
+                 }
+             });
+            
+            // Diploma modal logic
+            const diplomaModal = document.getElementById('diploma-modal');
+            const diplomaFrame = document.getElementById('diploma-frame');
+            const closeDiploma = document.getElementById('close-diploma');
+            const autoCard = document.getElementById('auto-systems-card');
+            const directLink = document.getElementById('diploma-direct');
+            let diplomaLoaded = false;
+            function loadDiplomaIfNeeded(){
+                if(!diplomaLoaded){
+                    const pdfPath = 'GNZ_ Automotive Engineering_Title_Diploma.pdf';
+                    diplomaFrame.src = encodeURI(pdfPath);
+                    directLink.href = encodeURI(pdfPath);
+                    diplomaLoaded = true;
+                }
+            }
+            function openDiploma(){
+                if(!diplomaModal) return;
+                loadDiplomaIfNeeded();
+                diplomaModal.classList.remove('hidden');
+                closeDiploma.focus();
+            }
+            function closeDiplomaModal(){
+                if(!diplomaModal) return;
+                diplomaModal.classList.add('hidden');
+                autoCard && autoCard.focus();
+            }
+            function toggleDiploma(){
+                if(!diplomaModal) return;
+                if(diplomaModal.classList.contains('hidden')) openDiploma(); else closeDiplomaModal();
+            }
+            if(autoCard){
+                autoCard.addEventListener('click', (e)=>{ e.preventDefault(); toggleDiploma(); });
+                autoCard.addEventListener('keydown', (e)=>{
+                    if(e.key === 'Enter' || e.key === ' '){
+                        e.preventDefault();
+                        toggleDiploma();
+                    }
+                });
+            }
+            if(closeDiploma){
+                closeDiploma.addEventListener('click', (e)=>{ e.preventDefault(); closeDiplomaModal(); });
+            }
+            if(diplomaModal){
+                diplomaModal.addEventListener('click', (e)=> { if(e.target.id === 'diploma-modal') closeDiplomaModal(); });
+            }
+            document.addEventListener('keydown', (e)=> { if(e.key === 'Escape' && !diplomaModal.classList.contains('hidden')) closeDiplomaModal(); });
+
+            // Portfolio modal logic (motorcycle concept images)
+            const portfolioModal = document.getElementById('portfolio-modal');
+            const closePortfolio = document.getElementById('close-portfolio');
+            const portfolioCards = document.querySelectorAll('.portfolio-card');
+            let lastFocusedEl = null;
+            function openPortfolio(){
+                if(!portfolioModal) return;
+                lastFocusedEl = document.activeElement;
+                portfolioModal.classList.remove('hidden');
+                closePortfolio && closePortfolio.focus();
+            }
+            function closePortfolioModal(){
+                if(!portfolioModal) return;
+                portfolioModal.classList.add('hidden');
+                if(lastFocusedEl) lastFocusedEl.focus();
+            }
+            portfolioCards.forEach(card => {
+                card.setAttribute('tabindex','0');
+                card.addEventListener('click', openPortfolio);
+                card.addEventListener('keydown', (e)=>{
+                    if(e.key === 'Enter' || e.key === ' '){
+                        e.preventDefault();
+                        openPortfolio();
+                    }
+                });
+            });
+            if(closePortfolio){
+                closePortfolio.addEventListener('click', (e)=>{ e.preventDefault(); closePortfolioModal(); });
+            }
+            if(portfolioModal){
+                portfolioModal.addEventListener('click', (e)=> { if(e.target.id === 'portfolio-modal') closePortfolioModal(); });
+            }
+            document.addEventListener('keydown', (e)=> { if(e.key === 'Escape' && portfolioModal && !portfolioModal.classList.contains('hidden')) closePortfolioModal(); });
+
+            // Variable height table hover panel logic
+            const tableCard = document.getElementById('variable-table-card');
+            const tablePanel = document.getElementById('table-panel');
+            const tableVideo = document.getElementById('table-video');
+            const tablePdfFrame = document.getElementById('table-pdf-frame');
+            const tablePdfLoading = document.getElementById('table-pdf-loading');
+            let tablePanelHover = false;
+            let tableAssetsLoaded = false;
+            function loadTableAssets(){
+                if(tableAssetsLoaded) return;
+                // Set video source
+                const source = tableVideo?.querySelector('source[data-src]');
+                if(source && !source.src){
+                    source.src = 'Mesa.mp4';
+                    tableVideo.load();
+                }
+                // Load PDF
+                if(tablePdfFrame && !tablePdfFrame.src){
+                    tablePdfFrame.src = encodeURI('Planos mesa elevadora.pdf');
+                }
+                tableAssetsLoaded = true;
+            }
+            function showTablePanel(){
+                if(!tablePanel) return;
+                tablePanel.classList.remove('hidden');
+                loadTableAssets();
+                // Remove loading overlay when iframe loads
+                if(tablePdfFrame){
+                    tablePdfFrame.addEventListener('load', ()=> { if(tablePdfLoading) tablePdfLoading.style.display='none'; }, { once:true });
+                }
+            }
+            function hideTablePanel(){
+                if(!tablePanel) return;
+                tablePanel.classList.add('hidden');
+                if(tableVideo){ tableVideo.pause(); }
+            }
+            if(tableCard && tablePanel){
+                tableCard.addEventListener('mouseenter', ()=>{ showTablePanel(); });
+                tableCard.addEventListener('mouseleave', ()=>{ setTimeout(()=>{ if(!tablePanelHover) hideTablePanel(); }, 120); });
+                tablePanel.addEventListener('mouseenter', ()=>{ tablePanelHover = true; });
+                tablePanel.addEventListener('mouseleave', ()=>{ tablePanelHover = false; hideTablePanel(); });
+                // Click to play / toggle video
+                tableCard.addEventListener('click', ()=> {
+                    showTablePanel();
+                    if(tableVideo){
+                        if(tableVideo.paused){
+                            try {
+                                if(tableVideo.currentTime < 5) tableVideo.currentTime = 5; // seek to 5s
+                            } catch(_){}
+                            tableVideo.play().then(()=>{ tableVideo.classList.add('video-zoom-playing'); }).catch(()=>{});
+                        } else {
+                            tableVideo.pause();
+                        }
+                    }
+
+                    // Car wind tunnel sequence logic
+                    const carCard = document.getElementById('car-windtunnel-card');
+                    const carPanel = document.getElementById('car-panel');
+                    const carImages = carPanel ? carPanel.querySelectorAll('img[data-car-img]') : [];
+                    const carSources = [
+                        { src: 'Car surface.jpg', alt: 'Car surface model (surface CAD)' },
+                        { src: 'wheels car.png', alt: 'Car with wheels integrated' },
+                        { src: 'ansys_wt.png', alt: 'ANSYS Fluent wind tunnel CFD result' }
+                    ];
+                    let carLoaded = false;
+                    function loadAllCarImages(){
+                        if(carLoaded) return;
+                        carImages.forEach((img, i)=>{
+                            const data = carSources[i];
+                            if(!data) return;
+                            const encoded = encodeURI(data.src);
+                            const temp = new Image();
+                            temp.onload = () => {
+                                img.src = encoded;
+                                img.alt = data.alt;
+                                img.classList.remove('opacity-0');
+                                img.classList.add('loaded');
+                            };
+                            temp.onerror = () => {
+                                img.alt = 'Image not found';
+                            };
+                            temp.src = encoded;
+                        });
+                        carLoaded = true;
+                    }
+                    function showCarPanel(){
+                        if(!carPanel) return;
+                        carPanel.classList.remove('hidden');
+                        loadAllCarImages();
+                    }
+                    function hideCarPanel(){
+                        if(!carPanel) return;
+                        carPanel.classList.add('hidden');
+                    }
+                    if(carCard && carPanel){
+                        carCard.addEventListener('mouseenter', showCarPanel);
+                        carCard.addEventListener('mouseleave', ()=> setTimeout(()=>{ if(!carCard.matches(':hover')) hideCarPanel(); }, 120));
+                        carCard.setAttribute('tabindex','0');
+                        carCard.addEventListener('focus', showCarPanel);
+                        carCard.addEventListener('blur', hideCarPanel);
+                        carCard.addEventListener('keydown', (e)=>{
+                            if(e.key === 'Enter' || e.key === ' '){
+                                e.preventDefault();
+                                if(carPanel.classList.contains('hidden')) showCarPanel(); else hideCarPanel();
+                            }
+                        });
+                    }
+                });
+                // Keyboard accessibility
+                tableCard.setAttribute('tabindex','0');
+                tableCard.addEventListener('keydown', (e)=>{
+                    if(e.key === 'Enter' || e.key === ' '){
+                        e.preventDefault();
+                        showTablePanel();
+                        if(tableVideo){
+                            if(tableVideo.paused){
+                                try { if(tableVideo.currentTime < 5) tableVideo.currentTime = 5; } catch(_){}
+                                tableVideo.play().then(()=>{ tableVideo.classList.add('video-zoom-playing'); }).catch(()=>{});
+                            } else { tableVideo.pause(); }
+                        }
+                    }
+                });
+                if(tableVideo){
+                    tableVideo.addEventListener('pause', ()=>{ tableVideo.classList.remove('video-zoom-playing'); });
+                    tableVideo.addEventListener('ended', ()=>{ tableVideo.classList.remove('video-zoom-playing'); });
+                }
+            }
+         });
     </script>
 </body>
 </html>
