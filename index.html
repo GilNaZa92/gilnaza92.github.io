@@ -338,6 +338,8 @@
             z-index: 20;
             animation: fadeSlide 0.35s ease;
         }
+        /* When detached to body for collision avoidance */
+        .music-panel.detached { position:absolute; top:auto; left:0; transform:none; width:260px; animation: fadeSlide 0.25s ease; }
         .music-panel.hidden { display: none; }
         .music-panel .panel-title { font-size: 0.95rem; letter-spacing: .05em; text-transform: uppercase; color:#93c5fd; margin-bottom: .75rem; font-weight:600; }
         .artist-list { list-style: none; margin:0; padding:0; display:flex; flex-direction:column; gap:.4rem; }
@@ -353,44 +355,6 @@
     /* Playing zoom effect */
     .video-zoom-playing { transform: scale(1.05); transition: transform .6s ease; }
     .video-zoom-playing:hover { transform: scale(1.09); }
-    /* Car wind tunnel sequence */
-    #car-panel { animation: fadeIn 0.25s ease; }
-    #car-panel img { object-fit: cover; }
-    #car-panel img.loaded { opacity:1 !important; }
-    .car-fade { opacity:0; }
-    .car-fade.loaded { opacity:1; }
-        /* Car panel thumbnail expansion */
-        #car-panel .car-thumb-container { position:relative; }
-        #car-panel .car-thumb-container img { 
-            width:160px; /* small preview */
-            height:auto;
-            max-height:110px;
-            object-fit:cover;
-            transition: all .45s ease;
-            cursor:pointer;
-            border-radius:0.5rem;
-            box-shadow:0 0 0 1px rgba(255,255,255,0.05);
-        }
-        #car-panel .car-thumb-container:hover img {
-            width:100%;
-            max-height:none;
-            box-shadow:0 4px 18px -4px rgba(0,0,0,0.6);
-        }
-        /* Center thumbnails and allow figure to expand */
-        #car-panel .flex.flex-col { align-items:center; }
-        #car-panel .car-thumb-container { margin:0 auto; width:auto; transition: width .45s ease; }
-        #car-panel .car-thumb-container:hover { width:100%; }
-        #car-panel .car-thumb-container figcaption { 
-            font-size:10px; 
-            letter-spacing:.05em; 
-            text-transform:uppercase; 
-            background:rgba(15,23,42,0.7);
-            padding:4px 6px; 
-            border-radius:4px; 
-            position:absolute; 
-            top:6px; left:6px;
-        }
-        #car-panel { max-height:80vh; overflow:auto; }
         /* Portfolio card custom darker blue for visibility in light mode */
         .portfolio-card-custom {
             background: linear-gradient(145deg,#0f2744,#133556 55%,#0d1e33);
@@ -434,6 +398,7 @@
                 <li><a href="#education" class="font-medium text-slate-400 hover:text-white transition-colors">Education</a></li>
                 <li><a href="#interests" class="font-medium text-slate-400 hover:text-white transition-colors">Interests</a></li>
                 <li><a href="#freelancer-portfolio" class="font-medium text-slate-400 hover:text-white transition-colors">FreeLancer Portafolio</a></li>
+                <li><a href="#certifications-section" class="font-medium text-slate-400 hover:text-white transition-colors">Certifications</a></li>
             </ul>
             <div class="flex items-center gap-3">
                 <button id="theme-toggle" aria-label="Toggle theme" title="Toggle light / dark mode" class="inline-flex">
@@ -455,6 +420,7 @@
             <a href="#education" class="block py-2 px-4 text-sm text-slate-200 hover:bg-slate-800">Education</a>
             <a href="#interests" class="block py-2 px-4 text-sm text-slate-200 hover:bg-slate-800 flex items-center"><svg class="heart-icon" viewBox="0 0 24 24" fill="red" xmlns="http://www.w3.org/2000/svg"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>Interests</a>
             <a href="#freelancer-portfolio" class="block py-2 px-4 text-sm text-slate-200 hover:bg-slate-800">FreeLancer Portafolio</a>
+            <a href="#certifications-section" class="block py-2 px-4 text-sm text-slate-200 hover:bg-slate-800">Certifications</a>
             <button id="open-contact-modal-mobile" class="w-full text-left block py-2 px-4 text-sm text-slate-200 hover:bg-slate-800">Contact</button>
         </div>
     </header>
@@ -628,15 +594,57 @@
                     </div>
                 </div>
                 <div class="interest-action-block">
-                    <div class="interest-card anim-2">
+                    <div class="interest-card anim-2" id="gaming-card">
                         <img src="Images for CV/xbox.svg" alt="Gaming" />
                         <p>Gaming</p>
+                        <div id="gaming-panel" class="music-panel hidden">
+                            <h4 class="panel-title">Favorite Games</h4>
+                            <div class="space-y-4 text-slate-200 text-sm">
+                                <div>
+                                    <p class="uppercase tracking-wide text-[11px] text-sky-400 font-semibold mb-1">Xbox</p>
+                                    <ul class="artist-list">
+                                        <li>Halo</li>
+                                        <li>Gears of War</li>
+                                        <li>Crash Bandicoot</li>
+                                        <li>GTA V</li>
+                                        <li>Warzone</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <p class="uppercase tracking-wide text-[11px] text-sky-400 font-semibold mb-1">Nintendo</p>
+                                    <ul class="artist-list">
+                                        <li>Super Smash Bros. Ultimate</li>
+                                        <li>Mario Party</li>
+                                        <li>Mario Kart</li>
+                                        <li>The Legend of Zelda</li>
+                                        <li>Pokémon</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="interest-action-block">
-                    <div class="interest-card anim-3">
+                    <div class="interest-card anim-3" id="photography-card">
                         <img src="Images for CV/camaron.svg" alt="Photography" />
                         <p>Photography</p>
+                        <div id="photography-panel" class="music-panel hidden">
+                            <h4 class="panel-title">Photo Album</h4>
+                            <div class="grid grid-cols-2 gap-2 w-full photo-album-grid">
+                                <figure class="relative w-full aspect-square overflow-hidden rounded-md bg-slate-800/40">
+                                    <img src="red.jpg" alt="Red night light scene" class="w-full h-full object-cover" loading="lazy" />
+                                </figure>
+                                <figure class="relative w-full aspect-square overflow-hidden rounded-md bg-slate-800/40">
+                                    <img src="rueda.jpg" alt="Ferris wheel illuminated" class="w-full h-full object-cover" loading="lazy" />
+                                </figure>
+                                <figure class="relative w-full aspect-square overflow-hidden rounded-md bg-slate-800/40">
+                                    <img src="three.jpg" alt="Ancient hollow tree" class="w-full h-full object-cover" loading="lazy" />
+                                </figure>
+                                <figure class="relative w-full aspect-square overflow-hidden rounded-md bg-slate-800/40">
+                                    <img src="Buda horse.jpg" alt="Equestrian statue at night" class="w-full h-full object-cover" loading="lazy" />
+                                </figure>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="interest-action-block">
@@ -692,52 +700,29 @@
                         </div>
                     </div>
                 </div>
-                <div id="car-windtunnel-card" class="group relative portfolio-card-custom rounded-xl p-5 transition-colors cursor-pointer">
+                <div id="car-windtunnel-card" class="group relative portfolio-card-custom rounded-xl p-5 transition-colors cursor-pointer portfolio-card" data-portfolio="car">
                     <h3 class="text-lg font-semibold text-slate-100 mb-2">Concept car wind tunnel testing - Fluent - Ansys</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">Aerodynamic surface modeling and CFD (ANSYS Fluent) flow visualization. Hover to preview sequence.</p>
+                    <p class="text-slate-400 text-sm leading-relaxed">Aerodynamic surface modeling and CFD (ANSYS Fluent) flow visualization. Hover or click to open assets.</p>
                     <span class="inline-block mt-3 text-xs tracking-wide text-sky-400/80">Surface Modeling • CFD • ANSYS</span>
                     <div class="absolute inset-0 rounded-xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-br from-sky-500/10 to-transparent"></div>
-                    <!-- Hover sequence panel -->
-                    <div id="car-panel" class="hidden absolute left-1/2 top-full mt-3 w-[720px] max-w-[90vw] -translate-x-1/2 bg-slate-900/95 border border-slate-700 rounded-xl shadow-lg p-5 z-30">
-                        <h4 class="text-xs font-semibold uppercase tracking-wide text-sky-400 mb-4">CFD Assets (Original Size Preview)</h4>
-                        <div class="flex flex-col gap-5">
-                            <figure class="car-thumb-container">
-                                <img data-car-img="0" src="" alt="Car surface model" class="opacity-0 transition-all duration-500 ease-out" />
-                                <figcaption>Surface</figcaption>
-                            </figure>
-                            <figure class="car-thumb-container">
-                                <img data-car-img="1" src="" alt="Car with wheels integrated" class="opacity-0 transition-all duration-500 ease-out" />
-                                <figcaption>Wheels</figcaption>
-                            </figure>
-                            <figure class="car-thumb-container">
-                                <img data-car-img="2" src="" alt="CFD result" class="opacity-0 transition-all duration-500 ease-out" />
-                                <figcaption>CFD</figcaption>
-                            </figure>
-                        </div>
-                        <p class="mt-4 text-[11px] text-slate-400 text-center">Hover an image to expand to original size; others remain as thumbnails.</p>
-                    </div>
                 </div>
             </div>
             
         </section>
-        <!-- Portfolio Image Modal -->
+        <!-- Certifications Section -->
+        <section id="certifications-section" class="mb-16 md:mb-24">
+            <h2 class="text-3xl md:text-4xl font-bold text-slate-200 mb-8 text-center">Certifications</h2>
+            <div id="certifications" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto"></div>
+        </section>
+        <!-- Portfolio Image Modal (dynamic) -->
         <div id="portfolio-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-sm hidden z-50 flex justify-center items-center p-4" role="dialog" aria-modal="true" aria-labelledby="portfolio-modal-title">
-            <div class="relative bg-slate-900 border border-slate-800 rounded-xl shadow-xl max-w-5xl w-full p-6 flex flex-col gap-4">
+            <div class="relative bg-slate-900 border border-slate-800 rounded-xl shadow-xl max-w-5xl w-full p-6 flex flex-col gap-6">
                 <button id="close-portfolio" class="absolute top-4 right-4 text-slate-400 hover:text-slate-200" aria-label="Close image viewer">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                 </button>
-                <h3 id="portfolio-modal-title" class="text-2xl font-bold text-slate-200 text-center">Concept design of a motorcycle</h3>
-                <div class="grid md:grid-cols-2 gap-4">
-                    <figure class="bg-slate-800/40 rounded-lg overflow-hidden border border-slate-700">
-                        <img src="Moto1.jpg" alt="Motorcycle CAD front view" class="w-full h-full object-cover" loading="lazy" />
-                        <figcaption class="text-xs text-slate-400 p-2 text-center">Front view render</figcaption>
-                    </figure>
-                    <figure class="bg-slate-800/40 rounded-lg overflow-hidden border border-slate-700">
-                        <img src="Moto2.jpg" alt="Motorcycle CAD perspective view" class="w-full h-full object-cover" loading="lazy" />
-                        <figcaption class="text-xs text-slate-400 p-2 text-center">Perspective view render</figcaption>
-                    </figure>
-                </div>
-                <p class="text-xs text-slate-500 text-center">Images: Concept assembly modeling (CATIA V5).</p>
+                <h3 id="portfolio-modal-title" class="text-2xl font-bold text-slate-200 text-center"></h3>
+                <div id="portfolio-modal-grid" class="grid md:grid-cols-2 gap-4"></div>
+                <p id="portfolio-modal-caption" class="text-xs text-slate-500 text-center"></p>
             </div>
         </div>
     </main>
@@ -851,10 +836,11 @@
             }
         ];
         const certificationsData = [
-            { name: '6-Sigma Green Belt', icon: '&#10004;' },
+            { name: '6-Sigma Green Belt', icon: '&#9989;' },
             { name: 'HEV Electrified Powertrain Calibration', icon: '&#9881;' },
             { name: 'International Software Testing Qualifications Board', icon: '&#128220;' },
-            { name: 'Agile / Scrum Master', icon: '&#128260;' }
+            { name: 'Python Programming Masterclass (Ford - Udemy Academy)', icon: '&#128187;' },
+            { name: 'Agile and Scrum Master', icon: '&#128260;' }
         ];
         const skillsData = {
             labels: ['CAD/CAE & Simulation', 'Software & Validation', 'Programming & Tools', 'Methodologies'],
@@ -1071,12 +1057,137 @@
             const musicPanel = document.getElementById('music-panel');
             let panelHover = false;
             if (musicCard && musicPanel) {
-                const showPanel = () => { musicPanel.classList.remove('hidden'); };
+                let positioned = false;
+                function positionPanel(){
+                    if(!musicCard || !musicPanel) return;
+                    if(!positioned){
+                        // Move panel to body so it doesn't affect card stacking/layout
+                        document.body.appendChild(musicPanel);
+                        musicPanel.classList.add('detached');
+                        positioned = true;
+                    }
+                    musicPanel.style.visibility = 'hidden';
+                    musicPanel.classList.remove('hidden');
+                    // Compute desired position
+                    const cardRect = musicCard.getBoundingClientRect();
+                    const panelRect = musicPanel.getBoundingClientRect();
+                    const portfolioSection = document.getElementById('freelancer-portfolio');
+                    const portfolioTop = portfolioSection ? portfolioSection.getBoundingClientRect().top : window.innerHeight;
+                    // Prefer showing below
+                    let top = cardRect.bottom + 12 + window.scrollY;
+                    // If panel would overlap the portfolio cards area (appear inside it), and there's space above, show above
+                    if(top + panelRect.height > portfolioTop + window.scrollY - 8){
+                        const aboveTop = cardRect.top - panelRect.height - 12 + window.scrollY;
+                        if(aboveTop > window.scrollY + 16){
+                            top = aboveTop;
+                        }
+                    }
+                    let left = cardRect.left + (cardRect.width/2) - (panelRect.width/2) + window.scrollX;
+                    // Constrain horizontally
+                    const margin = 8;
+                    if(left < margin) left = margin;
+                    const maxLeft = window.scrollX + window.innerWidth - panelRect.width - margin;
+                    if(left > maxLeft) left = maxLeft;
+                    musicPanel.style.top = top + 'px';
+                    musicPanel.style.left = left + 'px';
+                    musicPanel.style.visibility = 'visible';
+                    musicPanel.style.zIndex = 60; // above portfolio cards
+                }
+                const showPanel = () => { positionPanel(); };
                 const hidePanel = () => { if(!panelHover) musicPanel.classList.add('hidden'); };
                 musicCard.addEventListener('mouseenter', showPanel);
                 musicCard.addEventListener('mouseleave', () => setTimeout(hidePanel,150));
                 musicPanel.addEventListener('mouseenter', ()=> { panelHover = true; });
                 musicPanel.addEventListener('mouseleave', ()=> { panelHover = false; musicPanel.classList.add('hidden'); stopAllAudio(); });
+                // Reposition on window resize/scroll if visible
+                window.addEventListener('scroll', ()=>{ if(!musicPanel.classList.contains('hidden')) positionPanel(); }, { passive:true });
+                window.addEventListener('resize', ()=>{ if(!musicPanel.classList.contains('hidden')) positionPanel(); });
+            }
+
+            // Gaming panel logic (reuses music panel positioning pattern)
+            const gamingCard = document.getElementById('gaming-card');
+            const gamingPanel = document.getElementById('gaming-panel');
+            let gamingHover = false;
+            if(gamingCard && gamingPanel){
+                let gamingPositioned = false;
+                function positionGaming(){
+                    if(!gamingPositioned){
+                        document.body.appendChild(gamingPanel);
+                        gamingPanel.classList.add('detached');
+                        gamingPositioned = true;
+                    }
+                    gamingPanel.style.visibility = 'hidden';
+                    gamingPanel.classList.remove('hidden');
+                    const cardRect = gamingCard.getBoundingClientRect();
+                    const panelRect = gamingPanel.getBoundingClientRect();
+                    const portfolioSection = document.getElementById('freelancer-portfolio');
+                    const portfolioTop = portfolioSection ? portfolioSection.getBoundingClientRect().top : window.innerHeight;
+                    let top = cardRect.bottom + 12 + window.scrollY;
+                    if(top + panelRect.height > portfolioTop + window.scrollY - 8){
+                        const aboveTop = cardRect.top - panelRect.height - 12 + window.scrollY;
+                        if(aboveTop > window.scrollY + 16){ top = aboveTop; }
+                    }
+                    let left = cardRect.left + (cardRect.width/2) - (panelRect.width/2) + window.scrollX;
+                    const margin = 8;
+                    if(left < margin) left = margin;
+                    const maxLeft = window.scrollX + window.innerWidth - panelRect.width - margin;
+                    if(left > maxLeft) left = maxLeft;
+                    gamingPanel.style.top = top + 'px';
+                    gamingPanel.style.left = left + 'px';
+                    gamingPanel.style.visibility = 'visible';
+                    gamingPanel.style.zIndex = 60;
+                }
+                const showGaming = ()=>{ positionGaming(); };
+                const hideGaming = ()=>{ if(!gamingHover) gamingPanel.classList.add('hidden'); };
+                gamingCard.addEventListener('mouseenter', showGaming);
+                gamingCard.addEventListener('mouseleave', ()=> setTimeout(hideGaming,150));
+                gamingPanel.addEventListener('mouseenter', ()=>{ gamingHover = true; });
+                gamingPanel.addEventListener('mouseleave', ()=>{ gamingHover = false; gamingPanel.classList.add('hidden'); });
+                window.addEventListener('scroll', ()=>{ if(!gamingPanel.classList.contains('hidden')) positionGaming(); }, { passive:true });
+                window.addEventListener('resize', ()=>{ if(!gamingPanel.classList.contains('hidden')) positionGaming(); });
+            }
+
+            // Photography album panel logic
+            const photographyCard = document.getElementById('photography-card');
+            const photographyPanel = document.getElementById('photography-panel');
+            let photoHover = false;
+            if(photographyCard && photographyPanel){
+                let photoPositioned = false;
+                function positionPhoto(){
+                    if(!photoPositioned){
+                        document.body.appendChild(photographyPanel);
+                        photographyPanel.classList.add('detached');
+                        photoPositioned = true;
+                    }
+                    photographyPanel.style.visibility = 'hidden';
+                    photographyPanel.classList.remove('hidden');
+                    const cardRect = photographyCard.getBoundingClientRect();
+                    const panelRect = photographyPanel.getBoundingClientRect();
+                    const portfolioSection = document.getElementById('freelancer-portfolio');
+                    const portfolioTop = portfolioSection ? portfolioSection.getBoundingClientRect().top : window.innerHeight;
+                    let top = cardRect.bottom + 12 + window.scrollY;
+                    if(top + panelRect.height > portfolioTop + window.scrollY - 8){
+                        const aboveTop = cardRect.top - panelRect.height - 12 + window.scrollY;
+                        if(aboveTop > window.scrollY + 16){ top = aboveTop; }
+                    }
+                    let left = cardRect.left + (cardRect.width/2) - (panelRect.width/2) + window.scrollX;
+                    const margin = 8;
+                    if(left < margin) left = margin;
+                    const maxLeft = window.scrollX + window.innerWidth - panelRect.width - margin;
+                    if(left > maxLeft) left = maxLeft;
+                    photographyPanel.style.top = top + 'px';
+                    photographyPanel.style.left = left + 'px';
+                    photographyPanel.style.visibility = 'visible';
+                    photographyPanel.style.zIndex = 60;
+                }
+                const showPhoto = ()=>{ positionPhoto(); };
+                const hidePhoto = ()=>{ if(!photoHover) photographyPanel.classList.add('hidden'); };
+                photographyCard.addEventListener('mouseenter', showPhoto);
+                photographyCard.addEventListener('mouseleave', ()=> setTimeout(hidePhoto,150));
+                photographyPanel.addEventListener('mouseenter', ()=>{ photoHover = true; });
+                photographyPanel.addEventListener('mouseleave', ()=>{ photoHover = false; photographyPanel.classList.add('hidden'); });
+                window.addEventListener('scroll', ()=>{ if(!photographyPanel.classList.contains('hidden')) positionPhoto(); }, { passive:true });
+                window.addEventListener('resize', ()=>{ if(!photographyPanel.classList.contains('hidden')) positionPhoto(); });
             }
 
             // Create audio map (placeholders). Replace src with your own short fair-use or licensed clips.
@@ -1180,13 +1291,59 @@
             }
             document.addEventListener('keydown', (e)=> { if(e.key === 'Escape' && !diplomaModal.classList.contains('hidden')) closeDiplomaModal(); });
 
-            // Portfolio modal logic (motorcycle concept images)
+            // Portfolio modal logic (dynamic for multiple projects)
             const portfolioModal = document.getElementById('portfolio-modal');
             const closePortfolio = document.getElementById('close-portfolio');
+            const modalTitle = document.getElementById('portfolio-modal-title');
+            const modalGrid = document.getElementById('portfolio-modal-grid');
+            const modalCaption = document.getElementById('portfolio-modal-caption');
             const portfolioCards = document.querySelectorAll('.portfolio-card');
             let lastFocusedEl = null;
-            function openPortfolio(){
+            const portfolioData = {
+                motorcycle: {
+                    title: 'Concept design of a motorcycle',
+                    caption: 'Images: Concept assembly modeling (CATIA V5).',
+                    images: [
+                        { src: 'Moto1.jpg', alt: 'Motorcycle CAD front view', label: 'Perspective view render' },
+                        { src: 'Moto2.jpg', alt: 'Motorcycle CAD perspective view', label: 'Front view render' }
+                    ]
+                },
+                car: {
+                    title: 'Concept car wind tunnel testing – Fluent – Ansys',
+                    caption: 'Images: Surface modeling & CFD (ANSYS Fluent) post-processing.',
+                    images: [
+                        { src: 'Car surface.jpg', alt: 'Car surface model (surface CAD)', label: 'Surface model' },
+                        { src: 'wheels car.png', alt: 'Car with wheels integrated', label: 'Wheels integrated' },
+                        { src: 'ansys_wt.png', alt: 'ANSYS Fluent wind tunnel CFD result', label: 'CFD result' }
+                    ]
+                }
+            };
+            function buildModalContent(key){
+                const data = portfolioData[key];
+                if(!data) return;
+                modalTitle.textContent = data.title;
+                modalCaption.textContent = data.caption;
+                modalGrid.innerHTML = '';
+                data.images.forEach(img=>{
+                    const fig = document.createElement('figure');
+                    fig.className = 'bg-slate-800/40 rounded-lg overflow-hidden border border-slate-700 flex flex-col';
+                    const imageEl = document.createElement('img');
+                    imageEl.loading = 'lazy';
+                    imageEl.src = encodeURI(img.src);
+                    imageEl.alt = img.alt;
+                    imageEl.className = 'w-full h-full object-cover';
+                    const cap = document.createElement('figcaption');
+                    cap.className = 'text-xs text-slate-400 p-2 text-center';
+                    cap.textContent = img.label;
+                    fig.appendChild(imageEl);
+                    fig.appendChild(cap);
+                    modalGrid.appendChild(fig);
+                });
+            }
+            function openPortfolio(key){
                 if(!portfolioModal) return;
+                // default to motorcycle if no key
+                buildModalContent(key || 'motorcycle');
                 lastFocusedEl = document.activeElement;
                 portfolioModal.classList.remove('hidden');
                 closePortfolio && closePortfolio.focus();
@@ -1198,11 +1355,15 @@
             }
             portfolioCards.forEach(card => {
                 card.setAttribute('tabindex','0');
-                card.addEventListener('click', openPortfolio);
+                card.addEventListener('click', ()=> {
+                    const key = card.dataset.portfolio === 'motorcycle' ? 'motorcycle' : (card.id === 'car-windtunnel-card' ? 'car' : 'motorcycle');
+                    openPortfolio(key);
+                });
                 card.addEventListener('keydown', (e)=>{
                     if(e.key === 'Enter' || e.key === ' '){
                         e.preventDefault();
-                        openPortfolio();
+                        const key = card.dataset.portfolio === 'motorcycle' ? 'motorcycle' : (card.id === 'car-windtunnel-card' ? 'car' : 'motorcycle');
+                        openPortfolio(key);
                     }
                 });
             });
@@ -1213,6 +1374,35 @@
                 portfolioModal.addEventListener('click', (e)=> { if(e.target.id === 'portfolio-modal') closePortfolioModal(); });
             }
             document.addEventListener('keydown', (e)=> { if(e.key === 'Escape' && portfolioModal && !portfolioModal.classList.contains('hidden')) closePortfolioModal(); });
+
+            // Hover-to-open quick view modal for car & motorcycle
+            const motoCardForModal = document.querySelector('[data-portfolio="motorcycle"]');
+            if(motoCardForModal){
+                let motoHoverTimer = null;
+                let motoHoverOpened = false;
+                motoCardForModal.addEventListener('mouseenter', ()=>{
+                    if(motoHoverOpened || !portfolioModal || !portfolioModal.classList.contains('hidden')) return;
+                    motoHoverTimer = setTimeout(()=>{ openPortfolio('motorcycle'); motoHoverOpened = true; }, 280);
+                });
+                motoCardForModal.addEventListener('mouseleave', ()=>{
+                    if(motoHoverTimer){ clearTimeout(motoHoverTimer); motoHoverTimer = null; }
+                    if(portfolioModal.classList.contains('hidden')) motoHoverOpened = false;
+                });
+            }
+            // Existing car hover logic
+            const carCardForModal = document.getElementById('car-windtunnel-card');
+            if(carCardForModal){
+                let carHoverTimer = null;
+                let carHoverOpened = false;
+                carCardForModal.addEventListener('mouseenter', ()=>{
+                    if(carHoverOpened || !portfolioModal || !portfolioModal.classList.contains('hidden')) return;
+                    carHoverTimer = setTimeout(()=>{ openPortfolio('car'); carHoverOpened = true; }, 280);
+                });
+                carCardForModal.addEventListener('mouseleave', ()=>{
+                    if(carHoverTimer){ clearTimeout(carHoverTimer); carHoverTimer = null; }
+                    if(portfolioModal.classList.contains('hidden')) carHoverOpened = false;
+                });
+            }
 
             // Variable height table hover panel logic
             const tableCard = document.getElementById('variable-table-card');
@@ -1269,58 +1459,6 @@
                         }
                     }
 
-                    // Car wind tunnel sequence logic
-                    const carCard = document.getElementById('car-windtunnel-card');
-                    const carPanel = document.getElementById('car-panel');
-                    const carImages = carPanel ? carPanel.querySelectorAll('img[data-car-img]') : [];
-                    const carSources = [
-                        { src: 'Car surface.jpg', alt: 'Car surface model (surface CAD)' },
-                        { src: 'wheels car.png', alt: 'Car with wheels integrated' },
-                        { src: 'ansys_wt.png', alt: 'ANSYS Fluent wind tunnel CFD result' }
-                    ];
-                    let carLoaded = false;
-                    function loadAllCarImages(){
-                        if(carLoaded) return;
-                        carImages.forEach((img, i)=>{
-                            const data = carSources[i];
-                            if(!data) return;
-                            const encoded = encodeURI(data.src);
-                            const temp = new Image();
-                            temp.onload = () => {
-                                img.src = encoded;
-                                img.alt = data.alt;
-                                img.classList.remove('opacity-0');
-                                img.classList.add('loaded');
-                            };
-                            temp.onerror = () => {
-                                img.alt = 'Image not found';
-                            };
-                            temp.src = encoded;
-                        });
-                        carLoaded = true;
-                    }
-                    function showCarPanel(){
-                        if(!carPanel) return;
-                        carPanel.classList.remove('hidden');
-                        loadAllCarImages();
-                    }
-                    function hideCarPanel(){
-                        if(!carPanel) return;
-                        carPanel.classList.add('hidden');
-                    }
-                    if(carCard && carPanel){
-                        carCard.addEventListener('mouseenter', showCarPanel);
-                        carCard.addEventListener('mouseleave', ()=> setTimeout(()=>{ if(!carCard.matches(':hover')) hideCarPanel(); }, 120));
-                        carCard.setAttribute('tabindex','0');
-                        carCard.addEventListener('focus', showCarPanel);
-                        carCard.addEventListener('blur', hideCarPanel);
-                        carCard.addEventListener('keydown', (e)=>{
-                            if(e.key === 'Enter' || e.key === ' '){
-                                e.preventDefault();
-                                if(carPanel.classList.contains('hidden')) showCarPanel(); else hideCarPanel();
-                            }
-                        });
-                    }
                 });
                 // Keyboard accessibility
                 tableCard.setAttribute('tabindex','0');
