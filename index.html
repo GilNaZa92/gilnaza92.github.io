@@ -342,11 +342,24 @@
         .music-panel.detached { position:absolute; top:auto; left:0; transform:none; width:260px; animation: fadeSlide 0.25s ease; }
         .music-panel.hidden { display: none; }
         .music-panel .panel-title { font-size: 0.95rem; letter-spacing: .05em; text-transform: uppercase; color:#93c5fd; margin-bottom: .75rem; font-weight:600; }
+    /* Tennis video hover enlarge */
+    #tennis-panel video { transition: transform 0.35s ease, box-shadow 0.35s ease; transform-origin: center center; }
+    #tennis-panel video:hover { transform: scale(2); box-shadow: 0 6px 24px -4px rgba(0,0,0,0.5); z-index:70; position:relative; }
+    #tennis-panel { overflow: visible; }
+    /* Traveling thumbs hover enlarge */
+    #traveling-panel .travel-thumb { position:relative; }
+    #traveling-panel .travel-thumb img { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    #traveling-panel .travel-thumb:hover img { transform: scale(1.9); box-shadow:0 4px 18px -2px rgba(0,0,0,0.5); z-index:60; }
+    #traveling-panel .mini-travel-grid { overflow: visible; }
         .artist-list { list-style: none; margin:0; padding:0; display:flex; flex-direction:column; gap:.4rem; }
         .artist-list li { padding:.45rem .6rem; border-radius:.5rem; cursor:pointer; font-size:.9rem; background:rgba(255,255,255,0.03); color:#e2e8f0; transition: background .25s, transform .25s; position:relative; }
         .artist-list li:hover { background: #1e3a8a; transform: translateX(4px); }
         @keyframes fadeSlide { from { opacity:0; transform: translate(-50%,0); } to { opacity:1; transform: translate(-50%,12px);} }
         @media (max-width:640px){ .music-panel { left:0; transform: translate(0,12px); width: 220px; } }
+    /* Global image hover preview */
+    #image-hover-preview { position:fixed; inset:auto; top:0; left:0; pointer-events:none; z-index:1000; display:none; border:1px solid #1e293b; background:#0f172a; padding:6px; border-radius:10px; box-shadow:0 8px 28px -6px rgba(0,0,0,0.55); max-width:80vw; max-height:80vh; }
+    #image-hover-preview img { display:block; max-width:100%; max-height:100%; border-radius:6px; }
+    .light #image-hover-preview { background:#ffffff; border-color:#cbd5e1; }
     /* Variable table quick panel */
     #table-panel { animation: fadeIn 0.25s ease; }
     #table-panel video { cursor:pointer; }
@@ -388,17 +401,33 @@
     </style>
 </head>
 <body class="antialiased fade-in">
-    <header id="header" class="bg-slate-950/80 backdrop-blur-md sticky top-0 z-50">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+    <header id="header" class="bg-slate-950/80 backdrop-blur-md sticky top-0 z-50 relative">
+        <div class="absolute inset-0 -z-10 bg-cover bg-center opacity-35" style="background-image:url('background.jpg');"></div>
+        <div class="absolute inset-0 -z-0 bg-slate-950/60 backdrop-blur-sm"></div>
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center relative">
             <h1 class="text-xl md:text-2xl font-bold text-slate-200">Gil Nava Zaragoza</h1>
-            <ul class="hidden md:flex space-x-6">
-                <li><a href="#professional-summary" class="font-medium text-slate-400 hover:text-white transition-colors">Summary</a></li>
-                <li><a href="#experience" class="font-medium text-slate-400 hover:text-white transition-colors">Experience</a></li>
-                <li><a href="#skills" class="font-medium text-slate-400 hover:text-white transition-colors">Skills</a></li>
-                <li><a href="#education" class="font-medium text-slate-400 hover:text-white transition-colors">Education</a></li>
-                <li><a href="#interests" class="font-medium text-slate-400 hover:text-white transition-colors">Interests</a></li>
-                <li><a href="#freelancer-portfolio" class="font-medium text-slate-400 hover:text-white transition-colors">FreeLancer Portafolio</a></li>
-                <li><a href="#certifications-section" class="font-medium text-slate-400 hover:text-white transition-colors">Certifications</a></li>
+            <ul class="hidden md:flex items-center">
+                <li class="px-4 relative after:content-[''] after:absolute after:right-0 after:top-1/2 after:-translate-y-1/2 after:h-6 after:w-px after:bg-slate-600/50 last:after:hidden">
+                    <a href="#professional-summary" class="font-medium text-slate-300 hover:text-white transition-colors">Summary</a>
+                </li>
+                <li class="px-4 relative after:content-[''] after:absolute after:right-0 after:top-1/2 after:-translate-y-1/2 after:h-6 after:w-px after:bg-slate-600/50 last:after:hidden">
+                    <a href="#experience" class="font-medium text-slate-300 hover:text-white transition-colors">Experience</a>
+                </li>
+                <li class="px-4 relative after:content-[''] after:absolute after:right-0 after:top-1/2 after:-translate-y-1/2 after:h-6 after:w-px after:bg-slate-600/50 last:after:hidden">
+                    <a href="#skills" class="font-medium text-slate-300 hover:text-white transition-colors">Skills</a>
+                </li>
+                <li class="px-4 relative after:content-[''] after:absolute after:right-0 after:top-1/2 after:-translate-y-1/2 after:h-6 after:w-px after:bg-slate-600/50 last:after:hidden">
+                    <a href="#education" class="font-medium text-slate-300 hover:text-white transition-colors">Education</a>
+                </li>
+                <li class="px-4 relative after:content-[''] after:absolute after:right-0 after:top-1/2 after:-translate-y-1/2 after:h-6 after:w-px after:bg-slate-600/50 last:after:hidden">
+                    <a href="#interests" class="font-medium text-slate-300 hover:text-white transition-colors">Interests</a>
+                </li>
+                <li class="px-4 relative after:content-[''] after:absolute after:right-0 after:top-1/2 after:-translate-y-1/2 after:h-6 after:w-px after:bg-slate-600/50 last:after:hidden">
+                    <a href="#freelancer-portfolio" class="font-medium text-slate-300 hover:text-white transition-colors">FreeLancer Portafolio</a>
+                </li>
+                <li class="px-4 relative">
+                    <a href="#certifications-section" class="font-medium text-slate-300 hover:text-white transition-colors">Certifications</a>
+                </li>
             </ul>
             <div class="flex items-center gap-3">
                 <button id="theme-toggle" aria-label="Toggle theme" title="Toggle light / dark mode" class="inline-flex">
@@ -648,21 +677,66 @@
                     </div>
                 </div>
                 <div class="interest-action-block">
-                    <div class="interest-card anim-4">
+                    <div class="interest-card anim-4" id="tennis-card">
                         <img src="Images for CV/tenis.svg" alt="Tennis" />
                         <p>Tennis</p>
+                        <div id="tennis-panel" class="music-panel hidden">
+                            <h4 class="panel-title">Tennis</h4>
+                            <figure class="relative w-full overflow-hidden rounded-md bg-slate-800/40 mt-2">
+                                <img src="GNZ-Tenis.jfif" alt="Playing tennis" class="h-auto object-cover tennis-preview-img" style="max-width:110px; width:100%; margin:0 auto; display:block; border-radius:6px;" loading="lazy" />
+                            </figure>
+                            <div class="mt-3">
+                                <video id="tennis-video" class="w-full rounded-md bg-black/40" src="Clay.mp4" preload="metadata" muted playsinline loop style="max-height:240px; object-fit:cover;">
+                                    Your browser does not support the video tag.
+                                </video>
+                                <video id="tennis-video-2" class="w-full rounded-md bg-black/40 mt-2" src="dura.mp4" preload="metadata" muted playsinline loop style="max-height:240px; object-fit:cover;">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                            <!-- If the correct file name differs, update the src attribute accordingly -->
+                        </div>
                     </div>
                 </div>
                 <div class="interest-action-block">
-                    <div class="interest-card anim-5">
+                    <div class="interest-card anim-5" id="traveling-card">
                         <img src="Images for CV/plane.svg" alt="Traveling" />
                         <p>Traveling</p>
+                        <div id="traveling-panel" class="music-panel hidden">
+                            <h4 class="panel-title">Traveling</h4>
+                            <div class="grid grid-cols-3 gap-2 w-full travel-album-grid mini-travel-grid">
+                                <figure class="relative w-full overflow-hidden rounded-md bg-slate-800/40 travel-thumb">
+                                    <img src="parlament.jpg" alt="Parliament building" class="w-full h-full object-cover" loading="lazy" />
+                                </figure>
+                                <figure class="relative w-full overflow-hidden rounded-md bg-slate-800/40 travel-thumb">
+                                    <img src="Turquey.jpg" alt="Turkey landscape" class="w-full h-full object-cover" loading="lazy" />
+                                </figure>
+                                <figure class="relative w-full overflow-hidden rounded-md bg-slate-800/40 travel-thumb">
+                                    <img src="Buda.jpg" alt="Buda view" class="w-full h-full object-cover" loading="lazy" />
+                                </figure>
+                                <figure class="relative w-full overflow-hidden rounded-md bg-slate-800/40 travel-thumb col-span-2">
+                                    <img src="dinamita.jpg" alt="Fireworks or dynamite art" class="w-full h-full object-cover" loading="lazy" />
+                                </figure>
+                                <figure class="relative w-full overflow-hidden rounded-md bg-slate-800/40 travel-thumb">
+                                    <img src="libros.jpg" alt="Books scene" class="w-full h-full object-cover" loading="lazy" />
+                                </figure>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="interest-action-block">
-                    <div class="interest-card anim-6">
+                    <div class="interest-card anim-6" id="movies-card">
                         <img src="Images for CV/film.svg" alt="Movies" />
                         <p>Movies</p>
+                        <div id="movies-panel" class="music-panel hidden">
+                            <h4 class="panel-title">Favorite Movies</h4>
+                            <ul class="artist-list">
+                                <li>Inception</li>
+                                <li>Interstellar</li>
+                                <li>Inglourious Basterds</li>
+                                <li>The Matrix</li>
+                                <li>Parasite</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -765,6 +839,8 @@
             </div>
         </div>
     </footer>
+    <!-- Global hover image preview container -->
+    <div id="image-hover-preview"><img alt="Preview" /></div>
     <script>
         const experienceData = [
             {
@@ -1190,6 +1266,175 @@
                 window.addEventListener('resize', ()=>{ if(!photographyPanel.classList.contains('hidden')) positionPhoto(); });
             }
 
+            // Tennis panel logic
+            const tennisCard = document.getElementById('tennis-card');
+            const tennisPanel = document.getElementById('tennis-panel');
+            let tennisHover = false;
+            if(tennisCard && tennisPanel){
+                let tennisPositioned = false;
+                function positionTennis(){
+                    if(!tennisPositioned){ document.body.appendChild(tennisPanel); tennisPanel.classList.add('detached'); tennisPositioned = true; }
+                    tennisPanel.style.visibility='hidden';
+                    tennisPanel.classList.remove('hidden');
+                    const cardRect = tennisCard.getBoundingClientRect();
+                    const panelRect = tennisPanel.getBoundingClientRect();
+                    const portfolioSection = document.getElementById('freelancer-portfolio');
+                    const portfolioTop = portfolioSection ? portfolioSection.getBoundingClientRect().top : window.innerHeight;
+                    let top = cardRect.bottom + 12 + window.scrollY;
+                    if(top + panelRect.height > portfolioTop + window.scrollY - 8){
+                        const aboveTop = cardRect.top - panelRect.height - 12 + window.scrollY;
+                        if(aboveTop > window.scrollY + 16) top = aboveTop;
+                    }
+                    let left = cardRect.left + (cardRect.width/2) - (panelRect.width/2) + window.scrollX;
+                    const margin=8; if(left < margin) left = margin; const maxLeft = window.scrollX + window.innerWidth - panelRect.width - margin; if(left>maxLeft) left = maxLeft;
+                    tennisPanel.style.top = top + 'px';
+                    tennisPanel.style.left = left + 'px';
+                    tennisPanel.style.visibility='visible';
+                    tennisPanel.style.zIndex=60;
+                }
+                const showTennis = ()=> positionTennis();
+                const hideTennis = ()=> { if(!tennisHover) tennisPanel.classList.add('hidden'); };
+                tennisCard.addEventListener('mouseenter', showTennis);
+                tennisCard.addEventListener('mouseleave', ()=> setTimeout(hideTennis,150));
+                tennisPanel.addEventListener('mouseenter', ()=> { tennisHover = true; });
+                tennisPanel.addEventListener('mouseleave', ()=> { 
+                    tennisHover = false; 
+                    const tv = document.getElementById('tennis-video');
+                    if(tv){ tv.pause(); tv.currentTime = 0; }
+                    tennisPanel.classList.add('hidden'); 
+                });
+                // Video autoplay on hover inside panel
+                const tennisVideo = document.getElementById('tennis-video');
+                const tennisVideo2 = document.getElementById('tennis-video-2');
+                [tennisVideo, tennisVideo2].forEach(v => {
+                    if(!v) return;
+                    v.addEventListener('mouseenter', ()=>{ try { v.play(); } catch(e){} });
+                    v.addEventListener('mouseleave', ()=>{ v.pause(); });
+                });
+                window.addEventListener('scroll', ()=> { if(!tennisPanel.classList.contains('hidden')) positionTennis(); }, { passive:true });
+                window.addEventListener('resize', ()=> { if(!tennisPanel.classList.contains('hidden')) positionTennis(); });
+            }
+
+            // Traveling panel logic
+            const travelingCard = document.getElementById('traveling-card');
+            const travelingPanel = document.getElementById('traveling-panel');
+            let travelingHover = false;
+            if(travelingCard && travelingPanel){
+                let travelingPositioned = false;
+                function positionTravel(){
+                    if(!travelingPositioned){ document.body.appendChild(travelingPanel); travelingPanel.classList.add('detached'); travelingPositioned = true; }
+                    travelingPanel.style.visibility='hidden';
+                    travelingPanel.classList.remove('hidden');
+                    const cardRect = travelingCard.getBoundingClientRect();
+                    const panelRect = travelingPanel.getBoundingClientRect();
+                    const portfolioSection = document.getElementById('freelancer-portfolio');
+                    const portfolioTop = portfolioSection ? portfolioSection.getBoundingClientRect().top : window.innerHeight;
+                    let top = cardRect.bottom + 12 + window.scrollY;
+                    if(top + panelRect.height > portfolioTop + window.scrollY - 8){
+                        const aboveTop = cardRect.top - panelRect.height - 12 + window.scrollY;
+                        if(aboveTop > window.scrollY + 16) top = aboveTop;
+                    }
+                    let left = cardRect.left + (cardRect.width/2) - (panelRect.width/2) + window.scrollX;
+                    const margin=8; if(left < margin) left = margin; const maxLeft = window.scrollX + window.innerWidth - panelRect.width - margin; if(left>maxLeft) left = maxLeft;
+                    travelingPanel.style.top = top + 'px';
+                    travelingPanel.style.left = left + 'px';
+                    travelingPanel.style.visibility='visible';
+                    travelingPanel.style.zIndex=60;
+                }
+                const showTravel = ()=> positionTravel();
+                const hideTravel = ()=> { if(!travelingHover) travelingPanel.classList.add('hidden'); };
+                travelingCard.addEventListener('mouseenter', showTravel);
+                travelingCard.addEventListener('mouseleave', ()=> setTimeout(hideTravel,150));
+                travelingPanel.addEventListener('mouseenter', ()=> { travelingHover = true; });
+                travelingPanel.addEventListener('mouseleave', ()=> { travelingHover = false; travelingPanel.classList.add('hidden'); });
+                window.addEventListener('scroll', ()=> { if(!travelingPanel.classList.contains('hidden')) positionTravel(); }, { passive:true });
+                window.addEventListener('resize', ()=> { if(!travelingPanel.classList.contains('hidden')) positionTravel(); });
+            }
+
+            // Movies panel logic
+            const moviesCard = document.getElementById('movies-card');
+            const moviesPanel = document.getElementById('movies-panel');
+            let moviesHover = false;
+            if(moviesCard && moviesPanel){
+                let moviesPositioned = false;
+                function positionMovies(){
+                    if(!moviesPositioned){ document.body.appendChild(moviesPanel); moviesPanel.classList.add('detached'); moviesPositioned = true; }
+                    moviesPanel.style.visibility='hidden';
+                    moviesPanel.classList.remove('hidden');
+                    const cardRect = moviesCard.getBoundingClientRect();
+                    const panelRect = moviesPanel.getBoundingClientRect();
+                    const portfolioSection = document.getElementById('freelancer-portfolio');
+                    const portfolioTop = portfolioSection ? portfolioSection.getBoundingClientRect().top : window.innerHeight;
+                    let top = cardRect.bottom + 12 + window.scrollY;
+                    if(top + panelRect.height > portfolioTop + window.scrollY - 8){
+                        const aboveTop = cardRect.top - panelRect.height - 12 + window.scrollY;
+                        if(aboveTop > window.scrollY + 16) top = aboveTop;
+                    }
+                    let left = cardRect.left + (cardRect.width/2) - (panelRect.width/2) + window.scrollX;
+                    const margin=8; if(left < margin) left = margin; const maxLeft = window.scrollX + window.innerWidth - panelRect.width - margin; if(left>maxLeft) left = maxLeft;
+                    moviesPanel.style.top = top + 'px';
+                    moviesPanel.style.left = left + 'px';
+                    moviesPanel.style.visibility='visible';
+                    moviesPanel.style.zIndex=60;
+                }
+                const showMovies = ()=> positionMovies();
+                const hideMovies = ()=> { if(!moviesHover) moviesPanel.classList.add('hidden'); };
+                moviesCard.addEventListener('mouseenter', showMovies);
+                moviesCard.addEventListener('mouseleave', ()=> setTimeout(hideMovies,150));
+                moviesPanel.addEventListener('mouseenter', ()=> { moviesHover = true; });
+                moviesPanel.addEventListener('mouseleave', ()=> { moviesHover = false; moviesPanel.classList.add('hidden'); });
+                window.addEventListener('scroll', ()=> { if(!moviesPanel.classList.contains('hidden')) positionMovies(); }, { passive:true });
+                window.addEventListener('resize', ()=> { if(!moviesPanel.classList.contains('hidden')) positionMovies(); });
+            }
+
+            // Original-size hover image preview (photo & travel albums)
+            const hoverPreviewContainer = document.getElementById('image-hover-preview');
+            const hoverPreviewImg = hoverPreviewContainer ? hoverPreviewContainer.querySelector('img') : null;
+            function attachPreview(gridSelector){
+                const grid = document.querySelector(gridSelector);
+                if(!grid) return;
+                const isPhotoAlbum = gridSelector === '.photo-album-grid' || gridSelector === '.travel-album-grid';
+                grid.querySelectorAll('img').forEach(img => {
+                    img.addEventListener('mouseenter', ()=>{
+                        if(!hoverPreviewContainer || !hoverPreviewImg) return;
+                        hoverPreviewImg.src = img.src;
+                        hoverPreviewImg.alt = img.alt || 'Preview';
+                        // Half-size logic for photo album images
+                        if(isPhotoAlbum){
+                            hoverPreviewContainer.style.width = 'auto';
+                            hoverPreviewContainer.style.height = 'auto';
+                            hoverPreviewImg.style.maxWidth = '40vw';
+                            hoverPreviewImg.style.maxHeight = '40vh';
+                        } else {
+                            // default (original) sizing behavior
+                            hoverPreviewImg.style.maxWidth = '80vw';
+                            hoverPreviewImg.style.maxHeight = '80vh';
+                        }
+                        hoverPreviewContainer.style.display = 'block';
+                    });
+                    img.addEventListener('mousemove', (e)=>{
+                        if(!hoverPreviewContainer) return;
+                        const padding = 18;
+                        let x = e.clientX + 24;
+                        let y = e.clientY + 24;
+                        const vpW = window.innerWidth;
+                        const vpH = window.innerHeight;
+                        const rect = hoverPreviewContainer.getBoundingClientRect();
+                        if(x + rect.width + padding > vpW){ x = e.clientX - rect.width - 24; }
+                        if(y + rect.height + padding > vpH){ y = e.clientY - rect.height - 24; }
+                        hoverPreviewContainer.style.left = x + 'px';
+                        hoverPreviewContainer.style.top = y + 'px';
+                    });
+                    img.addEventListener('mouseleave', ()=>{
+                        if(!hoverPreviewContainer) return;
+                        hoverPreviewContainer.style.display = 'none';
+                        hoverPreviewImg.src = '';
+                    });
+                });
+            }
+            attachPreview('.photo-album-grid');
+            attachPreview('.travel-album-grid');
+
             // Create audio map (placeholders). Replace src with your own short fair-use or licensed clips.
             const artistAudioSources = {
                 beatles: 'audio/beatles.mp3',
@@ -1326,12 +1571,14 @@
                 modalGrid.innerHTML = '';
                 data.images.forEach(img=>{
                     const fig = document.createElement('figure');
-                    fig.className = 'bg-slate-800/40 rounded-lg overflow-hidden border border-slate-700 flex flex-col';
+                    const labelLower = (img.label || '').toLowerCase();
+                    const isCentered = (labelLower === 'cfd result' || labelLower === 'surface model' || labelLower === 'wheels integrated');
+                    fig.className = 'bg-slate-800/40 rounded-lg overflow-hidden border border-slate-700 flex flex-col' + (isCentered ? ' items-center justify-center p-3' : '');
                     const imageEl = document.createElement('img');
                     imageEl.loading = 'lazy';
                     imageEl.src = encodeURI(img.src);
                     imageEl.alt = img.alt;
-                    imageEl.className = 'w-full h-full object-cover';
+                    imageEl.className = isCentered ? 'object-contain max-w-[360px] w-full h-auto mx-auto' : 'w-full h-full object-cover';
                     const cap = document.createElement('figcaption');
                     cap.className = 'text-xs text-slate-400 p-2 text-center';
                     cap.textContent = img.label;
