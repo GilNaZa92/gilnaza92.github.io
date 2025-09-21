@@ -17,10 +17,157 @@
             background-color: #0F172A;
             color: #E2E8F0;
         }
+        body.modal-open { overflow:hidden; touch-action:none; }
+        /* Galaxy dynamic background */
+        body.galaxy-active { background: radial-gradient(ellipse at center,#0a1324 0%,#050910 55%,#020409 100%) fixed; }
+    #galaxy-bg { position:fixed; inset:0; width:100%; height:100%; z-index:-1; display:block; background:transparent; pointer-events:none; }
+    .galaxy-fg, header, main, footer, section { position:relative; z-index:5; }
+        @media (prefers-reduced-motion: reduce){ #galaxy-bg{ display:none !important; } }
 
-        html {
-            scroll-padding-top: 80px;
+        /* ================= Transparent Panels (Adjustable) ================= */
+        :root {
+            --panel-alpha: 0.26;          /* Base alpha for large panels */
+            --panel-alpha-strong: 0.38;   /* Slightly more opaque variant */
+            --panel-border: rgba(255,255,255,0.12);
+            --panel-bg: rgba(17,25,40,var(--panel-alpha));
+            --panel-bg-strong: rgba(17,25,40,var(--panel-alpha-strong));
+            --panel-blur: 14px;
+            --panel-alpha-section: 0.18;  /* Lighter alpha for showcase sections */
+            --panel-bg-section: rgba(17,25,40,var(--panel-alpha-section));
         }
+        /* Major panels / backgrounds */
+        section.bg-slate-900,
+        .bg-slate-900,
+        .bg-slate-950,
+        .bg-slate-950\/80,
+        .bg-slate-950\/60,
+        #experience-details,
+        #timeline,
+        header.bg-slate-950\/80 > .absolute:nth-child(2) {
+            background: var(--panel-bg) !important;
+            backdrop-filter: blur(var(--panel-blur)) saturate(135%);
+            -webkit-backdrop-filter: blur(var(--panel-blur)) saturate(135%);
+            border:1px solid var(--panel-border);
+        }
+        header.bg-slate-950\/80,
+        #experience-details { background: var(--panel-bg-strong) !important; }
+        .p-8.rounded-xl.shadow-md { background: var(--panel-bg-strong) !important; }
+        .card, .panel-glass { background: var(--panel-bg) !important; backdrop-filter: blur(var(--panel-blur)); }
+        h1,h2,h3,h4,h5,h6 { text-shadow: 0 1px 2px rgba(0,0,0,0.55); }
+        p,li,span,div { text-shadow: 0 1px 2px rgba(0,0,0,0.35); }
+        #experience-details, #timeline { box-shadow: 0 4px 18px -4px rgba(0,0,0,0.45); }
+        .bg-slate-900:hover, .bg-slate-950:hover, #experience-details:hover { background: rgba(25,38,60,var(--panel-alpha-strong)) !important; }
+        @media print {
+            section.bg-slate-900, .bg-slate-900, .bg-slate-950, .bg-slate-950\/80, .bg-slate-950\/60, #experience-details, header.bg-slate-950\/80 { backdrop-filter:none !important; -webkit-backdrop-filter:none !important; background:#0F172A !important; border:none !important; }
+            h1,h2,h3,h4,h5,h6,p,li,span,div { text-shadow:none !important; }
+        }
+        /* Extra transparent sections to reveal more galaxy */
+        section#skills,
+        section#education,
+        section#interests,
+        section#freelancer-portfolio,
+        section#certifications-section {
+            background: var(--panel-bg-section) !important;
+            backdrop-filter: blur(var(--panel-blur)) saturate(140%);
+            -webkit-backdrop-filter: blur(var(--panel-blur)) saturate(140%);
+            border:1px solid rgba(255,255,255,0.08);
+        }
+        section#skills { /* Override: make same as page background (fully transparent to show body) */
+            background: transparent !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            border:none !important;
+        }
+        section#skills:hover { background: transparent !important; }
+        /* Keep hover effect for other sections */
+        section#education:hover,
+        section#interests:hover,
+        section#freelancer-portfolio:hover,
+        section#certifications-section:hover { background: rgba(25,38,60, calc(var(--panel-alpha-section) + 0.07)) !important; }
+        /* -------- Remove panel borders (box lines) globally -------- */
+        section.bg-slate-900,
+        .bg-slate-900,
+        .bg-slate-950,
+        .bg-slate-950\/80,
+        .bg-slate-950\/60,
+        #experience-details,
+        #timeline,
+        header.bg-slate-950\/80 > .absolute:nth-child(2),
+        section#skills,
+        section#education,
+        section#interests,
+        section#freelancer-portfolio,
+        section#certifications-section,
+        .card, .panel-glass {
+            border:none !important;
+            box-shadow:none !important;
+            background:transparent !important;
+            backdrop-filter:none !important;
+            -webkit-backdrop-filter:none !important;
+        }
+        /* Re-introduce minimal visual separation for key sections to ensure visibility */
+        #experience-details, #timeline, #certifications-section, section#interests, section#freelancer-portfolio {
+            background:linear-gradient(145deg,rgba(18,30,48,0.45),rgba(10,18,30,0.52)) !important;
+            backdrop-filter:blur(12px) saturate(150%) !important;
+            -webkit-backdrop-filter:blur(12px) saturate(150%) !important;
+            border:none !important;
+            box-shadow:none !important;
+        }
+        /* Additional transparency specifically for Career Journey panels */
+        #experience-details, #timeline { background:linear-gradient(145deg,rgba(18,30,48,0.34),rgba(10,18,30,0.42)) !important; }
+        /* Keep only subtle inner glow for certifications / other sections if desired */
+        #certifications-section, section#interests, section#freelancer-portfolio { box-shadow:0 4px 20px -10px rgba(0,0,0,0.55) !important; }
+        /* Career Journey specific: no perimeter */
+        #experience-details, #timeline { box-shadow:none !important; }
+        #experience-details, #certifications-section, section#interests, section#freelancer-portfolio { border-radius:1rem !important; }
+        #certifications-section { padding: 2rem 1.25rem !important; }
+        #timeline { border-left:4px solid rgba(120,180,255,0.35) !important; box-shadow:none !important; }
+        /* Ensure headings within restored sections remain readable */
+        section#interests h2, section#freelancer-portfolio h2 { text-shadow:0 2px 6px rgba(0,0,0,0.6); }
+        /* Small utility for any forced invisibility fallback (can add to body if needed) */
+        .force-section-bg section#interests, .force-section-bg section#freelancer-portfolio { background:rgba(18,30,48,0.7)!important; }
+
+        /* === Override: Make Interests and Freelancer Portfolio frames as subtle as Certifications (remove panel background) === */
+        section#interests, section#freelancer-portfolio { 
+            background:transparent !important; 
+            box-shadow:none !important; 
+            backdrop-filter:none !important; 
+            -webkit-backdrop-filter:none !important; 
+        }
+        /* Remove gradient for their direct inner containers if any custom wrapper introduced earlier */
+        section#interests > div, section#freelancer-portfolio > div { background:transparent !important; }
+
+        /* === Override: Make Career Journey frames minimal (transparent) like Certifications === */
+        #experience-details, #timeline { 
+            background:transparent !important; 
+            box-shadow:none !important; 
+            backdrop-filter:none !important; 
+            -webkit-backdrop-filter:none !important; 
+        }
+        /* Preserve the vertical line but lighten it slightly for subtlety */
+        #timeline { border-left:4px solid rgba(120,170,255,0.28) !important; }
+        /* Remove any local backgrounds inside details container */
+        #experience-details > * { background:transparent !important; }
+
+        /* Unify Interests cards gradient with Freelancer Portfolio cards */
+        #interests .interest-card{
+            background:linear-gradient(145deg, rgba(18,30,48,0.55), rgba(10,18,30,0.68)) !important;
+            box-shadow:0 4px 20px -8px rgba(0,0,0,0.55), 0 0 0 1px rgba(120,170,255,0.08) !important;
+            backdrop-filter:blur(12px) saturate(150%) !important;
+            -webkit-backdrop-filter:blur(12px) saturate(150%) !important;
+            transition:background .4s ease, transform .35s ease, box-shadow .4s ease;
+        }
+        #interests .interest-card:hover{
+            background:linear-gradient(155deg, rgba(24,46,76,0.72), rgba(16,30,50,0.86)) !important;
+            transform:translateY(-4px);
+            box-shadow:0 8px 28px -10px rgba(0,0,0,0.65), 0 0 0 1px rgba(140,190,255,0.20) !important;
+        }
+        #interests .interest-card:focus-visible{outline:2px solid #3B82F6; outline-offset:3px;}
+
+        :root { --nav-offset: 84px; }
+        html { scroll-padding-top: var(--nav-offset); }
+        /* Provide per-section scroll margin so headings appear fully below fixed nav */
+        section { scroll-margin-top: calc(var(--nav-offset) + 8px); }
 
         .timeline-item::before {
             content: '';
@@ -39,6 +186,45 @@
             background-color: #3B82F6;
             border-color: #93C5FD;
         }
+
+        /* Career Journey reveal animation */
+        .cj-seq-item{opacity:0; transform:translateX(-26px) scale(.985); transition:opacity .65s ease, transform .85s cubic-bezier(.22,.75,.25,1); will-change:opacity,transform;}
+        .cj-seq-item.cj-visible{opacity:1; transform:translateX(0) scale(1);}        
+        .cj-seq-stagger-1{transition-delay:.05s}
+        .cj-seq-stagger-2{transition-delay:.12s}
+        .cj-seq-stagger-3{transition-delay:.19s}
+        .cj-seq-stagger-4{transition-delay:.26s}
+        .cj-seq-stagger-5{transition-delay:.33s}
+        .cj-seq-stagger-6{transition-delay:.40s}
+        @media (prefers-reduced-motion: reduce){
+            .cj-seq-item{transition:none !important; opacity:1 !important; transform:none !important;}
+        }
+        /* Contact button dark blue gradient */
+        #open-contact-modal{
+            background:linear-gradient(150deg, #0b2236 0%, #0e2f49 42%, #0a3a63 100%) !important;
+            position:relative;
+            overflow:hidden;
+            border:1px solid rgba(120,190,255,0.18) !important;
+            box-shadow:0 4px 14px -6px rgba(0,0,0,0.7), 0 0 0 1px rgba(40,120,200,0.15);
+            transition:background .4s ease, box-shadow .4s ease, transform .25s ease;
+        }
+        #open-contact-modal::after{
+            content:""; position:absolute; inset:0; pointer-events:none;
+            background:radial-gradient(circle at 30% 20%, rgba(80,150,255,0.25), rgba(0,0,0,0) 60%);
+            mix-blend-mode:screen; opacity:.55; transition:opacity .5s ease;
+        }
+        #open-contact-modal:hover{
+            background:linear-gradient(155deg, #10304a 0%, #114166 46%, #0c4d7a 100%) !important;
+            box-shadow:0 6px 18px -6px rgba(0,0,0,0.75), 0 0 0 1px rgba(90,170,255,0.32);
+            transform:translateY(-2px);
+        }
+        #open-contact-modal:hover::after{opacity:.75;}
+        #open-contact-modal:active{transform:translateY(0); box-shadow:0 3px 10px -4px rgba(0,0,0,0.65), 0 0 0 1px rgba(90,170,255,0.38);}        
+        #open-contact-modal:focus-visible{outline:2px solid #38bdf8; outline-offset:3px;}
+    /* Header menu starfield */
+    #header{overflow:hidden;}
+    #menu-stars{position:absolute; inset:0; width:100%; height:100%; display:block; z-index:-1;}
+    #header::before{content:""; position:absolute; inset:0; background:linear-gradient(110deg, rgba(12,30,55,0.92) 0%, rgba(15,28,48,0.85) 48%, rgba(55,24,18,0.55) 82%, rgba(96,38,20,0.35) 100%); pointer-events:none; z-index:-2;}
 
         .chart-container {
             position: relative;
@@ -116,6 +302,17 @@
             background-color: #F8FAFC !important;
             color: #475569 !important;
         }
+        /* Opaque Contact Modal (remove transparency) */
+        #contact-modal .bg-slate-900 {
+            background: linear-gradient(140deg,#0f1827 0%,#132235 35%,#182c44 70%,#1d3350 100%) !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            border:1px solid #2c4763 !important;
+            box-shadow:0 4px 18px -4px rgba(0,0,0,0.65),0 0 0 1px rgba(90,140,190,0.35) inset;
+        }
+        #contact-modal h3 { color:#e6f3ff !important; text-shadow:0 0 6px rgba(120,180,255,0.4); }
+        #contact-modal a { color:#d4eaff !important; }
+        #contact-modal a:hover { color:#ffffff !important; }
         /* Preloader dark/light backgrounds */
         #loading {
             position: fixed;
@@ -398,42 +595,553 @@
                 opacity: 1;
             }
         }
+        /* Header identity (name / title / site) spacing */
+        .header-identity { display:flex; flex-direction:column; align-items:flex-start; line-height:1.25; }
+        .header-identity > * + * { margin-top:0.45rem; }
+        @media (min-width:768px){
+            .header-identity > * + * { margin-top:0.55rem; }
+        }
+        /* Utility visibility classes */
+        .print-only { display:none; }
+        .screen-only { display:initial; }
+        @media print { .print-only { display:block !important; } .screen-only { display:none !important; } }
+        /* ================= PRINT (2 PAGES ONLY) ================= */
+        @media print {
+            /* Page box */
+            @page { margin: 9mm 10mm 10mm; size: A4; }
+            html, body { background:#fff !important; color:#000 !important; }
+            body { font-size:9.7pt; line-height:1.22; }
+            /* Remove non-essential / interactive / decorative */
+            #header, #footer, #loading, #theme-toggle, #menu-btn, #mobile-menu, canvas, video, .chart-container { display:none !important; }
+            /* Large / decorative sections to hide for strict 2-page fit */
+            #interests, #freelancer-portfolio { display:none !important; }
+            /* Optional: hide heavy skills graphical bars but keep headings */
+            .bg-slate-800.rounded-full.h-2, .bg-blue-500.h-2, .bg-green-500.h-2 { display:none !important; }
+            /* Compact sections */
+            main { padding:0 !important; }
+            section { margin:0 0 10px 0 !important; padding:0 !important; box-shadow:none !important; background:transparent !important; }
+            section > div, section > .flex, .p-8, .p-4, .p-6 { padding:0 !important; }
+            h1, h2, h3 { margin:0 0 3px 0 !important; line-height:1.12 !important; }
+            p, li { margin:0 0 3px 0 !important; }
+            ul { margin:0 0 4px 16px !important; padding:0 !important; }
+            /* Identity block sizing */
+            .header-identity { display:block; margin:0 0 6px 0 !important; }
+            .header-identity h1 { font-size:16pt !important; }
+            .header-identity p { font-size:9pt !important; }
+            /* Profile image hidden to save space */
+            .profile-pic { display:none !important; }
+            /* Summary tighten */
+            #summary { margin-top:0 !important; }
+            #summary p { font-size:9.7pt !important; text-align:left !important; }
+            /* Remove forced page break; allow natural flow */
+            #certifications-section { break-before:auto; page-break-before:auto; }
+            /* Avoid internal breaks inside list items */
+            h2, h3, li, p { break-inside:avoid; page-break-inside:avoid; }
+            /* Remove links underline, show URL plain */
+            a { color:#000 !important; text-decoration:none !important; }
+            /* Prevent accidental overflow */
+            * { box-shadow:none !important; }
+            /* Debug outline (uncomment to visualize boxes while tuning) */
+            /* section { outline:1px dotted #ccc; } */
+        }
+        /* ========================================================= */
+        /* === Spaceship Scrollbar Overlay ================================= */
+    :root { --rocket-size: 102px; --rocket-track-width: 10px; } /* Enlarged rocket 3x (34px -> 102px) */
+        body::-webkit-scrollbar { width:0; height:0; }
+        /* Hide Firefox scrollbar visually (still scrollable) */
+        body { scrollbar-width:none; }
+    #rocket-track { position:fixed; top:0; right:6px; width:0; height:100vh; z-index:140; pointer-events:none; }
+    #rocket-track:before { display:none !important; }
+    #rocket-wrapper { position:fixed; right:12px; top:0; left:auto; width:var(--rocket-size); height:var(--rocket-size); transform:translateY(0); will-change:transform; }
+        .rocket { position:relative; width:100%; height:100%; filter:drop-shadow(0 0 4px rgba(255,255,255,0.35)); }
+        /* Apollo / Saturn V variant */
+        .rocket.saturn-v { filter:drop-shadow(0 0 4px rgba(255,255,255,0.4)); }
+    /* ================= Space Shuttle Variant (scroll indicator) ================= */
+    .shuttle-indicator { position:relative; width:100%; height:100%; display:flex; align-items:center; justify-content:center; }
+    .shuttle-indicator img { width:100%; height:100%; object-fit:contain; image-rendering:auto; filter:drop-shadow(0 0 4px rgba(255,255,255,0.35)) drop-shadow(0 0 12px rgba(140,190,255,0.30)); pointer-events:none; }
+    .shuttle-plume { position:absolute; bottom:-18%; left:50%; transform:translateX(-50%); width:42%; height:55%; display:flex; align-items:flex-start; justify-content:center; filter:blur(0.6px); animation:plumeBreath 1.25s ease-in-out infinite; }
+    .shuttle-plume:before { content:""; position:absolute; top:0; left:50%; transform:translateX(-50%); width:70%; height:100%; background:radial-gradient(circle at 50% 15%,#fff 0%,#ffe9a8 25%,#ffb347 45%,rgba(255,110,10,0.75) 65%,rgba(255,70,0,0.25) 80%,rgba(255,50,0,0) 100%); border-radius:50% 50% 55% 55%/55% 55% 70% 70%; }
+    .shuttle-plume:after { content:""; position:absolute; top:8%; left:50%; transform:translateX(-50%); width:110%; height:110%; background:radial-gradient(circle at 50% 20%,rgba(255,200,120,0.85),rgba(255,120,40,0.45) 55%,rgba(255,90,0,0) 75%); filter:blur(6px) brightness(1.1); mix-blend-mode:screen; opacity:.85; animation:plumeGlow 1s ease-in-out infinite alternate; }
+    @keyframes plumeBreath { 0%,100% { transform:translateX(-50%) scaleY(1); } 50% { transform:translateX(-50%) scaleY(1.15); } }
+    @keyframes plumeGlow { 0% { opacity:.55; } 100% { opacity:.95; } }
+    .shuttle-plume.scaled { transform:translateX(-50%) scaleY(var(--plume-scale,1)); }
+        :root { --apollo-white:#f2f4f6; --apollo-white-hi:#ffffff; --apollo-shadow:#0d1115; }
+        .rocket.saturn-v .rocket-body { position:absolute; inset:0 0 4px 0; margin:auto; width:40%; height:84%; left:50%; transform:translateX(-50%); background:
+            linear-gradient(to bottom,var(--apollo-white-hi) 0%,var(--apollo-white-hi) 12%,var(--apollo-shadow) 12%,var(--apollo-shadow) 13.4%,var(--apollo-white) 13.4%,var(--apollo-white) 37.5%,var(--apollo-shadow) 37.5%,var(--apollo-shadow) 39%,var(--apollo-white) 39%,var(--apollo-white) 71.5%,var(--apollo-shadow) 71.5%,var(--apollo-shadow) 73%,var(--apollo-white) 73%,var(--apollo-white) 100%);
+            border:1px solid rgba(255,255,255,0.5); border-radius:4px 4px 8px 8px/6px 6px 10px 10px; box-shadow:0 0 4px rgba(255,255,255,0.35) inset,0 0 8px -2px rgba(160,200,255,0.5); }
+        /* Interstage lattice hint */
+        .rocket.saturn-v .rocket-body:before { content:""; position:absolute; left:0; right:0; top:37.5%; height:1.5%; background:repeating-linear-gradient(135deg, rgba(255,255,255,0.12) 0 4px, rgba(255,255,255,0) 4px 8px), repeating-linear-gradient(45deg, rgba(255,255,255,0.12) 0 4px, rgba(255,255,255,0) 4px 8px); mix-blend-mode:screen; opacity:.55; }
+        .rocket.saturn-v .rocket-cone { position:absolute; top:-10%; left:50%; transform:translateX(-50%); width:32%; height:20%; background:linear-gradient(180deg,#f4f4f4,#bfc7d0); border:1px solid rgba(255,255,255,0.45); border-radius:50% 50% 60% 60%/70% 70% 40% 40%; box-shadow:0 0 4px rgba(255,255,255,0.4) inset; }
+        .apollo-les { position:absolute; top:-18%; left:50%; transform:translateX(-50%); width:6%; height:14%; background:linear-gradient(#fdfdfd,#d2d5d8); border:1px solid rgba(255,255,255,0.6); border-radius:2px; }
+        .apollo-les:after { content:""; position:absolute; top:-32%; left:50%; transform:translateX(-50%); width:70%; height:40%; background:#d22626; border-radius:50% 50% 55% 55%/70% 70% 35% 35%; box-shadow:0 0 4px 1px rgba(255,90,90,0.5); }
+        /* Subtle detail bands using pseudo element overlay */
+    .rocket.saturn-v .rocket-body:after { content:""; position:absolute; inset:0; background:repeating-linear-gradient(to bottom, rgba(255,255,255,0) 0 6%, rgba(0,0,0,0.05) 6.4% 7.1%); mix-blend-mode:overlay; opacity:.5; pointer-events:none; border-radius:inherit; }
+    /* USA vertical text & flag */
+    .apollo-markings { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:space-between; padding:18% 0 8% 0; font-weight:700; font-family:system-ui,Segoe UI,Roboto,Arial; letter-spacing:1px; }
+    .apollo-markings .usa-text { writing-mode:vertical-rl; transform:rotate(180deg); font-size:6px; line-height:1; color:#d21a1a; text-shadow:0 0 2px rgba(255,255,255,0.6); opacity:.9; }
+    .apollo-markings .flag-block { position:relative; width:14px; height:8px; }
+    .flag-stripes { position:absolute; inset:0; background:repeating-linear-gradient(to bottom,#d21a1a 0 1px,#fff 1px 2px); border:1px solid rgba(255,255,255,0.5); border-radius:1px; }
+    .flag-canton { position:absolute; top:0; left:0; width:40%; height:50%; background:#133b6b; border-top-left-radius:1px; box-shadow:0 0 2px rgba(255,255,255,0.4) inset; }
+    /* Micro LEDs */
+    .apollo-leds { position:absolute; inset:0; pointer-events:none; }
+    .apollo-leds:before, .apollo-leds:after { content:""; position:absolute; width:3px; height:3px; background:radial-gradient(circle,#fff,#9fd5ff 70%,rgba(160,220,255,0)); border-radius:50%; animation:ledBlink 3.2s linear infinite; box-shadow:0 0 4px 1px rgba(150,220,255,0.65); }
+    .apollo-leds:before { top:22%; left:55%; animation-delay:.6s; }
+    .apollo-leds:after { top:63%; left:40%; animation-delay:1.9s; }
+    @keyframes ledBlink { 0%,12%,100% { opacity:.15; } 8% { opacity:1; } 10% { opacity:.3; } }
+    /* Dynamic flame elongation wrapper */
+    .rocket-flame { transition:transform .18s linear; }
+    .rocket-flame.scaled { transform:translateX(-50%) scaleY(var(--flame-scale,1)); }
+        /* Hide legacy parts no longer used */
+        .rocket-wing, .rocket-window { display:none !important; }
+        .rocket-flame { position:absolute; bottom:-14%; left:50%; transform:translateX(-50%); width:32%; height:38%; filter:blur(0.5px) brightness(1.1); animation:flamePulse 0.55s linear infinite; transform-origin:50% 0; }
+        .flame-core { position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:45%; height:60%; background:radial-gradient(circle at 50% 30%,#fff 0%,#ffe07a 30%,#ff9d2d 55%,rgba(255,80,0,0.6) 80%,rgba(255,60,0,0) 100%); border-radius:50% 50% 55% 55%/45% 45% 55% 55%; animation:flameCore 0.4s ease-in-out infinite alternate; }
+        .flame-glow { position:absolute; bottom:-4%; left:50%; transform:translateX(-50%); width:125%; height:100%; background:radial-gradient(circle at 50% 25%,rgba(255,214,130,0.9) 0%,rgba(255,140,40,0.55) 40%,rgba(255,90,0,0.18) 70%,rgba(255,80,0,0) 100%); filter:blur(3px) saturate(1.15) brightness(1.05); opacity:0.9; animation:flameGlow 0.6s ease-in-out infinite alternate; mix-blend-mode:screen; }
+        @keyframes flamePulse { 0%,100% { transform:translateX(-50%) scaleY(1); } 50% { transform:translateX(-50%) scaleY(1.18); } }
+        @keyframes flameCore { 0% { transform:translateX(-50%) scale(1); } 100% { transform:translateX(-50%) scale(0.86,1.12); } }
+        @keyframes flameGlow { 0% { opacity:0.65; } 100% { opacity:1; } }
+        .rocket-trail { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:40%; height:200%; pointer-events:none; filter:blur(4px); opacity:0.25; background:radial-gradient(circle at 50% 0%,rgba(180,220,255,0.6),rgba(100,150,255,0.3) 35%,rgba(60,100,180,0) 70%); animation:trailPulse 1.4s ease-in-out infinite; }
+        @keyframes trailPulse { 0%,100% { opacity:0.22; } 50% { opacity:0.36; } }
+        /* Accessibility fallback when reduced motion */
+        @media (prefers-reduced-motion: reduce){
+            #rocket-track { display:none !important; }
+        }
+        /* === Futuristic Nav Menu ================================= */
+    .nav-orbit { display:flex; gap:0.65rem; align-items:center; --grad-a:#5ab0ff; --grad-b:#ae84ff; --grad-c:#ffb874; }
+    /* Shift horizontal main menu 1.5cm left (only when not in left-bar mode) */
+    body:not(.nav-left-active) .nav-orbit { position:relative; transform:translateX(-1.5cm); left:auto; }
+    /* Uniform button vertical alignment */
+    .nav-orbit a { display:flex; align-items:center; justify-content:center; min-height:34px; }
+    /* Prevent slight height shifts on active/hover */
+    .nav-orbit a .nav-label { display:inline-block; line-height:1.1; }
+    /* ===== Left Sidebar (auto when summary collides) ===== */
+    body.nav-left-active .nav-orbit { flex-direction:column; position:fixed; top:80px; left:0; padding:0.75rem 0.55rem 1rem 0.55rem; background:linear-gradient(180deg,rgba(12,22,35,0.82),rgba(8,14,24,0.85)); backdrop-filter:blur(10px); border-right:1px solid rgba(130,190,255,0.18); z-index:120; width:150px; max-height:calc(100vh - 90px); overflow-y:auto; scrollbar-width:none; }
+    /* Opaque header style */
+    .header-opaque { background:linear-gradient(135deg,#0e1824 0%,#101d2c 45%,#112538 100%); box-shadow:0 2px 6px -2px rgba(0,0,0,0.55),0 4px 18px -6px rgba(10,40,80,0.55); border-bottom:1px solid rgba(120,180,255,0.18); }
+    .header-opaque:before { content:""; position:absolute; inset:0; pointer-events:none; background:radial-gradient(circle at 22% 18%,rgba(120,180,255,0.22),rgba(0,0,0,0) 60%), radial-gradient(circle at 78% 35%,rgba(255,180,120,0.18),rgba(0,0,0,0) 65%); mix-blend-mode:overlay; opacity:.8; }
+    body.nav-left-active .header-opaque { background:linear-gradient(135deg,#0e1824 0%,#101d2c 55%,#132b42 100%); }
+    body.nav-left-active .nav-orbit::-webkit-scrollbar { width:0; height:0; }
+    body.nav-left-active .nav-orbit a { width:100%; text-align:left; font-size:0.7rem; padding:0.55rem 0.75rem; border-radius:10px; }
+    body.nav-left-active main { margin-left:165px; transition:margin-left .35s ease; }
+    body.nav-left-active #header { position:relative; }
+    @media (max-width: 1040px){ body.nav-left-active main { margin-left:0; } body.nav-left-active .nav-orbit { position:static; flex-direction:row; width:auto; background:transparent; border:none; padding:0; top:auto; left:auto; } }
+        .nav-orbit a { position:relative; --pad-x:1.05rem; --pad-y:0.55rem; padding:var(--pad-y) var(--pad-x); border-radius:999px; font-weight:600; font-size:0.82rem; letter-spacing:0.5px; text-transform:uppercase; overflow:hidden; isolation:isolate; backdrop-filter:blur(6px); background:linear-gradient(145deg,rgba(25,45,68,0.55),rgba(10,16,28,0.55)); border:1px solid rgba(120,180,255,0.28); box-shadow:0 0 0 1px rgba(120,180,255,0.15) inset,0 0 8px -2px rgba(90,140,220,0.55),0 2px 6px -2px rgba(0,0,0,0.65); color:#c9d9ef; transition:color .25s, border-color .35s, box-shadow .35s, background .4s; }
+    .nav-orbit a .nav-label { background:linear-gradient(90deg,var(--grad-a),var(--grad-b),var(--grad-c)); -webkit-background-clip:text; background-clip:text; color:transparent; filter:drop-shadow(0 0 4px rgba(120,180,255,0.35)); transition:filter .45s, opacity .45s; opacity:.82; letter-spacing:0.6px; }
+    .nav-orbit a:hover .nav-label, .nav-orbit a:focus-visible .nav-label { opacity:1; filter:drop-shadow(0 0 6px rgba(150,210,255,0.65)) drop-shadow(0 0 12px rgba(255,180,140,0.35)); }
+    .nav-orbit a.active .nav-label { opacity:1; filter:drop-shadow(0 0 7px rgba(180,235,255,0.95)) drop-shadow(0 0 14px rgba(255,195,140,0.55)); }
+        .nav-orbit a:before, .nav-orbit a:after { content:""; position:absolute; inset:0; opacity:0; transition:opacity .5s; }
+        .nav-orbit a:before { background:radial-gradient(circle at 30% 20%,rgba(255,255,255,0.35),rgba(255,255,255,0) 60%); mix-blend-mode:overlay; }
+        .nav-orbit a:after { background:linear-gradient(120deg,rgba(90,170,255,0.35),rgba(170,130,255,0.25),rgba(255,180,120,0.25)); mix-blend-mode:color-dodge; }
+        .nav-orbit a .nav-glow { position:absolute; inset:-2px; background:radial-gradient(circle at 70% 30%,rgba(140,200,255,0.35),rgba(90,140,255,0.15) 40%,rgba(0,0,0,0) 70%); opacity:0; transition:opacity .45s; pointer-events:none; filter:blur(6px); }
+        .nav-orbit a:hover, .nav-orbit a:focus-visible { color:#fff; border-color:rgba(160,210,255,0.75); box-shadow:0 0 0 1px rgba(140,200,255,0.55) inset,0 0 18px -2px rgba(110,170,255,0.75),0 0 28px -4px rgba(80,120,255,0.55); }
+        .nav-orbit a:hover:before, .nav-orbit a:hover:after, .nav-orbit a:focus-visible:before, .nav-orbit a:focus-visible:after { opacity:1; }
+        .nav-orbit a:hover .nav-glow, .nav-orbit a:focus-visible .nav-glow { opacity:1; }
+        .nav-orbit a.active { color:#fff; border-color:rgba(190,235,255,0.9); background:linear-gradient(155deg,rgba(40,70,100,0.65),rgba(18,28,48,0.65)); box-shadow:0 0 0 1px rgba(190,235,255,0.65) inset,0 0 22px -2px rgba(140,210,255,0.85),0 0 40px -6px rgba(120,160,255,0.55); }
+        .nav-orbit a.active:before, .nav-orbit a.active:after { opacity:1; }
+        .nav-orbit a.active .nav-glow { opacity:1; }
+        /* Tiny star accent */
+        .nav-orbit a .nav-star { position:absolute; top:6px; right:10px; width:6px; height:6px; background:radial-gradient(circle,#fff,#9fd5ff 60%,rgba(160,220,255,0) 70%); border-radius:50%; box-shadow:0 0 6px 2px rgba(150,220,255,0.65),0 0 10px 4px rgba(120,160,255,0.35); opacity:0; transform:scale(.4) rotate(0deg); transition:opacity .6s, transform .6s; pointer-events:none; }
+        .nav-orbit a.active .nav-star { opacity:1; transform:scale(1) rotate(140deg); }
+        /* Mobile menu adaptation */
+        #mobile-menu a { position:relative; font-weight:600; letter-spacing:.5px; }
+        #mobile-menu a:before { content:""; position:absolute; inset:0; background:linear-gradient(145deg,rgba(25,45,68,0.55),rgba(10,16,28,0.55)); border:1px solid rgba(120,180,255,0.3); border-radius:10px; opacity:0; transform:scale(.98); transition:.35s; }
+        #mobile-menu a.active:before, #mobile-menu a:hover:before { opacity:1; transform:scale(1); }
+        @media (max-width: 860px){ .nav-orbit { display:none; } }
+        /* === Offset Certifications Section to avoid Quick View overlap === */
+        /* Dynamic spacing system (Option 5) */
+        #certifications-section { scroll-margin-top: 140px; margin-top: 0; }
+        /* Base gap managed via injected spacer; keep small default for no-JS */
+        .no-dynamic-spacing #certifications-section { margin-top: 120px; }
+        @media (max-width:1024px){ #certifications-section { scroll-margin-top: 120px; } }
+        @media (max-width:640px){ #certifications-section { scroll-margin-top: 100px; } }
     </style>
 </head>
 <body class="antialiased fade-in">
-    <header id="header" class="bg-slate-950/80 backdrop-blur-md sticky top-0 z-50 relative">
-        <div class="absolute inset-0 -z-10 bg-cover bg-center opacity-35" style="background-image:url('background.jpg');"></div>
-        <div class="absolute inset-0 -z-0 bg-slate-950/60 backdrop-blur-sm"></div>
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center relative">
-            <h1 class="text-xl md:text-2xl font-bold text-slate-200">Gil Nava Zaragoza</h1>
-            <ul class="hidden md:flex items-center">
-                <li class="px-4 relative after:content-[''] after:absolute after:right-0 after:top-1/2 after:-translate-y-1/2 after:h-6 after:w-px after:bg-slate-600/50 last:after:hidden">
-                    <a href="#professional-summary" class="font-medium text-slate-300 hover:text-white transition-colors">Summary</a>
-                </li>
-                <li class="px-4 relative after:content-[''] after:absolute after:right-0 after:top-1/2 after:-translate-y-1/2 after:h-6 after:w-px after:bg-slate-600/50 last:after:hidden">
-                    <a href="#experience" class="font-medium text-slate-300 hover:text-white transition-colors">Experience</a>
-                </li>
-                <li class="px-4 relative after:content-[''] after:absolute after:right-0 after:top-1/2 after:-translate-y-1/2 after:h-6 after:w-px after:bg-slate-600/50 last:after:hidden">
-                    <a href="#skills" class="font-medium text-slate-300 hover:text-white transition-colors">Skills</a>
-                </li>
-                <li class="px-4 relative after:content-[''] after:absolute after:right-0 after:top-1/2 after:-translate-y-1/2 after:h-6 after:w-px after:bg-slate-600/50 last:after:hidden">
-                    <a href="#education" class="font-medium text-slate-300 hover:text-white transition-colors">Education</a>
-                </li>
-                <li class="px-4 relative after:content-[''] after:absolute after:right-0 after:top-1/2 after:-translate-y-1/2 after:h-6 after:w-px after:bg-slate-600/50 last:after:hidden">
-                    <a href="#interests" class="font-medium text-slate-300 hover:text-white transition-colors">Interests</a>
-                </li>
-                <li class="px-4 relative after:content-[''] after:absolute after:right-0 after:top-1/2 after:-translate-y-1/2 after:h-6 after:w-px after:bg-slate-600/50 last:after:hidden">
-                    <a href="#freelancer-portfolio" class="font-medium text-slate-300 hover:text-white transition-colors">FreeLancer Portafolio</a>
-                </li>
-                <li class="px-4 relative">
-                    <a href="#certifications-section" class="font-medium text-slate-300 hover:text-white transition-colors">Certifications</a>
-                </li>
+    <!-- Fondo musical: se intenta reproducir automáticamente en bucle -->
+    <audio id="bg-audio" src="calm.mp3" autoplay loop preload="auto" playsinline hidden></audio>
+    <!-- Botón fallback (solo se mostrará si el navegador bloquea la reproducción automática) -->
+    <div id="audio-fallback-wrapper" role="region" aria-label="Control de audio" style="position:fixed; inset:auto 12px 12px auto; z-index:60; display:none;">
+        <button id="enable-audio-btn" type="button" aria-label="Activar música de fondo" style="background:#0ea5e9; color:#0f172a; font-weight:600; padding:10px 14px; border-radius:999px; border:none; box-shadow:0 4px 14px -2px rgba(14,165,233,0.55); cursor:pointer; font-size:14px; display:flex; align-items:center; gap:6px;">
+            <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#f1f5f9; animation:pulseDot 1.4s ease-in-out infinite;"></span>
+            Activar audio
+        </button>
+    </div>
+    <div id="audio-status" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+    <style>
+        @keyframes pulseDot { 0%,100%{ transform:scale(1); opacity:1;} 50%{ transform:scale(0.4); opacity:0.35;} }
+        /* Respeta modo impresión: no mostrar controles */
+        @media print { #audio-fallback-wrapper { display:none !important; } }
+        /* Botón flotante de audio */
+        #audio-toggle-btn { position:fixed; inset:auto 12px 72px auto; z-index:61; display:flex; align-items:center; gap:6px; background:rgba(15,23,42,0.78); color:#f1f5f9; border:1px solid #334155; padding:10px 14px; border-radius:999px; font-size:14px; font-weight:600; cursor:pointer; backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); box-shadow:0 4px 16px -4px rgba(0,0,0,.55); transition:background .25s, box-shadow .25s, transform .25s; }
+        #audio-toggle-btn:hover { background:rgba(30,41,59,0.85); }
+        #audio-toggle-btn:active { transform:scale(.92); }
+        #audio-toggle-btn:focus-visible { outline:2px solid #0ea5e9; outline-offset:3px; }
+        #audio-toggle-btn .icon { font-size:18px; line-height:1; display:inline-flex; }
+        #audio-toggle-btn[data-muted="true"] { background:rgba(71,85,105,0.65); }
+        #audio-toggle-btn[data-muted="true"] .label { opacity:.85; }
+        @media (max-width:640px){
+            #audio-toggle-btn { inset:auto 10px 10px auto; padding:9px 13px; font-size:13px; }
+            #audio-toggle-btn .label { display:none; }
+            #audio-toggle-btn .icon { font-size:20px; }
+        }
+        /* Safe-area support (iOS notch) */
+        @supports(padding: max(0px)){
+            #audio-toggle-btn { right:calc(10px + env(safe-area-inset-right)); bottom:calc(10px + env(safe-area-inset-bottom)); }
+            #audio-fallback-wrapper { right:calc(10px + env(safe-area-inset-right)); bottom:calc(58px + env(safe-area-inset-bottom)); }
+        }
+    </style>
+    <button id="audio-toggle-btn" type="button" aria-label="Silenciar audio" aria-pressed="false" data-muted="false" style="display:none;">
+        <span class="icon" aria-hidden="true">🔊</span>
+        <span class="label">Sonido</span>
+    </button>
+        <!-- Galaxy dynamic background canvas -->
+        <canvas id="galaxy-bg" aria-hidden="true"></canvas>
+        <!-- Spaceship Scrollbar -->
+        <div id="rocket-track" aria-hidden="true">
+            <div id="rocket-wrapper">
+                <div class="shuttle-indicator" aria-label="Space Shuttle">
+                    <svg class="shuttle-svg" viewBox="0 0 64 128" role="img" aria-hidden="true" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+                        <defs>
+                            <linearGradient id="shBody" x1="32" y1="0" x2="32" y2="128" gradientUnits="userSpaceOnUse">
+                                <stop offset="0%" stop-color="#ffffff"/>
+                                <stop offset="55%" stop-color="#e8edf2"/>
+                                <stop offset="100%" stop-color="#d2d9e0"/>
+                            </linearGradient>
+                            <linearGradient id="shNose" x1="32" y1="0" x2="32" y2="22" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#fdfdfd"/>
+                                <stop offset="100%" stop-color="#b8c4cf"/>
+                            </linearGradient>
+                            <radialGradient id="shCockpit" cx="0" cy="0" r="1" gradientTransform="translate(32 30) rotate(90) scale(12 12)" gradientUnits="userSpaceOnUse">
+                                <stop offset="0%" stop-color="#ffffff"/>
+                                <stop offset="45%" stop-color="#98c6e6"/>
+                                <stop offset="100%" stop-color="#1e3d55"/>
+                            </radialGradient>
+                        </defs>
+                        <!-- Main fuselage -->
+                        <path d="M30 14c0-6 2-12 2-12s2 6 2 12v78c0 6 4 14 6 22 1 5-3 8-8 8s-9-3-8-8c2-8 6-16 6-22V14Z" fill="url(#shBody)" stroke="#d0dae2" stroke-width="1" />
+                        <!-- Nose cone -->
+                        <path d="M34 14c0-6-2-12-2-12s-2 6-2 12v6h4v-6Z" fill="url(#shNose)" stroke="#b4c0ca" stroke-width="0.8" />
+                        <!-- Cockpit window -->
+                        <ellipse cx="32" cy="30" rx="10" ry="7" fill="url(#shCockpit)" stroke="#d6ebf8" stroke-width="1" />
+                        <!-- Wings -->
+                        <path d="M18 70c6-4 10-6 14-6s8 2 14 6l2 10c-6-3-12-5-16-5s-10 2-16 5l2-10Z" fill="#f2f5f8" stroke="#c9d4dd" stroke-width="1"/>
+                        <!-- Vertical stabilizer -->
+                        <path d="M30 54c0 6-4 18-6 26 4-4 6-6 8-6s4 2 8 6c-2-8-6-20-6-26h-4Z" fill="#eef2f6" stroke="#bcc7d1" stroke-width="1"/>
+                        <!-- Thermal tile pattern hint -->
+                        <g stroke="#b5bec7" stroke-width="0.4" opacity="0.5">
+                            <line x1="26" y1="60" x2="38" y2="60"/>
+                            <line x1="24" y1="66" x2="40" y2="66"/>
+                            <line x1="22" y1="72" x2="42" y2="72"/>
+                            <line x1="22" y1="78" x2="42" y2="78"/>
+                            <line x1="24" y1="84" x2="40" y2="84"/>
+                        </g>
+                        <!-- Engine bells suggestion -->
+                        <g fill="#2b2f38" stroke="#5a6670" stroke-width="0.5">
+                            <ellipse cx="28" cy="106" rx="3" ry="5"/>
+                            <ellipse cx="32" cy="108" rx="3" ry="6"/>
+                            <ellipse cx="36" cy="106" rx="3" ry="5"/>
+                        </g>
+                    </svg>
+                    <div class="shuttle-plume" aria-hidden="true"></div>
+                </div>
+            </div>
+        </div>
+        <script>
+        (function(){
+            if(window.__galaxyInit) return; window.__galaxyInit=true;
+            const prefersReduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const body=document.body; body.classList.add('galaxy-active');
+            const canvas=document.getElementById('galaxy-bg');
+            if(!canvas || prefersReduce) return; // respect reduced motion
+            const ctx=canvas.getContext('2d');
+            // ======= Configurable Starfield Parameters (easy tuning) =======
+            const STAR_SIZE_MULT = 2.4;          // Global size multiplier (>1 = bigger stars) (was 1.8)
+            const STAR_SPEED_MULT = 3.1;         // Global drift speed multiplier (was 2.2)
+            const RARE_GIANT_CHANCE = 0.10;      // Chance for a near-depth star to become a large highlight
+            const BASE_DENSITY=0.105;            // Base density scaling factor (reduced slightly due to larger stars)
+            const DEPTH=0.65;                    // Depth influence on star size
+            const DRIFT_SPEED_BASE=0.0175 * STAR_SPEED_MULT;      // Base drift (px/ms) before depth scaling (raised)
+            const DRIFT_SPEED_VARIANCE=0.028 * STAR_SPEED_MULT;  // Added random drift component (raised)
+            // =================================================================
+            let w,h,stars=[]; let docH=0;
+            // Full-document distribution down to the 'Let's connect' section. Variety of shapes for richer field.
+            const SHAPES = ['circle','diamond','cross'];
+            // We previously tried to detect an anchor ("Let's connect"). That caused the starfield to stop earlier if that
+            // text wasn't present or loaded. Now we always use full dynamic document height.
+            function currentDocHeight(){
+                return Math.max(
+                    document.body.scrollHeight,
+                    document.documentElement.scrollHeight,
+                    document.body.offsetHeight,
+                    document.documentElement.offsetHeight,
+                    document.body.clientHeight,
+                    document.documentElement.clientHeight
+                );
+            }
+            function resize(){
+                w=canvas.width=window.innerWidth; h=canvas.height=window.innerHeight;
+                docH = Math.max(currentDocHeight(), h);
+                initStars(true); // full rebuild on resize to avoid gaps
+            }
+            window.addEventListener('resize',resize); resize();
+            function rand(a,b){return Math.random()*(b-a)+a;}
+            function initStars(force){
+                const rawH = docH;
+                const blocks = (rawH/1000)*(w/1200);
+                const targetCount = Math.min(6500, Math.max(700, Math.floor(blocks * 1000 * BASE_DENSITY)));
+                if(!force && stars.length){
+                    // If current star count below target due to doc growth, add more proportionally
+                    if(stars.length < targetCount){
+                        const toAdd = targetCount - stars.length;
+                        for(let i=0;i<toAdd;i++) addStar(rawH);
+                    }
+                    return;
+                }
+                stars=[];
+                for(let i=0;i<targetCount;i++) addStar(rawH);
+            }
+            function addStar(rawH){
+                const depth = Math.random();
+                const x = Math.random()*w;
+                const y = Math.random()*rawH;
+                const baseSize = (1-depth*DEPTH)*1.9 + Math.random()*0.5;
+                let size = baseSize * STAR_SIZE_MULT;
+                // Occasional giant close star for visual interest
+                if(depth < 0.25 && Math.random() < RARE_GIANT_CHANCE){ size *= 1.9; }
+                const hue = 200 + Math.floor(rand(-30,55));
+                // Add slight forward drift bias (towards lower-right) to amplify perceived motion
+                const directionalBiasX = 0.004 * STAR_SPEED_MULT;
+                const directionalBiasY = 0.002 * STAR_SPEED_MULT;
+                const driftX = ((Math.random()*2-1)*(DRIFT_SPEED_BASE + Math.random()*DRIFT_SPEED_VARIANCE)*(1-depth*0.8)) + directionalBiasX*(1-depth);
+                const driftY = ((Math.random()*2-1)*(DRIFT_SPEED_BASE*0.45 + Math.random()*DRIFT_SPEED_VARIANCE*0.4)*(1-depth*0.9)) + directionalBiasY*(1-depth);
+                const shape = SHAPES[Math.random()<0.78?0:(Math.random()<0.5?1:2)];
+                const rot = Math.random()*Math.PI*2;
+                stars.push({x,y,depth,size,hue,tw:Math.random()*Math.PI*2,dx:driftX,dy:driftY,shape,rot});
+            }
+            function frame(t){
+                ctx.globalCompositeOperation='source-over';
+                ctx.clearRect(0,0,w,h);
+                const scrollY = window.scrollY || window.pageYOffset;
+                // Dynamically extend docH if content grew significantly
+                const realScrollH = currentDocHeight();
+                if(realScrollH > docH - h*0.25){
+                    const prev = docH;
+                    docH = realScrollH + h*0.4; // add margin for wrap buffer
+                    // If growth is large (>12%), rebuild entirely for even distribution; else just top-up
+                    if((docH - prev)/prev > 0.12){
+                        initStars(true);
+                    } else {
+                        initStars(false);
+                    }
+                }
+                const driftFactor = 1 + 0.30*Math.sin(t*0.00022); // Increased oscillation amplitude for more motion
+                // --- Adaptive density logic ---
+                // Compute normalized scroll progress (0 top, 1 bottom)
+                const totalScrollable = (realScrollH - h) || 1;
+                const scrollRatio = Math.min(1, Math.max(0, scrollY / totalScrollable));
+                // Belt effect: create a denser band in middle-lower regions (e.g. around interests / portfolio)
+                // Use a smooth curve: base + weighted bumps
+                const beltPeak1 = Math.exp(-Math.pow((scrollRatio-0.38)/0.18,2)); // first hump mid section
+                const beltPeak2 = Math.exp(-Math.pow((scrollRatio-0.66)/0.22,2)); // second hump deeper section
+                // Base target and amplitude
+                const BASE_TARGET_VISIBLE = 132; // average baseline
+                const BELT_AMPLITUDE = 46;       // extra stars at peak
+                let adaptiveTarget = BASE_TARGET_VISIBLE + BELT_AMPLITUDE * (0.55*beltPeak1 + 0.85*beltPeak2);
+                // Hover astro boost multiplier (set by event listeners below)
+                adaptiveTarget *= currentHoverBoost;
+                // Soft smoothing via exponential moving average to avoid jumps frame-to-frame
+                if(!frameState.lastAdaptive){ frameState.lastAdaptive = adaptiveTarget; }
+                const SMOOTH = 0.12; // smoothing factor (lower = smoother)
+                adaptiveTarget = frameState.lastAdaptive + (adaptiveTarget - frameState.lastAdaptive)*SMOOTH;
+                frameState.lastAdaptive = adaptiveTarget;
+                // Count actual visible stars; top-up if below adaptiveTarget.
+                let visibleCount = 0;
+                for(const s of stars){
+                    // Drift
+                    s.x += s.dx * driftFactor;
+                    s.y += s.dy;
+                    // Horizontal wrap to keep density
+                    if(s.x < -60) s.x += (w+120); else if(s.x > w+60) s.x -= (w+120);
+                    // Vertical modular wrap for uniform density: stars re-enter seamlessly
+                    if(s.y < 0) s.y += docH; else if(s.y > docH) s.y -= docH;
+                    // Dynamic cull margin scaled with height (capped) for performance
+                    const margin = Math.min(500, 160 + h*0.35);
+                    if(s.y < scrollY - margin || s.y > scrollY + h + margin) continue;
+                    visibleCount++;
+                    const parallaxY = s.y - scrollY * (0.08 + s.depth*0.40);
+                    const tw=(Math.sin(s.tw + t*0.002*(1-s.depth)) + 1)/2;
+                    // Slightly raised base alpha (0.24 vs 0.20) to keep stars visible in long lower sections
+                    const alpha=0.24 + (1-s.depth)*0.55*tw;
+                    const rx = s.x; const ry = parallaxY;
+                    const glow = ctx.createRadialGradient(rx,ry,0,rx,ry,s.size*3.2);
+                    glow.addColorStop(0,`hsla(${s.hue},70%,${55+tw*28}%,${alpha})`);
+                    glow.addColorStop(1,'hsla(210,55%,10%,0)');
+                    if(s.shape === 'circle'){
+                        ctx.fillStyle=glow; ctx.beginPath(); ctx.arc(rx,ry,s.size,0,Math.PI*2); ctx.fill();
+                    } else if(s.shape === 'diamond'){
+                        ctx.save(); ctx.translate(rx,ry); ctx.rotate(s.rot + t*0.00015*(1-s.depth));
+                        ctx.fillStyle=glow; ctx.beginPath();
+                        const d = s.size*1.8;
+                        ctx.moveTo(0,-d); ctx.lineTo(d,0); ctx.lineTo(0,d); ctx.lineTo(-d,0); ctx.closePath(); ctx.fill();
+                        ctx.restore();
+                    } else { // cross
+                        ctx.strokeStyle = `hsla(${s.hue},80%,82%,${alpha*0.8})`;
+                        ctx.lineWidth = Math.max(0.6, s.size*0.45);
+                        ctx.beginPath();
+                        const len = s.size*2.2;
+                        ctx.moveTo(rx-len, ry); ctx.lineTo(rx+len, ry);
+                        ctx.moveTo(rx, ry-len); ctx.lineTo(rx, ry+len);
+                        ctx.stroke();
+                        // subtle glow dot center
+                        ctx.fillStyle=glow; ctx.beginPath(); ctx.arc(rx,ry,s.size*0.9,0,Math.PI*2); ctx.fill();
+                    }
+                }
+                // Adaptive top-up (only visual, not stored)
+                if(visibleCount < adaptiveTarget){
+                    const deficit = Math.min(55, adaptiveTarget - visibleCount);
+                    for(let i=0;i<deficit;i++){
+                        const rx = Math.random()*w;
+                        const ry = Math.random()*h;
+                        const depth = Math.random()*0.85; // keep them mid/far so they blend
+                        const size = ((1-depth*DEPTH)*1.5 + Math.random()*0.3) * STAR_SIZE_MULT*0.85;
+                        const tw = t*0.002 + Math.random()*Math.PI*2;
+                        const flick = (Math.sin(tw*(1-depth)) + 1)/2;
+                        const hue = 200 + Math.floor(Math.random()*60-30);
+                        const alpha = 0.18 + (1-depth)*0.45*flick;
+                        const glow = ctx.createRadialGradient(rx,ry,0,rx,ry,size*3);
+                        glow.addColorStop(0,`hsla(${hue},70%,${55+flick*28}%,${alpha})`);
+                        glow.addColorStop(1,'hsla(210,55%,10%,0)');
+                        ctx.fillStyle=glow; ctx.beginPath(); ctx.arc(rx,ry,size,0,Math.PI*2); ctx.fill();
+                    }
+                }
+                requestAnimationFrame(frame);
+            }
+            requestAnimationFrame(frame);
+            // --- Hover astro boost (temporary density multiplier) ---
+            let currentHoverBoost = 1;
+            const frameState = { lastAdaptive: null };
+            let boostTimeout=null;
+            function applyBoost(mult, decayDelay=1800){
+                currentHoverBoost = Math.min(2.2, mult);
+                if(boostTimeout) clearTimeout(boostTimeout);
+                boostTimeout = setTimeout(()=>{ // gentle decay back to 1
+                    const start = performance.now();
+                    const startVal = currentHoverBoost;
+                    function decay(now){
+                        const p = Math.min(1,(now-start)/1200);
+                        currentHoverBoost = startVal + (1-startVal)*p;
+                        if(p<1) requestAnimationFrame(decay);
+                    }
+                    requestAnimationFrame(decay);
+                }, decayDelay);
+            }
+            canvas.addEventListener('mouseenter', ()=> applyBoost(1.45));
+            canvas.addEventListener('mousemove', (e)=>{
+                // Quick micro pulses if user moves fast across canvas
+                if(e.movementX*e.movementX + e.movementY*e.movementY > 400){
+                    applyBoost(currentHoverBoost + 0.08, 1400);
+                }
+            });
+            canvas.addEventListener('mouseleave', ()=> applyBoost(1, 300));
+        })();
+        </script>
+        <script>
+        // Spaceship scrollbar sync
+        (function(){
+            const track = document.getElementById('rocket-track');
+            const wrapper = document.getElementById('rocket-wrapper');
+            if(!wrapper) return;
+            let lastScroll=-1, lastH=-1, ticking=false, lastTime=performance.now();
+            const plume = document.querySelector('.shuttle-plume');
+            function clamp(v,a,b){ return v<a?a: (v>b?b:v); }
+            function update(){
+                const scrollH = document.documentElement.scrollHeight - window.innerHeight;
+                const y = window.scrollY || window.pageYOffset;
+                const ratio = scrollH>0 ? (y/scrollH) : 0;
+                const viewportUsable = window.innerHeight - parseFloat(getComputedStyle(wrapper).height) - 12; // bottom offset
+                const yPos = clamp(ratio*viewportUsable,0,viewportUsable);
+                wrapper.style.transform = `translateY(${yPos}px)`;
+                // Subtle tilt & flame elongation based on scroll velocity
+                const now = performance.now();
+                const vel = (y - lastScroll);
+                const dt = (now - lastTime) || 16; // ms
+                const velocityPerSec = vel * (1000/dt);
+                const tilt = clamp(vel*0.08,-10,10);
+                wrapper.style.rotate = tilt.toFixed(2)+'deg';
+                if(plume){
+                    // Improvement 2: stronger reactive plume scaling & slight hue shift simulation via brightness
+                    const norm = Math.min(1, Math.abs(velocityPerSec)/1400); // react faster
+                    const scale = 1 + norm*1.15; // up to ~2.15
+                    plume.classList.add('scaled');
+                    plume.style.setProperty('--plume-scale', scale.toFixed(2));
+                    plume.style.filter = `blur(0.6px) brightness(${1 + norm*0.35})`;
+                }
+                lastScroll = y; lastH = scrollH; lastTime = now; ticking=false;
+            }
+            function request(){ if(!ticking){ ticking=true; requestAnimationFrame(update);} }
+            window.addEventListener('scroll', request, { passive:true });
+            window.addEventListener('resize', request);
+            update();
+        })();
+        </script>
+        <script>
+        // Navigation Scroll Spy & Active State
+        (function(){
+            const links = Array.from(document.querySelectorAll('.nav-orbit a[data-section]'));
+            if(!links.length) return;
+            const mobileLinks = Array.from(document.querySelectorAll('#mobile-menu a[href^="#"]'));
+            function sectionTop(id){
+                const el = document.getElementById(id);
+                if(!el) return Infinity;
+                const r = el.getBoundingClientRect();
+                return r.top + window.scrollY;
+            }
+            function refresh(){
+                const scroll = window.scrollY + window.innerHeight*0.32; // offset for earlier activation
+                // Determine closest section above scroll
+                let active = null; let minDelta = Infinity;
+                for(const a of links){
+                    const id = a.getAttribute('data-section');
+                    const top = sectionTop(id);
+                    if(top <= scroll && (scroll - top) < minDelta){
+                        minDelta = scroll - top; active = a; }
+                }
+                if(!active) active = links[0];
+                for(const a of links){ a.classList.toggle('active', a===active); }
+                // Mobile mirror
+                mobileLinks.forEach(m=>{
+                    const hash = m.getAttribute('href').slice(1);
+                    m.classList.toggle('active', active && active.getAttribute('data-section') === hash);
+                });
+            }
+            let ticking=false; function req(){ if(!ticking){ ticking=true; requestAnimationFrame(()=>{ refresh(); ticking=false; }); } }
+            window.addEventListener('scroll', req, { passive:true });
+            window.addEventListener('resize', req);
+            document.addEventListener('DOMContentLoaded', req);
+            setTimeout(refresh, 120); // initial after layout
+        })();
+        </script>
+    <header id="header" class="fixed top-0 left-0 right-0 z-50 header-opaque shadow-lg">
+        <canvas id="menu-stars" aria-hidden="true"></canvas>
+    <nav class="container mx-auto px-6 py-4 flex justify-between items-center relative">
+            <div class="header-identity">
+                <h1 class="text-xl md:text-2xl font-bold text-slate-200">Gil Nava Zaragoza</h1>
+                <p class="text-[0.80rem] md:text-sm font-medium text-slate-300 tracking-wide">Ford Switch Applications Engineer</p>
+                <!-- Hidden academic degrees (still in DOM in case needed for accessibility) -->
+                <div class="hidden" aria-hidden="true">
+                    <p class="text-[0.75rem] md:text-sm font-medium text-slate-300 tracking-wide">B.Sc. Automotive Systems Engineer</p>
+                    <p class="text-[0.75rem] md:text-sm font-medium text-slate-300 tracking-wide">M.Sc. Engineering Business Management</p>
+                </div>
+            </div>
+            <ul class="nav-orbit hidden md:flex">
+                <li><a href="#professional-summary" data-section="professional-summary"><span class="nav-glow"></span><span class="nav-star"></span><span class="nav-label">Summary</span></a></li>
+                <li><a href="#experience" data-section="experience"><span class="nav-glow"></span><span class="nav-star"></span><span class="nav-label">Experience</span></a></li>
+                <li><a href="#skills" data-section="skills"><span class="nav-glow"></span><span class="nav-star"></span><span class="nav-label">Skills</span></a></li>
+                <li><a href="#education" data-section="education"><span class="nav-glow"></span><span class="nav-star"></span><span class="nav-label">Education</span></a></li>
+                <li><a href="#interests" data-section="interests"><span class="nav-glow"></span><span class="nav-star"></span><span class="nav-label">Interests</span></a></li>
+                <li><a href="#freelancer-portfolio" data-section="freelancer-portfolio"><span class="nav-glow"></span><span class="nav-star"></span><span class="nav-label">Portfolio</span></a></li>
+                <li><a href="#certifications-section" data-section="certifications-section"><span class="nav-glow"></span><span class="nav-star"></span><span class="nav-label">Certifications</span></a></li>
             </ul>
             <div class="flex items-center gap-3">
-                <button id="theme-toggle" aria-label="Toggle theme" title="Toggle light / dark mode" class="inline-flex">
-                    <svg id="theme-icon" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" /></svg>
-                    <span class="sr-only">Toggle theme</span>
-                </button>
                 <button id="open-contact-modal" class="hidden md:inline-block bg-sky-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-sky-700 transition-colors">Contact</button>
             </div>
             <div class="md:hidden">
@@ -453,21 +1161,96 @@
             <button id="open-contact-modal-mobile" class="w-full text-left block py-2 px-4 text-sm text-slate-200 hover:bg-slate-800">Contact</button>
         </div>
     </header>
+    <script>
+    // Fixed header compensation (added): ensure content not hidden when header now fixed
+    (function(){
+        const header = document.getElementById('header');
+        if(!header) return;
+        const root = document.documentElement;
+        function apply(){
+            const h = header.getBoundingClientRect().height;
+            root.style.setProperty('--hdr-height', h + 'px');
+            root.style.setProperty('--hdr-offset', (h + 18) + 'px');
+            document.body.classList.add('with-fixed-header');
+        }
+        let ro; try{ ro = new ResizeObserver(apply); ro.observe(header);}catch(e){}
+        window.addEventListener('load', apply, { once:true });
+        window.addEventListener('resize', ()=> apply(), { passive:true });
+        apply();
+    })();
+    // ===== Dynamic switch nav to left bar when Professional Summary collides with header =====
+    (function(){
+        const header = document.getElementById('header');
+        const summaryHeading = document.getElementById('professional-summary');
+        const navList = document.querySelector('.nav-orbit');
+        if(!header || !summaryHeading || !navList) return;
+        let active=false; let lastState=null;
+        function check(){
+            const hRect = header.getBoundingClientRect();
+            const sRect = summaryHeading.getBoundingClientRect();
+            // Trigger if heading top is above bottom of header minus small buffer
+            const trigger = (sRect.top < (hRect.bottom - 20));
+            if(trigger !== lastState){
+                    lastState = trigger;
+                    if(trigger){ document.body.classList.add('nav-left-active'); }
+                    else { document.body.classList.remove('nav-left-active'); }
+            }
+        }
+        let ticking=false; function onScroll(){ if(!ticking){ ticking=true; requestAnimationFrame(()=>{ check(); ticking=false; }); } }
+        window.addEventListener('scroll', onScroll, { passive:true });
+        window.addEventListener('resize', onScroll);
+        document.addEventListener('DOMContentLoaded', check);
+        setTimeout(check, 150);
+    })();
+    </script>
     <main class="container mx-auto px-6 py-12 md:py-20">
+        <style>
+            /* ===== Global Mobile Responsive Enhancements ===== */
+            :root {
+                --sz-h2-min:2.1rem; --sz-h2-max:2.6rem; --sz-body-min:0.95rem; --sz-body-max:1.05rem;
+            }
+            h2 { font-size:clamp(var(--sz-h2-min), 2.4rem + 0.4vw, var(--sz-h2-max)); line-height:1.1; }
+            body, p, li { font-size:clamp(var(--sz-body-min), 0.94rem + 0.3vw, var(--sz-body-max)); }
+            /* Anchor visibility offset now dynamic via --hdr-offset set by JS */
+            section { scroll-margin-top:var(--hdr-offset, 120px); }
+            @media (max-width:900px){ section { scroll-margin-top:var(--hdr-offset, 110px); } }
+            @media (max-width:640px){
+                body { -webkit-text-size-adjust:100%; }
+                main.container { padding-left:1.1rem !important; padding-right:1.1rem !important; }
+                h2 { letter-spacing:.5px; }
+            }
+            /* Prevent horizontal overflow from grids / code blocks */
+            html, body { overflow-x:hidden; }
+            body.with-fixed-header { padding-top:var(--hdr-height, 140px); }
+            /* Fine-tune line length for paragraphs */
+            p { max-width:75ch; }
+            /* Touch ergonomics */
+            @media (pointer:coarse){
+                :root { --hit-min:46px; }
+                button, a, .skills-arrow-btn, #audio-toggle-btn { min-width:var(--hit-min); min-height:var(--hit-min); }
+                body { -webkit-tap-highlight-color:rgba(255,255,255,0.05); }
+                .interest-card, .portfolio-card { touch-action:manipulation; }
+                /* Avoid double-tap zoom pain on action areas */
+                #skills-carousel-stage, #freelancer-portfolio { touch-action:pan-y; }
+            }
+        </style>
         <section id="summary" class="mb-16 md:mb-24 bg-slate-900 rounded-xl shadow-md py-12">
             <div class="flex flex-col md:flex-row items-center justify-center gap-12 max-w-5xl mx-auto">
                 <div class="flex-shrink-0 flex justify-center items-center">
-                    <img src="GNZ-CSAP.jpg" alt="Profile" class="profile-pic" />
+                    <img src="GNZ-CSAP.jpg" alt="Profile" class="profile-pic" width="180" height="180" loading="lazy" />
                 </div>
                 <div class="flex-1 flex flex-col justify-center items-center">
                     <h2 id="professional-summary" class="text-4xl font-bold text-slate-200 mb-6 text-center">
                         <span class="inline-block align-middle" style="margin-right:0.5rem;vertical-align:middle;">
-                            <img src="summary.png" alt="Summary Logo" style="height:48px;width:auto;display:inline-block;vertical-align:middle;" />
+                            <img src="summary.png" alt="Summary Logo" style="height:48px;width:auto;display:inline-block;vertical-align:middle;" width="48" height="48" loading="lazy" />
                         </span>
                         Professional Summary
                     </h2>
                     <p class="text-slate-300 text-lg leading-relaxed max-w-2xl text-justify">
                         Automotive systems engineer with 7+ years of experience in vehicle launches and system integration, specializing in software validation, controls, and automation. Proficient in programming and scripting with Python, MATLAB/Simulink, and C for developing diagnostic tools, automating test procedures, and analyzing large data sets. Skilled in CAD/CAE modeling, simulation, and validation, with hands-on expertise in troubleshooting complex embedded systems and control software. Strong background in powertrain calibration, infotainment connectivity, and switch/steering applications. Passionate about leveraging programming and software tools to optimize processes, reduce costs, and deliver reliable solutions in the automotive and technology industries.
+                    </p>
+                    <p class="print-only" style="max-width:100%; font-size:9.4pt; line-height:1.22; margin-top:4px !important;">
+                        Automotive systems engineer (7+ yrs) in launches, validation & controls. Strong Python / MATLAB / C for automation & data analysis. CAD/CAE modeling, simulation, calibration & embedded troubleshooting. Focus: reducing cost & cycle time via software-driven process optimization.
                     </p>
                 </div>
             </div>
@@ -475,7 +1258,7 @@
         <section id="experience" class="mb-16 md:mb-24">
             <h2 class="text-3xl md:text-4xl font-bold text-slate-200 mb-12 text-center">
                 <span class="inline-block align-middle" style="margin-right:0.5rem;vertical-align:middle;">
-                    <img src="career.png" alt="Career Journey Logo" style="height:48px;width:auto;display:inline-block;vertical-align:middle;" />
+                    <img src="career.png" alt="Career Journey Logo" style="height:48px;width:auto;display:inline-block;vertical-align:middle;" width="48" height="48" loading="lazy" />
                 </span>
                 Career Journey
             </h2>
@@ -493,12 +1276,113 @@
         <section id="skills" class="mb-16 md:mb-24">
             <h2 class="text-3xl md:text-4xl font-bold text-slate-200 mb-4 text-center">
                 <span class="inline-block align-middle" style="margin-right:0.5rem;vertical-align:middle;">
-                    <img src="Skills.jpg" alt="Skills Logo" style="height:48px;width:auto;display:inline-block;vertical-align:middle;" />
+                    <img src="Skills.jpg" alt="Skills Logo" style="height:48px;width:auto;display:inline-block;vertical-align:middle;" width="48" height="48" loading="lazy" />
                 </span>
                 Skills & Expertise
             </h2>
-            <div class="flex flex-col md:flex-row gap-4 bg-slate-900 p-4 rounded-xl shadow-md max-w-full mx-auto">
-                <!-- CAD & CAE Simulation Skills -->
+            <style>
+                /* ===== Skills 3D Carousel (Self‑contained styles) ===== */
+                #skills-carousel-stage { perspective: 1600px; perspective-origin: 50% 50%; }
+                /* Ring absolute center (no manual horizontal offset) */
+                :root { --skills-tilt-x: 0deg; }
+                .skills-3d-ring { position: absolute; top:50%; left:50%; width:0; height:0; transform-style:preserve-3d; transform:translate(-50%, -50%) rotateX(var(--skills-tilt-x)) rotateY(0deg); }
+                /* .skills-3d-ring.paused marker class (no static styles; used by JS) */
+                .skills-3d-panel { position:absolute; top:-120px; left:-115px; width:230px; padding:0.55rem 0.6rem 0.75rem; border-radius:0.65rem; background:rgba(0,0,0,0.0); border:0; 
+                    /* Hybrid: base counter-rotate plus global cancel so any ring rotation keeps panel perfectly frontal */
+                    transform:rotateY(var(--angle)) translateZ(var(--radius)) rotateY(calc(var(--angle) * -1)) rotateY(var(--cancel-rotation, 0deg));
+                    transition:filter .35s, opacity .35s, transform .6s; box-shadow:none; }
+                .skills-3d-panel::before { content:""; position:absolute; inset:0; border-radius:inherit; box-shadow:0 0 22px 6px rgba(56,189,248,0.0),0 0 0 0 rgba(56,189,248,0.0); opacity:0; transition:opacity .4s, box-shadow .6s; }
+                .skills-3d-panel.is-front { transform:rotateY(var(--angle)) translateZ(var(--radius)) rotateY(calc(var(--angle) * -1)) rotateY(var(--cancel-rotation, 0deg)) scale(1.02); opacity:1 !important; filter:none !important; }
+                .skills-3d-panel.is-front::before { opacity:1; box-shadow:0 0 32px 14px rgba(56,189,248,0.55), 0 0 10px 2px rgba(56,189,248,0.85); }
+                .skills-3d-panel:not(.is-front) { opacity:0.28; filter:blur(0.3px) brightness(.85); }
+                .skills-3d-panel:not(.is-front) * { opacity:0.70; transition:opacity .35s; }
+                .skills-3d-panel.is-front * { opacity:1 !important; }
+                .skills-3d-panel:not(.is-front)::before { opacity:.55; box-shadow:0 0 18px 5px rgba(56,189,248,0.18); }
+                .skills-3d-panel:not(.is-front):hover { opacity:.45; filter:blur(0) brightness(1); }
+                /* Pointer coarse / small screens: lighten GPU cost (less blur, smaller glows, faster transitions) */
+                @media (pointer: coarse), (max-width:640px){
+                    .skills-3d-panel { transition:filter .25s, opacity .25s, transform .45s; }
+                    .skills-3d-panel:not(.is-front) { opacity:0.35; filter:brightness(.9); }
+                    .skills-3d-panel.is-front::before { box-shadow:0 0 22px 10px rgba(56,189,248,0.42),0 0 6px 1px rgba(56,189,248,0.7); }
+                    .skills-3d-panel:not(.is-front)::before { box-shadow:0 0 14px 4px rgba(56,189,248,0.16); }
+                }
+                /* Reduced motion: drop scale bump and glow intensities */
+                @media (prefers-reduced-motion: reduce){
+                    .skills-3d-panel.is-front { transform:rotateY(var(--angle)) translateZ(var(--radius)) rotateY(calc(var(--angle) * -1)) rotateY(var(--cancel-rotation, 0deg)); }
+                    .skills-3d-panel.is-front::before { box-shadow:0 0 20px 10px rgba(56,189,248,0.35), 0 0 4px 1px rgba(56,189,248,0.55); }
+                    .skills-3d-panel { transition:none; }
+                }
+                /* Remove star pulse/intro animations for flat minimalist look */
+                .panel-stars, .panel-star { display:none !important; }
+                /* Dots */
+                #skills-dots button { width:11px; height:11px; border-radius:50%; background:#334155; border:1px solid #475569; box-shadow:0 0 0 0 rgba(56,189,248,0); transition:background .35s, transform .35s, box-shadow .5s; }
+                #skills-dots button:hover { background:#64748b; }
+                #skills-dots button[aria-current="true"] { background:#0ea5e9; box-shadow:0 0 0 4px rgba(14,165,233,0.15),0 0 12px 2px rgba(125,211,252,0.55); transform:scale(1.3); }
+                #skills-dots button:focus-visible { outline:2px solid #38bdf8; outline-offset:2px; }
+                /* Prev/Next subtle icon effect (text already) */
+                #skills-carousel-controls button { position:relative; overflow:hidden; }
+                #skills-carousel-controls button::after { content:""; position:absolute; inset:0; background:linear-gradient(120deg, transparent 40%, rgba(255,255,255,0.15), transparent 60%); transform:translateX(-120%); }
+                #skills-carousel-controls button:hover::after { animation:btnShine .9s ease; }
+                @keyframes btnShine { to { transform:translateX(120%); } }
+                .skills-3d-panel h3 { text-align:center; font-weight:600; margin-bottom:0.4rem; color:#e2e8f0; font-size:1.05rem; }
+                .skills-3d-panel .space-y-2 > div { font-size:11px; }
+                .skills-3d-panel .space-y-2 .w-full { background:#1e293b; }
+                #skills-carousel-stage { position:relative; width:100%; height:460px; margin:0 auto 3.5rem; max-width:1100px; }
+                /* Ring centered via absolute translate in JS/CSS; removed empty rule */
+                #skills-carousel-controls { max-width:1280px; margin-left:auto; margin-right:auto; }
+                #skills-frame { width:100%; }
+                #skills-frame:before { content:""; position:absolute; inset:0 0 auto 0; height:0; pointer-events:none; }
+                /* Overlay arrow buttons */
+                .skills-arrow-btn { position:absolute; top:50%; transform:translateY(-50%); width:58px; height:58px; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.35); border:1px solid rgba(255,255,255,0.25); color:#e2e8f0; backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); border-radius:50%; cursor:pointer; transition:background .25s, transform .25s, box-shadow .25s; box-shadow:0 4px 18px -4px rgba(0,0,0,.6); }
+                .skills-arrow-btn:hover { background:rgba(255,255,255,0.12); }
+                .skills-arrow-btn:active { transform:translateY(-50%) scale(.9); }
+                .skills-arrow-btn:focus-visible { outline:2px solid #0ea5e9; outline-offset:3px; }
+                .skills-arrow-btn svg { width:34px; height:34px; pointer-events:none; filter:drop-shadow(0 2px 4px rgba(0,0,0,.6)); }
+                .skills-arrow-left { left:12px; }
+                .skills-arrow-right { right:12px; }
+                #skills-carousel-stage { position:relative; }
+                @media (max-width:900px){
+                    .skills-arrow-btn { width:46px; height:46px; }
+                    .skills-arrow-btn svg { width:26px; height:26px; }
+                    .skills-arrow-left { left:4px; }
+                    .skills-arrow-right { right:4px; }
+                }
+                /* Responsive tweaks no longer need offset */
+                /* Increase spacing before education */
+                #education { scroll-margin-top:120px; }
+                #skills-carousel-stage .carousel-vignette { position:absolute; inset:0; pointer-events:none; background:radial-gradient(circle at 50% 55%, rgba(148,163,184,0.10), transparent 65%), linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.55)); mix-blend-mode:normal; }
+                /* (Animation now in JS) */
+                #skills-carousel-stage.cursor-grabbing { cursor:grabbing; }
+                #skills-carousel-stage { cursor:grab; }
+                @media (max-width: 820px) {
+                    #skills-carousel-stage { height:660px; }
+                    .skills-3d-panel { top:-175px; left:-115px; }
+                }
+                @media (prefers-reduced-motion: reduce) {
+                    #skills-carousel-stage { display:none !important; }
+                    #skills-accessible { position:static !important; clip:auto !important; width:auto !important; height:auto !important; padding:inherit; }
+                }
+                /* Larger tap target for floating audio button on small touch devices */
+                @media (pointer: coarse) and (max-width:640px){
+                    #audio-toggle-btn { width:62px; height:62px; }
+                    #audio-toggle-btn .label { font-size:11px; }
+                }
+                /* Mobile: prefer accessible static list under 560px instead of 3D carousel */
+                @media (max-width:560px){
+                    #skills-carousel-stage { display:none !important; }
+                    /* Override Tailwind sr-only so list becomes visible */
+                    #skills-accessible { position:static !important; width:auto !important; height:auto !important; padding:0 !important; margin-top:1.25rem !important; clip:auto !important; white-space:normal !important; overflow:visible !important; }
+                    #skills-accessible > div { max-width:100%; }
+                }
+            </style>
+            <div class="print-only" style="font-size:9.2pt; line-height:1.18; margin:2px 0 6px 0;">
+                <strong>CAD/CAE:</strong> Catia V5, NX, SolidWorks, 3DX, Abaqus, Adams, Ansys. 
+                <strong>Software & Validation:</strong> CANalyzer, FDETool, HMI, Teamcenter, WERS, Matlab/Simulink. 
+                <strong>Programming:</strong> Python, GitHub, IntelliJ. 
+                <strong>Methods:</strong> Six Sigma, 5D/8D, Ishikawa, Agile/Scrum. 
+                <strong>Soft:</strong> Communication, Leadership, Creativity, Teamwork.
+            </div>
+            <div id="skills-accessible" class="flex flex-col md:flex-row gap-4 max-w-full mx-auto screen-only sr-only">
                 <div class="flex-1 min-w-[180px] max-w-xs p-2">
                     <h3 class="text-lg font-semibold text-slate-200 mb-2 text-center">CAD & CAE Simulation</h3>
                     <div class="space-y-2">
@@ -511,7 +1395,6 @@
                         <div><div class="flex justify-between text-slate-400 text-xs mb-1"><span>Solidworks</span><span>70%</span></div><div class="w-full bg-slate-800 rounded-full h-2"><div class="bg-blue-500 h-2 rounded-full" style="width:70%"></div></div></div>
                     </div>
                 </div>
-                <!-- Personal (Soft) Skills -->
                 <div class="flex-1 min-w-[180px] max-w-xs p-2">
                     <h3 class="text-lg font-semibold text-slate-200 mb-2 text-center">Personal</h3>
                     <div class="space-y-2">
@@ -522,7 +1405,6 @@
 						<div><div class="flex justify-between text-slate-400 text-xs mb-1"><span>Dedication</span><span>100%</span></div><div class="w-full bg-slate-800 rounded-full h-2"><div class="bg-green-500 h-2 rounded-full" style="width:100%"></div></div></div>
                     </div>
                 </div>
-                <!-- Software and Validation Skills -->
                 <div class="flex-1 min-w-[180px] max-w-xs p-2">
                     <h3 class="text-lg font-semibold text-slate-200 mb-2 text-center">Software and Validation</h3>
                     <div class="space-y-2">
@@ -537,7 +1419,6 @@
                         <div><div class="flex justify-between text-slate-400 text-xs mb-1"><span>WERS</span><span>75%</span></div><div class="w-full bg-slate-800 rounded-full h-2"><div class="bg-purple-500 h-2 rounded-full" style="width:75%"></div></div></div>
                     </div>
                 </div>
-                <!-- Programming and Tools -->
                 <div class="flex-1 min-w-[180px] max-w-xs p-2">
                     <h3 class="text-lg font-semibold text-slate-200 mb-2 text-center">Programming and Tools</h3>
                     <div class="space-y-2">
@@ -548,7 +1429,6 @@
                         <div><div class="flex justify-between text-slate-400 text-xs mb-1"><span>Python</span><span>50%</span></div><div class="w-full bg-slate-800 rounded-full h-2"><div class="bg-yellow-500 h-2 rounded-full" style="width:50%"></div></div></div>
                     </div>
                 </div>
-                <!-- Methodologies -->
                 <div class="flex-1 min-w-[180px] max-w-xs p-2">
                     <h3 class="text-lg font-semibold text-slate-200 mb-2 text-center">Methodologies</h3>
                     <div class="space-y-2">
@@ -560,11 +1440,28 @@
                     </div>
                 </div>
             </div>
+            <!-- Carousel Controls (moved above stage) -->
+            <div id="skills-frame" class="screen-only mx-auto mb-10" style="max-width:1340px; position:relative; padding:0 40px;">
+                <div id="skills-carousel-controls" class="flex flex-col items-center gap-3 mb-4 select-none">
+                    <div id="skills-dots" class="flex flex-wrap justify-center gap-2 max-w-[620px]"></div>
+                    <div aria-live="polite" aria-atomic="true" id="skills-live" class="sr-only"></div>
+                </div>
+                <div id="skills-carousel-stage" class="">
+                    <div id="skills-3d-ring" class="skills-3d-ring" aria-hidden="true"></div>
+                    <div class="carousel-vignette"></div>
+                    <button type="button" id="skills-arrow-left" class="skills-arrow-btn skills-arrow-left" aria-label="Anterior grupo de habilidades">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                    </button>
+                    <button type="button" id="skills-arrow-right" class="skills-arrow-btn skills-arrow-right" aria-label="Siguiente grupo de habilidades">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                    </button>
+                </div>
+            </div>
         </section>
         <section id="education" class="mb-16 md:mb-24">
             <h2 class="text-3xl md:text-4xl font-bold text-slate-200 mb-8 text-center">
                 <span class="inline-block align-middle" style="margin-right:0.5rem;vertical-align:middle;">
-                    <img src="hat.jpg.png" alt="Graduation Hat Logo" style="height:48px;width:auto;display:inline-block;vertical-align:middle;" />
+                    <img src="hat.jpg.png" alt="Graduation Hat Logo" style="height:48px;width:auto;display:inline-block;vertical-align:middle;" width="48" height="48" loading="lazy" />
                 </span>
                 Education
             </h2>
@@ -788,18 +1685,160 @@
             <h2 class="text-3xl md:text-4xl font-bold text-slate-200 mb-8 text-center">Certifications</h2>
             <div id="certifications" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto"></div>
         </section>
+        <script>
+        // ===== Reproducción automática + Control Mute/Unmute con persistencia =====
+        (function(){
+            const audio = document.getElementById('bg-audio');
+            if(!audio) return;
+            const fallbackWrapper = document.getElementById('audio-fallback-wrapper');
+            const fallbackBtn = document.getElementById('enable-audio-btn');
+            const toggleBtn = document.getElementById('audio-toggle-btn');
+            const status = document.getElementById('audio-status');
+            const LS_KEY = 'bgAudioPref'; // valores: 'muted' | 'unmuted'
+            function announce(msg){ if(status) status.textContent = msg; }
+            function readPref(){ try { return localStorage.getItem(LS_KEY); } catch(e){ return null; } }
+            function writePref(val){ try { localStorage.setItem(LS_KEY, val); } catch(e){} }
+            // Estado inicial según preferencia guardada
+            const pref = readPref();
+            let userInteracted = false;
+            if(pref === 'muted') { audio.muted = true; }
+            else { audio.muted = false; }
+            // Mostrar siempre el botón toggle (aunque se oculte luego si autoplay falla)
+            if(toggleBtn) toggleBtn.style.display='flex';
+            function updateToggleUI(){
+                if(!toggleBtn) return;
+                const muted = audio.muted;
+                toggleBtn.dataset.muted = String(muted);
+                toggleBtn.setAttribute('aria-pressed', String(!muted)); // pressed = hay sonido
+                toggleBtn.setAttribute('aria-label', muted? 'Activar sonido' : 'Silenciar audio');
+                const iconSpan = toggleBtn.querySelector('.icon');
+                if(iconSpan) iconSpan.textContent = muted? '🔇' : '🔊';
+            }
+            updateToggleUI();
+            // Intento de reproducción condicional (no intentes si usuario decidió mutear antes de iniciar)
+            function tryPlay(origin){
+                if(audio.muted) return; // respetar preferencia silenciada sin consumir intentos
+                if(!audio.paused) return;
+                audio.play().then(()=>{ if(fallbackWrapper) fallbackWrapper.style.display='none'; announce('Música de fondo reproduciéndose'); })
+                .catch(err=>{ if(fallbackWrapper) fallbackWrapper.style.display='block'; console.log('[Audio] Bloqueado '+origin, err && err.name); });
+            }
+            function startAutoplayAttempts(){
+                if(audio.muted) return; // no iniciar intentos si está silenciado
+                // Inicio inmediato tras DOM
+                if(document.readyState === 'complete' || document.readyState === 'interactive') { setTimeout(()=>tryPlay('dom-ready'),120); }
+                else { document.addEventListener('DOMContentLoaded', ()=> setTimeout(()=>tryPlay('dom-content-loaded'),120)); }
+                // Ráfaga rápida
+                let burst=0; const burstTimer = setInterval(()=>{ if(audio.muted || !audio.paused || burst>6){ clearInterval(burstTimer); return; } tryPlay('burst-'+burst); burst++; },320);
+                // Reintentos espaciados
+                let retry=0; const retryTimer = setInterval(()=>{ if(audio.muted || !audio.paused || userInteracted || retry>4){ clearInterval(retryTimer); return; } tryPlay('retry-'+retry); retry++; },1500);
+                // Desbloqueo por eventos
+                const unlockEvents = ['click','keydown','pointermove','wheel','touchstart'];
+                function unlock(e){ if(audio.muted) return; tryPlay('unlock-'+e.type); if(!audio.paused){ unlockEvents.forEach(ev=> document.removeEventListener(ev, unlock, { once:true })); } }
+                unlockEvents.forEach(ev=> document.addEventListener(ev, unlock, { once:true, passive:true }));
+            }
+            startAutoplayAttempts();
+            // Fallback manual
+            if(fallbackBtn){ fallbackBtn.addEventListener('click', ()=>{ userInteracted=true; if(!audio.muted) tryPlay('manual-fallback'); }); }
+            // Toggle mute/unmute
+            if(toggleBtn){
+                toggleBtn.addEventListener('click', ()=>{
+                    audio.muted = !audio.muted;
+                    writePref(audio.muted ? 'muted' : 'unmuted');
+                    updateToggleUI();
+                    if(!audio.muted){
+                        // Reanudar o iniciar si estaba detenido
+                        if(audio.paused){ tryPlay('unmute-click'); startAutoplayAttempts(); }
+                    } else {
+                        // Silenciar inmediatamente
+                        audio.pause();
+                    }
+                });
+            }
+            // También actualizar icono si cambia mute por otras APIs
+            audio.addEventListener('volumechange', updateToggleUI);
+            // Pause audio when tab hidden (saves resources on mobile) unless muted already
+            document.addEventListener('visibilitychange', ()=>{
+                if(document.hidden){
+                    if(!audio.paused) audio.dataset._autoResume = '1';
+                    audio.pause();
+                } else {
+                    if(audio.dataset._autoResume === '1' && !audio.muted){
+                        delete audio.dataset._autoResume;
+                        tryPlay('visibility-return');
+                    }
+                }
+            });
+        })();
+        // =================================================================
+        // Option 5: Fully dynamic spacing between portfolio and certifications to avoid overlap with hover Quick View
+        (function(){
+            const portfolioSection = document.getElementById('freelancer-portfolio');
+            const certSection = document.getElementById('certifications-section');
+            const variableCard = document.getElementById('variable-table-card');
+            const tablePanel = document.getElementById('table-panel');
+            if(!portfolioSection || !certSection || !variableCard || !tablePanel){ return; }
+            document.documentElement.classList.remove('no-dynamic-spacing');
+            // Create / ensure spacer element just before certifications
+            let spacer = document.getElementById('portfolio-cert-spacer');
+            if(!spacer){
+                spacer = document.createElement('div');
+                spacer.id='portfolio-cert-spacer';
+                spacer.style.width='100%';
+                spacer.style.height='0px';
+                spacer.style.transition='height .35s ease';
+                certSection.parentNode.insertBefore(spacer, certSection);
+            }
+            let active=false; let hideTimeout=null; let lastH=0;
+            function targetExtra(){
+                // Panel plus small buffer
+                const panelRect = tablePanel.getBoundingClientRect();
+                if(tablePanel.classList.contains('hidden') || panelRect.height < 10){ return 0; }
+                // Use actual panel height (approx) + 40px buffer
+                return Math.min(420, panelRect.height + 40);
+            }
+            function applyHeight(h){
+                if(Math.abs(h-lastH) < 6) return; // avoid tiny jitter
+                spacer.style.height = h + 'px';
+                lastH = h;
+            }
+            function expand(){
+                if(hideTimeout) clearTimeout(hideTimeout);
+                active=true; applyHeight(targetExtra());
+            }
+            function contract(){
+                if(hideTimeout) clearTimeout(hideTimeout);
+                hideTimeout = setTimeout(()=>{ active=false; applyHeight(0); }, 300);
+            }
+            // Observe size changes in panel (in case video loads and height changes)
+            const resizeObs = new ResizeObserver(()=>{ if(active) applyHeight(targetExtra()); });
+            try { resizeObs.observe(tablePanel); } catch(e) {}
+            ['mouseenter','focusin'].forEach(ev=> variableCard.addEventListener(ev, expand));
+            ['mouseenter','focusin'].forEach(ev=> tablePanel.addEventListener(ev, expand));
+            ['mouseleave','focusout'].forEach(ev=> variableCard.addEventListener(ev, contract));
+            ['mouseleave','focusout'].forEach(ev=> tablePanel.addEventListener(ev, contract));
+            // Safety: recalc on window resize & scroll (rare layout shifts)
+            let tick=false; function schedule(){ if(!tick){ tick=true; requestAnimationFrame(()=>{ tick=false; if(active) applyHeight(targetExtra()); }); } }
+            window.addEventListener('resize', schedule, { passive:true });
+            window.addEventListener('scroll', schedule, { passive:true });
+        })();
+        </script>
         <!-- Portfolio Image Modal (dynamic) -->
-        <div id="portfolio-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-sm hidden z-50 flex justify-center items-center p-4" role="dialog" aria-modal="true" aria-labelledby="portfolio-modal-title">
-            <div class="relative bg-slate-900 border border-slate-800 rounded-xl shadow-xl max-w-5xl w-full p-6 flex flex-col gap-6">
-                <button id="close-portfolio" class="absolute top-4 right-4 text-slate-400 hover:text-slate-200" aria-label="Close image viewer">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-                </button>
-                <h3 id="portfolio-modal-title" class="text-2xl font-bold text-slate-200 text-center"></h3>
-                <div id="portfolio-modal-grid" class="grid md:grid-cols-2 gap-4"></div>
-                <p id="portfolio-modal-caption" class="text-xs text-slate-500 text-center"></p>
+        <div id="portfolio-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-sm hidden z-[320] flex justify-center items-center p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="portfolio-modal-title">
+            <div class="relative bg-slate-900/95 border border-slate-800 rounded-xl shadow-xl max-w-5xl w-full flex flex-col overflow-hidden">
+                <div class="sticky top-0 z-10 flex items-center justify-center px-6 py-4 bg-slate-900/95 border-b border-slate-700/70 backdrop-blur supports-[backdrop-filter]:backdrop-blur-md">
+                    <h3 id="portfolio-modal-title" class="text-xl md:text-2xl font-bold text-slate-100 tracking-wide text-center flex-1"></h3>
+                    <button id="close-portfolio" class="ml-4 text-slate-400 hover:text-white transition-colors p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500" aria-label="Close image viewer">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                </div>
+                <div class="p-6 pt-4 flex flex-col gap-6">
+                    <div id="portfolio-modal-grid" class="grid md:grid-cols-2 gap-4"></div>
+                    <p id="portfolio-modal-caption" class="text-xs text-slate-400 text-center"></p>
+                </div>
             </div>
         </div>
     </main>
+    <!-- Removed duplicate legacy spacing script (primary spacer logic retained earlier) -->
     <!-- Modal for Contact Information -->
     <div id="contact-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden z-50 flex justify-center items-center p-4">
         <div class="bg-slate-900 p-8 rounded-xl shadow-lg relative max-w-sm w-full border border-slate-800">
@@ -937,36 +1976,83 @@
             ['6-Sigma Green Belt', '8D', '5D', 'Ishikawa', 'Agile', 'Scrum Master']
         ];
         document.addEventListener('DOMContentLoaded', function () {
-            // Theme toggle logic
-            function applyTheme(theme) {
-                const root = document.documentElement;
-                const themeIcon = document.getElementById('theme-icon');
-                if (theme === 'light') {
-                    root.classList.add('light');
-                    themeIcon.innerHTML = '<path d="M6.76 4.84l-1.8-1.79L3.17 5.84l1.79 1.79 1.8-2.79zM1 13h3v-2H1v2zm10-9h2V1h-2v3zm7.03 1.05l-1.79-1.79-1.8 1.79 1.79 1.8 1.8-1.8zM17 13h3v-2h-3v2zM12 22c.55 0 1-.45 1-1v-3h-2v3c0 .55.45 1 1 1zM4.24 19.16l1.8 1.79 1.79-1.79-1.79-1.8-1.8 1.8zM12 6a6 6 0 100 12 6 6 0 000-12z"/>';
-                } else {
-                    root.classList.remove('light');
-                    themeIcon.innerHTML = '<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />';
+            // Mini starfield for header menu (independent from main background)
+            (function(){
+                const canvas = document.getElementById('menu-stars');
+                if(!canvas) return;
+                const ctx = canvas.getContext('2d');
+                let w=canvas.width=canvas.offsetWidth, h=canvas.height=canvas.offsetHeight;
+                const STAR_COUNT_BASE = 42; // base number of stars
+                const COLOR_POOL = [
+                    {h:205,s:70,l:68}, // soft blue
+                    {h:197,s:82,l:72}, // cyan tint
+                    {h:212,s:62,l:78}, // pale blue
+                    {h:18,s:78,l:62},  // warm orange
+                    {h:27,s:85,l:65},  // amber
+                    {h:332,s:35,l:70}  // faint magenta
+                ];
+                const stars=[]; let lastT=performance.now();
+                function makeStar(){
+                    const depth = Math.random();
+                    const speed = 0.015 + 0.045*(1-depth);
+                    const size = 0.8 + (1-depth)*2.2 + Math.random()*0.6;
+                    const c = COLOR_POOL[Math.floor(Math.random()*COLOR_POOL.length)];
+                    return {x:Math.random()*w, y:Math.random()*h, dx:(Math.random()*0.3+0.05)*(1-depth), dy:speed, size, depth, tw:Math.random()*Math.PI*2, hue:c.h, sat:c.s, light:c.l};
                 }
-                localStorage.setItem('theme', theme);
-            }
-            const themeToggle = document.getElementById('theme-toggle');
-            const themeIcon = document.getElementById('theme-icon');
-            const savedTheme = localStorage.getItem('theme');
-            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const initialTheme = savedTheme ? savedTheme : (prefersDark ? 'dark' : 'light');
-            applyTheme(initialTheme);
-            themeToggle.addEventListener('click', function () {
-                const active = document.documentElement.classList.contains('light') ? 'light' : 'dark';
-                applyTheme(active === 'light' ? 'dark' : 'light');
-            });
+                function resize(){
+                    w=canvas.width=canvas.offsetWidth; h=canvas.height=canvas.offsetHeight;
+                }
+                window.addEventListener('resize', resize);
+                for(let i=0;i<STAR_COUNT_BASE;i++) stars.push(makeStar());
+                function frame(t){
+                    const dt = (t-lastT)||16; lastT=t;
+                    ctx.clearRect(0,0,w,h);
+                    // Nebula gradient background subtle blend
+                    const g = ctx.createLinearGradient(0,0,w,h*1.2);
+                    g.addColorStop(0,'rgba(24,52,82,0.18)');
+                    g.addColorStop(0.45,'rgba(28,46,70,0.14)');
+                    g.addColorStop(0.72,'rgba(70,38,40,0.20)');
+                    g.addColorStop(1,'rgba(110,52,30,0.20)');
+                    ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
+                    for(const s of stars){
+                        s.y += s.dy * dt * 0.06; // vertical drift
+                        s.x += s.dx * dt * 0.02; // slight sideways drift
+                        if(s.y > h+12){ s.y = -10; s.x = Math.random()*w; }
+                        if(s.x > w+20) s.x = -15;
+                        const tw = (Math.sin(s.tw + t*0.0025*(1-s.depth)) + 1)/2;
+                        const alpha = 0.35 + (1-s.depth)*0.55*tw;
+                        const glow = ctx.createRadialGradient(s.x,s.y,0,s.x,s.y,s.size*3.6);
+                        glow.addColorStop(0,`hsla(${s.hue},${s.sat}%,${s.light + tw*8}%,${alpha})`);
+                        glow.addColorStop(1,'hsla(210,60%,8%,0)');
+                        ctx.fillStyle=glow; ctx.beginPath(); ctx.arc(s.x,s.y,s.size,0,Math.PI*2); ctx.fill();
+                    }
+                    requestAnimationFrame(frame);
+                }
+                requestAnimationFrame(frame);
+            })();
+            // Theme toggle removed: force dark theme always
+            document.documentElement.classList.remove('light');
+            try { localStorage.setItem('theme','dark'); } catch(e) {}
 
             // Career Journey timeline logic
             const timelineContainer = document.getElementById('timeline');
             const detailsContainer = document.getElementById('experience-details');
-            // Render timeline items
+            // Helper: extract the FIRST 4-digit year appearing in the period string (start year)
+            function extractStartYear(period){
+                if(!period || typeof period !== 'string') return 9999; // push malformed to end
+                const match = period.match(/\b(\d{4})\b/);
+                return match ? parseInt(match[1],10) : 9999;
+            }
+            // Create a chronologically sorted shallow copy (oldest -> newest) then reverse to show newest (Present) on top
+            const sortedExperience = [...experienceData].sort((a,b)=>{
+                const ay = extractStartYear(a.period);
+                const by = extractStartYear(b.period);
+                if(ay === by) return a.period.localeCompare(b.period); // secondary stable tie-break
+                return ay - by;
+            }).reverse();
+            // Render timeline items using sorted order
             timelineContainer.innerHTML = '';
-            experienceData.forEach((job, index) => {
+            sortedExperience.forEach((job, index) => {
                 const item = document.createElement('div');
                 item.className = `timeline-item relative pl-8 pb-12 cursor-pointer${index === 0 ? ' active' : ''}`;
                 item.dataset.id = job.id;
@@ -998,7 +2084,45 @@
                     updateDetails(targetItem.dataset.id);
                 }
             });
-            updateDetails(experienceData[0].id);
+            // Initialize details with first element (now newest / Present)
+            if(sortedExperience.length) updateDetails(sortedExperience[0].id);
+
+            // Career Journey reveal animation (sequential when section enters viewport)
+            (function(){
+                const journeySection = document.getElementById('experience');
+                if(!journeySection) return;
+                const timelineItems = Array.from(journeySection.querySelectorAll('#timeline .timeline-item'));
+                // Add sequential classes
+                timelineItems.forEach((el, idx)=>{
+                    el.classList.add('cj-seq-item', `cj-seq-stagger-${(idx%6)+1}`);
+                });
+                // Also animate the details panel
+                const detailsPanel = document.getElementById('experience-details');
+                if(detailsPanel){
+                    detailsPanel.classList.add('cj-seq-item','cj-seq-stagger-3');
+                }
+                const prefersReduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+                if(prefersReduce){
+                    // Immediately reveal if user prefers reduced motion
+                    [...timelineItems, detailsPanel].forEach(el=> el && el.classList.add('cj-visible'));
+                    return;
+                }
+                let revealed = false;
+                const obs = new IntersectionObserver((entries)=>{
+                    entries.forEach(entry=>{
+                        if(entry.isIntersecting && !revealed){
+                            revealed = true;
+                            // Stagger via existing transition-delay classes (already set)
+                            requestAnimationFrame(()=>{
+                                timelineItems.forEach(el=> el.classList.add('cj-visible'));
+                                if(detailsPanel) detailsPanel.classList.add('cj-visible');
+                            });
+                            obs.disconnect();
+                        }
+                    });
+                },{threshold:0.15});
+                obs.observe(journeySection);
+            })();
 
             // Other UI logic (contact modal, mobile menu, certifications)
             const certificationsContainer = document.getElementById('certifications');
@@ -1589,15 +2713,20 @@
             }
             function openPortfolio(key){
                 if(!portfolioModal) return;
-                // default to motorcycle if no key
                 buildModalContent(key || 'motorcycle');
                 lastFocusedEl = document.activeElement;
                 portfolioModal.classList.remove('hidden');
-                closePortfolio && closePortfolio.focus();
+                document.body.classList.add('modal-open');
+                portfolioModal.scrollTop = 0;
+                if(closePortfolio){ setTimeout(()=>closePortfolio.focus(), 30); }
+                // Escape handler scoped
+                function escHandler(e){ if(e.key === 'Escape'){ closePortfolioModal(); } }
+                document.addEventListener('keydown', escHandler, { once:true });
             }
             function closePortfolioModal(){
                 if(!portfolioModal) return;
                 portfolioModal.classList.add('hidden');
+                document.body.classList.remove('modal-open');
                 if(lastFocusedEl) lastFocusedEl.focus();
             }
             portfolioCards.forEach(card => {
@@ -1726,7 +2855,149 @@
                     tableVideo.addEventListener('ended', ()=>{ tableVideo.classList.remove('video-zoom-playing'); });
                 }
             }
+            // ===== Skills 3D Carousel Initialization =====
+            (function initSkillsCarousel(){
+                const accessible = document.getElementById('skills-accessible');
+                const ring = document.getElementById('skills-3d-ring');
+                const stage = document.getElementById('skills-carousel-stage');
+                if(!accessible || !ring || !stage) return;
+                const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                if(reduceMotion) return; // fallback will show accessible content
+                // Extract panels from accessible container (its children at depth 1)
+                const panelSources = Array.from(accessible.children).filter(el=> el.matches('div'));
+                const panelCount = panelSources.length;
+                if(panelCount === 0) return;
+                const radius = 470; // reduced depth radius for smaller carousel
+                // Find "Methodologies" index to use as reference for perfect frontal zero
+                let methodologiesIndex = panelSources.findIndex(div => {
+                    const h = div.querySelector('h3');
+                    return h && /Methodologies/i.test(h.textContent || '');
+                });
+                if(methodologiesIndex < 0) methodologiesIndex = 0; // fallback
+                const slice = 360 / panelCount;
+                // Removed custom angleOffset: all panels share uniform frontal reference now
+                const angleOffset = 0;
+                panelSources.forEach((src, idx)=>{
+                    const clone = src.cloneNode(true);
+                    clone.classList.add('skills-3d-panel');
+                    const angle = (360 / panelCount) * idx; // uniform distribution without offset
+                    clone.style.setProperty('--angle', angle + 'deg');
+                    clone.style.setProperty('--radius', radius + 'px');
+                    clone.style.setProperty('--panel-index', idx);
+                    // Remove tailwind shadow if present
+                    clone.classList.remove('shadow-md','bg-slate-900');
+                    ring.appendChild(clone);
+                });
+                // Hide accessible visually but keep for screen readers
+                accessible.classList.add('sr-only');
+                // Controls
+                const dotsContainer = document.getElementById('skills-dots');
+                const btnPrev = document.getElementById('skills-arrow-left');
+                const btnNext = document.getElementById('skills-arrow-right');
+                const live = document.getElementById('skills-live');
+                let dots = [];
+                if(dotsContainer){
+                    for(let i=0;i<panelCount;i++){
+                        const b = document.createElement('button');
+                        b.type='button'; b.setAttribute('aria-label', 'Show skills group ' + (i+1));
+                        if(i===0) b.setAttribute('aria-current','true');
+                        b.addEventListener('click', ()=> { goToPanel(i); });
+                        dotsContainer.appendChild(b); dots.push(b);
+                    }
+                }
+                function canNavigate(){ return true; }
+                if(btnPrev){ btnPrev.addEventListener('click', ()=>{ goToPanel((currentIndex -1 + panelCount)%panelCount); }); }
+                if(btnNext){ btnNext.addEventListener('click', ()=>{ goToPanel((currentIndex +1)%panelCount); }); }
+                // ===== Static Rotation State (no auto spin, no drag) =====
+                let currentRotation = 0; const panels = Array.from(ring.querySelectorAll('.skills-3d-panel')); let currentIndex = 0;
+                function updateFrontPanel(){
+                    // Normalize rotation to 0..360
+                    const norm = ((currentRotation % 360) + 360) % 360; // 0..359
+                    // Each panel at angle A faces front when its angle is within +/- (180/panelCount)/2 of norm (since we inverse rotate each panel)
+                    const slice = 360 / panelCount;
+                    let closest = null; let minDiff = 999;
+                    panels.forEach(p=>{
+                        const angStr = p.style.getPropertyValue('--angle');
+                        const ang = parseFloat(angStr);
+                        // When ring rotates by currentRotation, the panel ends at (ang + currentRotation) mod 360 relative viewer; front ~ 0deg (or 360)
+                        let rel = (ang + currentRotation) % 360; if(rel < 0) rel += 360;
+                        const diff = Math.min(Math.abs(rel), Math.abs(360-rel));
+                        if(diff < minDiff){ minDiff = diff; closest = p; }
+                    });
+                    panels.forEach(p=> {
+                        const isFront = p === closest;
+                        p.classList.toggle('is-front', isFront);
+                        if(isFront) { p.setAttribute('tabindex','0'); }
+                        else { p.removeAttribute('tabindex'); }
+                    });
+                    if(closest){
+                        const angStr = closest.style.getPropertyValue('--angle');
+                        const ang = parseFloat(angStr);
+                        // Compute index from angle
+                        const idx = Math.round(ang / (360 / panelCount)) % panelCount;
+                        if(idx !== currentIndex){
+                            currentIndex = idx;
+                            updateDots();
+                            announcePanel();
+                        }
+                    }
+                }
+                function updateDots(){ dots.forEach((d,i)=>{ if(i===currentIndex) d.setAttribute('aria-current','true'); else d.removeAttribute('aria-current'); }); }
+                function announcePanel(){ if(!live) return; const panel = panels[currentIndex]; if(!panel) return; const title = panel.querySelector('h3'); live.textContent = 'Focused skills group: ' + (title? title.textContent.trim(): ('Group ' + (currentIndex+1))); }
+                function goToPanel(index){
+                    const slice = 360 / panelCount;
+                    currentIndex = (index + panelCount) % panelCount;
+                    currentRotation = - (slice * currentIndex);
+                    ring.style.transform = `translate(-50%, -50%) rotateX(var(--skills-tilt-x)) rotateY(${currentRotation}deg)`;
+                    const cancel = `${-currentRotation}deg`;
+                    panels.forEach(p=> p.style.setProperty('--cancel-rotation', cancel));
+                    updateFrontPanel(); updateDots(); announcePanel();
+                }
+                // (requestSpin / animation loop removed in static mode)
+                ring.addEventListener('keydown', (e)=>{
+                    if(e.key === 'ArrowRight'){ e.preventDefault(); goToPanel((currentIndex + 1)%panelCount); }
+                    if(e.key === 'ArrowLeft'){ e.preventDefault(); goToPanel((currentIndex - 1 + panelCount)%panelCount); }
+                    if(e.key === 'Home'){ e.preventDefault(); goToPanel(0); }
+                    if(e.key === 'End'){ e.preventDefault(); goToPanel(panelCount-1); }
+                });
+                ring.addEventListener('focusin', ()=>{ /* no auto spin so nothing to pause */ });
+                ring.addEventListener('focusout', ()=>{ /* nothing */ });
+                // Resize adjustment for stage height if content larger
+                function adjustStageHeight(){
+                    let maxH = 0; panels.forEach(p=>{ maxH = Math.max(maxH, p.offsetHeight); });
+                    // Add vertical slack
+                    stage.style.minHeight = (maxH + 320) + 'px';
+                }
+                setTimeout(adjustStageHeight, 250);
+                window.addEventListener('resize', ()=>{ setTimeout(adjustStageHeight, 100); });
+                // Initial cancel rotation variable
+                panels.forEach(p=> p.style.setProperty('--cancel-rotation', '0deg'));
+                updateFrontPanel();
+                // Make panels clickable to bring to front
+                panels.forEach((p, idx)=>{
+                    p.style.cursor='pointer';
+                    p.addEventListener('click', ()=>{ goToPanel(idx); });
+                });
+                announcePanel();
+                // Start static: panel 0 front already; only transform applied once
+                // Ensure initial transform honors the configured tilt variable
+                ring.style.transform = `translate(-50%, -50%) rotateX(var(--skills-tilt-x)) rotateY(0deg)`;
+            })();
          });
+    </script>
+    <script>
+    // Dynamic navigation offset so anchored sections align exactly below fixed header
+    (function(){
+        function setNavOffset(){
+            const header = document.getElementById('header') || document.querySelector('header');
+            if(!header) return;
+            const h = header.getBoundingClientRect().height;
+            const extra = 6; // small breathing space
+            document.documentElement.style.setProperty('--nav-offset', (h + extra) + 'px');
+        }
+        window.addEventListener('load', setNavOffset);
+        window.addEventListener('resize', ()=>{ clearTimeout(window.__navOffT); window.__navOffT = setTimeout(setNavOffset, 120); });
+    })();
     </script>
 </body>
 </html>
