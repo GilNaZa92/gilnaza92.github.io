@@ -753,6 +753,16 @@
         .no-dynamic-spacing #certifications-section { margin-top: 120px; }
         @media (max-width:1024px){ #certifications-section { scroll-margin-top: 120px; } }
         @media (max-width:640px){ #certifications-section { scroll-margin-top: 100px; } }
+        /* === Fixed Download Bar === */
+    /* Download bar (now regular footer section) */
+    #download-bar { font-size:14px; }
+    #download-bar h2 { font-size:15px; margin:0; letter-spacing:.55px; color:#f0f6ff; font-weight:600; text-shadow:0 1px 3px rgba(0,0,0,0.55); }
+        #download-btn { background:#2563EB; color:#fff; font-weight:600; padding:.48rem .95rem; border-radius:7px; display:inline-flex; align-items:center; gap:.5rem; text-decoration:none; box-shadow:0 3px 10px -2px rgba(0,0,0,0.6), 0 0 0 1px rgba(70,150,255,0.4); transition:background .35s ease, transform .25s ease, box-shadow .35s ease; }
+        #download-btn span.icon { font-size:19px; line-height:1; }
+        #download-btn:hover { background:#1D4ED8; transform:translateY(-2px); box-shadow:0 7px 18px -6px rgba(0,0,0,0.75), 0 0 0 1px rgba(110,180,255,0.55); }
+        #download-btn:active { transform:translateY(0); }
+    body { padding-bottom:70px; }
+    @media (max-width:640px){ #download-bar .flex{flex-direction:column; align-items:flex-start;} }
     </style>
 </head>
 <body class="antialiased fade-in">
@@ -1367,12 +1377,15 @@
                     #audio-toggle-btn { width:62px; height:62px; }
                     #audio-toggle-btn .label { font-size:11px; }
                 }
-                /* Mobile: prefer accessible static list under 560px instead of 3D carousel */
+                /* Mobile: SHOW carousel (smaller) and hide accessible list to avoid duplication */
                 @media (max-width:560px){
-                    #skills-carousel-stage { display:none !important; }
-                    /* Override Tailwind sr-only so list becomes visible */
-                    #skills-accessible { position:static !important; width:auto !important; height:auto !important; padding:0 !important; margin-top:1.25rem !important; clip:auto !important; white-space:normal !important; overflow:visible !important; }
-                    #skills-accessible > div { max-width:100%; }
+                    #skills-carousel-stage { display:block !important; height:520px; }
+                    .skills-3d-panel { top:-150px; left:-110px; }
+                    /* Keep list hidden again */
+                    #skills-accessible { display:none !important; }
+                    /* Smaller arrows */
+                    .skills-arrow-btn { width:42px; height:42px; }
+                    .skills-arrow-btn svg { width:22px; height:22px; }
                 }
             </style>
             <div class="print-only" style="font-size:9.2pt; line-height:1.18; margin:2px 0 6px 0;">
@@ -1863,7 +1876,7 @@
         </div>
     </div>
     <footer id="footer" class="bg-slate-900 mt-16 md:mt-24">
-        <div class="container mx-auto px-6 py-8 text-center text-slate-400">
+        <div class="container mx-auto px-6 pt-8 pb-4 text-center text-slate-400">
             <div class="flex flex-col items-center gap-2">
                 <p class="text-lg font-semibold">Let's connect</p>
                 <p class="max-w-prose">I'm always open to discussing new opportunities and challenges in the automotive industry.</p>
@@ -1875,6 +1888,21 @@
                     </svg>
                     <span class="font-semibold text-slate-200 ml-2">GilNavaZaragoza</span>
                 </a>
+            </div>
+        </div>
+        <!-- Download bar moved inside footer -->
+        <div id="download-bar" class="mt-6">
+            <div class="container mx-auto px-6 pb-8">
+                <div class="rounded-lg bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800 border border-slate-700/60 shadow-lg shadow-slate-900/40 p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                    <h2 class="text-slate-100 font-semibold tracking-wide m-0 text-base md:text-lg">Want my resume?</h2>
+                    <div class="flex items-center gap-3">
+                        <a id="download-btn" href="file:///C:/Users/GNAVA6/OneDrive%20-%20azureford/Documents/GNZ/Resume%202025/Resume%202025/HTML-PDF/Gil%20Nava%20Zaragoza%20-%20Resume%202025%20Switch%20App%20Engineer.pdf" download class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-semibold px-4 py-2 rounded-md transition-colors">
+                            <span class="text-lg">⬇️</span>
+                            <span>Download PDF</span>
+                        </a>
+                        <a href="#top" class="text-slate-300 hover:text-white text-sm underline underline-offset-4">Back to top</a>
+                    </div>
+                </div>
             </div>
         </div>
     </footer>
@@ -2999,8 +3027,11 @@
         window.addEventListener('resize', ()=>{ clearTimeout(window.__navOffT); window.__navOffT = setTimeout(setNavOffset, 120); });
     })();
     </script>
+    
+    <div class="text-center text-[11px] md:text-xs text-slate-500 mt-4 mb-6 select-none" style="font-family:system-ui,Segoe UI,Arial,sans-serif; letter-spacing:.3px;">
+        © 2025 Gil Nava Zaragoza - All rights reserved.
+    </div>
 </body>
 </html>
-
 
 
