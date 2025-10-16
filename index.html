@@ -1896,7 +1896,8 @@
                 <div class="rounded-lg bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800 border border-slate-700/60 shadow-lg shadow-slate-900/40 p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <h2 class="text-slate-100 font-semibold tracking-wide m-0 text-base md:text-lg">Want my resume?</h2>
                     <div class="flex items-center gap-3">
-                        <a id="download-btn" href="file:///C:/Users/GNAVA6/OneDrive%20-%20azureford/Documents/GNZ/Resume%202025/Resume%202025/HTML-PDF/Gil%20Nava%20Zaragoza%20-%20Resume%202025%20Switch%20App%20Engineer.pdf" download class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-semibold px-4 py-2 rounded-md transition-colors">
+                        <!-- Place the PDF file in the SAME directory as this HTML and name it 'GilNavaZaragoza_Resume_2025.pdf' -->
+                        <a id="download-btn" href="https://gilnaza92.github.io/GilNavaZaragoza_Resume_2025.pdf" data-pdf="GilNavaZaragoza_Resume_2025.pdf" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-semibold px-4 py-2 rounded-md transition-colors">
                             <span class="text-lg">⬇️</span>
                             <span>Download PDF</span>
                         </a>
@@ -3032,6 +3033,42 @@
         © 2025 Gil Nava Zaragoza - All rights reserved.
     </div>
 </body>
+<script>
+// Enhanced download: tries local relative PDF, then GitHub raw, then offers print fallback.
+// Download logic: tries direct GitHub Pages URL first, then raw GitHub mirrors.
+(() => {
+    const btn = document.getElementById('download-btn');
+    if(!btn) return;
+    const fileName = btn.dataset.pdf || 'Resume.pdf';
+    // Provide your repo path (branch main) and optional subfolder if PDF lives in a folder.
+        const GH_USER = 'gilnaza92';
+        const GH_REPO = 'gilnaza92.github.io'; // pages repo name
+        const GH_PATH = fileName; // if you move PDF into a subfolder, update this
+        const sources = [
+            `https://gilnaza92.github.io/${GH_PATH}`,
+            fileName,
+            `https://raw.githubusercontent.com/${GH_USER}/${GH_REPO}/main/${GH_PATH}`,
+            `https://raw.githubusercontent.com/${GH_USER}/${GH_REPO}/master/${GH_PATH}`
+        ];
+    async function attempt(url){
+        const res = await fetch(url);
+        if(!res.ok) throw new Error('HTTP ' + res.status);
+        const blob = await res.blob();
+        const objUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = objUrl; a.download = fileName; document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(()=>URL.revokeObjectURL(objUrl), 5000);
+    }
+    btn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        for(const src of sources){
+            try { await attempt(src); return; } catch(err){ console.warn('Source failed', src, err); }
+        }
+        const choice = confirm('Could not download the PDF from any source. Open print dialog instead?');
+        if(choice) window.print();
+    });
+})();
+</script>
 </html>
 
 
