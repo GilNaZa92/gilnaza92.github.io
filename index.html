@@ -431,12 +431,12 @@
             80% { transform: translateY(2px); }
             100% { transform: translateY(0); }
         }
-        /* Zoom animation (scale up then back) */
+        /* Zoom animation (scale up then back) with mirror maintained */
         @keyframes profile-zoom-once {
-            0% { transform: scale(1); }
-            35% { transform: scale(1.08); }
-            60% { transform: scale(1.12); }
-            100% { transform: scale(1); }
+            0% { transform: scaleX(-1) scale(1); }
+            35% { transform: scaleX(-1) scale(1.08); }
+            60% { transform: scaleX(-1) scale(1.12); }
+            100% { transform: scaleX(-1) scale(1); }
         }
 
         /* Center the interests parent container */
@@ -1245,11 +1245,11 @@
             }
         </style>
         <section id="summary" class="mb-16 md:mb-24 bg-slate-900 rounded-xl shadow-md py-12">
-            <div class="flex flex-col md:flex-row items-center justify-center gap-12 max-w-5xl mx-auto">
-                <div class="flex-shrink-0 flex justify-center items-center">
-                    <img src="GNZ-CSAP.jpg" alt="Profile" class="profile-pic" width="180" height="180" loading="lazy" />
+            <div class="flex flex-col md:flex-row items-start justify-center gap-12 max-w-5xl mx-auto">
+                <div class="flex-shrink-0 flex justify-center items-start">
+                    <img src="GNZ_Ford_Michigan.jpeg" alt="Profile" class="profile-pic" style="width:320px;height:400px;object-fit:cover;object-position:center 20%;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,0.25);filter:grayscale(100%);transform:scaleX(-1);" loading="lazy" />
                 </div>
-                <div class="flex-1 flex flex-col justify-center items-center">
+                <div class="flex-1 flex flex-col justify-start items-center">
                     <h2 id="professional-summary" class="text-4xl font-bold text-slate-200 mb-6 text-center">
                         <span class="inline-block align-middle" style="margin-right:0.5rem;vertical-align:middle;">
                             <img src="summary.png" alt="Summary Logo" style="height:48px;width:auto;display:inline-block;vertical-align:middle;" width="48" height="48" loading="lazy" />
